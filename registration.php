@@ -15,7 +15,7 @@
 						require_once 'includes/logo.php';
 					?>
 					 <div class="card-title text-uppercase text-center py-3">Sign Up</div>
-					    <form>
+					    <form method="POST" action="">
 						  <div class="form-group">
 						   <div class="position-relative has-icon-left">
 							  <label for="exampleInputFullName" class="sr-only">Full Name</label>
