@@ -1,20 +1,30 @@
 <?php
 session_start();
 
-if ( isset($_SESSION['user_id']) ) {
+if ( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ) {
     //FPG2332630
-    if( $_SESSION['admStatus']=='pre_register' ) {
+    require_once '../core/autoload.php';
+    require_once '../core/Database.php';
+    require_once '../common/CRUD.php';
+
+    $database   = new Database();
+    $Crud       = new CRUD($database);
+    $uid        = $_SESSION['user_id'];
+    $User      = $Crud->read('application', 'id', $uid);
+    $sts        = $User->application_status;
+    // var_export($User);
+    if( $sts =='pre_register' ) {
         header('Location: /fuo_pg/admission_portal/payment');
-    } else if ($_SESSION['admStatus']=='paid') {
+    } else if ($sts =='paid') {
         header('Location: /fuo_pg/admission_portal/start_application');
-    } else if ($_SESSION['admStatus']=='pending') {
-        header('Location: /fuo_pg/admission_portal/home_not_admitted');
+    } else if ($sts =='registered') {
+        header('Location: /fuo_pg/admission_portal/admission_home');
     } else {
-        header('Location: /fuo_pg/admission_portal/home_admitted');
+        header('Location: /fuo_pg/admission_portal/admission_home');
     }
 
 } else {
-    header('Location: /fuo_pg/admission_portal/home');
+    header('Location: /fuo_pg/admission_portal/index');
 }
 
 

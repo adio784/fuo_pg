@@ -1,6 +1,54 @@
 <?php
+  session_start();
+  ob_start();
     // include head start here
-    require_once 'includes/head.php';
+    if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
+
+      require_once 'includes/head.php';
+      require_once '../core/autoload.php';
+      require_once '../core/Database.php';
+      require_once '../common/CRUD.php';
+      require_once '../common/Payment.php';
+      
+      $database   = new Database();
+      $Crud       = new CRUD($database);
+      $Payment    = new PAYMENT();
+      $uid        = $_SESSION['user_id'];
+
+      $stmt = $database->getConnection()->prepare('SELECT program_id, program_fee, programme_title FROM `programme` ORDER BY programme_title ASC');
+      $stmt->execute();
+
+      $User = $Crud->read('application', 'id', $uid);
+
+      if ($User->application_status == 'registered') { header('Location: admission_home'); }
+
+
+    } else {
+      header('Location: /fuo_pg/admission_portal/index');
+    }
+
+    if( isset($_GET['programme_id']) )
+    {
+        $programID  = $_GET['programme_id'];
+        ob_clean();
+        if( $programID != "" )
+        {    
+            // Get data .........................................................................
+            $stmt = $database->getConnection()->prepare('SELECT id, program_fee FROM `programme` WHERE program_id=? ');
+            $stmt->execute([$programID]);
+            $activePayment = $stmt->fetch(PDO::FETCH_OBJ);
+            // .....................................................................................................
+
+            $response['status'] = 'success';
+            $response['message']= "Successfully fetch data";
+            $response['amount'] = $activePayment->program_fee;
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($response);
+        exit();
+    }
+    
 ?>
 <!-- Start wrapper-->
  <div id="wrapper">
@@ -11,28 +59,60 @@
         <!-- Payment section start -->
 			   <div class="card">
 			     <div class="card-body">
-				   <div class="card-title text-center text-uppercase">Payment Page</div>
+				   
+           <?php
+           if( $User->application_status == 'pre_register'){?>
+           <div class="card-title text-center text-uppercase">Payment Page</div>
+           <h4 class="card-title"><?php echo $User->last_name .' '. $User->first_name .' '. $User->middle_name; ?> </h4>
+           <h4 class="card-title"><?php echo $User->application_id; ?> </h4>
 				   <hr>
-				    <form>
-					 <div class="form-group">
-					  <label for="input-1">Programme</label>
-            <select name="country" class="form-control" id="#">
-            <option value="AF">MSc. Computer Science</option>
-            </select>
+				  <form id="paymentForm" method="POST" action="../app/function/application_process.php">
+          <div class="form-group">
+              <label for="input-3">Email Address</label>
+              <input type="text" class="form-control" id="email_address" name="email_address" value="<?php echo $User->email; ?>" required readonly>
 					 </div>
 					 <div class="form-group">
-					  <label for="input-1">Course</label>
-            <select name="country" class="form-control" id="#">
-            <option value="AF">Computer Science</option>
-            </select>
+              <label for="input-1">Programme</label>
+              <select name="programme" class="form-control" id="programme" required>
+                <option value="" selected>-- Select Programme -- </option>
+                <?php 
+                  while($programs = $stmt->fetch(PDO::FETCH_OBJ)){?>
+                  <option value="<?php echo $programs->program_id; ?>"><?php echo $programs->programme_title; ?></option>
+                <?php }
+                ?>
+              </select>
 					 </div>
+					 <!-- <div class="form-group">
+              <label for="input-1" id="selectCourse">Course</label>
+              <select name="course" class="form-control" id="#" required>
+                <option value="AF">Computer Science</option>
+              </select>
+					 </div> -->
 					 <div class="form-group">
-					  <label for="input-3">Amount</label>
-					  <input type="text" class="form-control" id="#" placeholder="Amount to pay">
+              <label for="input-3" id="selectAmount">Amount</label>
+              <input type="hidden" name="applicationForm" value="<?php echo uniqid(); ?>">
+              <input type="text" class="form-control" id="pay_amount" name="pay_amount" placeholder="Amount to pay" required readonly>
 					 </div>
-					 <div class="form-group">
-					  <button type="submit" class="btn btn-primary shadow-primary px-5 btn-block"><i class="icon-lock"></i> Make Payment</button>
-					</div>
+           <?php } ?>
+           
+            <div class="form-group">
+
+              <?php 
+              if( $User->application_status == 'pre_register'){ ?>
+                <button type="submit" id="makePaymentBtn" name="processApplicationPayment" class="btn btn-primary shadow-primary px-5 btn-block"><i class="icon-lock"></i> Make Payment</button>
+                <?php }else{?>
+                  <div class="card-title text-center text-uppercase">Complete Online Application</div>
+				          <hr>
+                  <div class="card-body">
+                    <h4>Congratulations !</h4>
+                    <p>You have taken the very first step towards the application process, now start application ...</p>
+                  </div>
+                  <a href="start_application" class="btn btn-primary shadow-primary px-5 btn-block"><i class="icon-lock"></i> Start Application </a>
+                  
+                <?php } ?>
+                <button class="btn btn-info d-none" type="button" onclick="anim2_noti()">SHOW ME</button> <br>
+                <a href="logout" class="btn btn-danger shadow-danger px-5 btn-block"><i class="icon-lock"></i> Logout </a>
+            </div>
 					</form>
 				 </div>
 			   </div>
@@ -51,18 +131,87 @@
 
 
   <!-- Bootstrap core JavaScript-->
-  <script src="assets/js/jquery.min.js"></script>
-  <script src="assets/js/popper.min.js"></script>
-  <script src="assets/js/bootstrap.min.js"></script>
-	
-  <!-- simplebar js -->
-   <script src="assets/plugins/simplebar/js/simplebar.js"></script>
-  <!-- waves effect js -->
-  <script src="assets/js/waves.js"></script>
-  <!-- sidebar-menu js -->
-  <script src="assets/js/sidebar-menu.js"></script>
-  <!-- Custom scripts -->
-  <script src="assets/js/app-script.js"></script>
+  <?php require_once 'includes/foot.php'; ?>
+
+  <script>
+    $(document).ready(function () {
+      var authID = "<?php if(isset($_SESSION['user_id'])){ echo $_SESSION['user_id']; }else { echo ''; } ?>";
+      var pay_success = "<?php if(isset($_GET['pay_success']) != "" ) { echo $_GET['pay_success']; }else{ echo ""; } ?>"; 
+      var pay_error = "<?php if(isset($_GET['error']) != "" ) { echo $_GET['error']; }else { echo ""; } ?>"; 
+      var appStatus = "<?php $User->application_status; ?>"; 
+
+      var msg = 'Select your choice of programme and course to generate payment, proceed with payment to start your application';
+
+      if ( authID && pay_success == "" && pay_error == "") {
+
+          Lobibox.notify('success', {
+              msg: msg,
+              class: 'lobibox-notify-success',
+              title: "Welcome back! ",
+              position: 'top right',
+              icon: false,
+              sound: 'sound2.mp3',
+              delay: 15000,
+              theme: 'minimal',
+          });
+
+      } if (pay_success != "") {
+
+        Lobibox.notify('info', {
+            msg: pay_success,
+            class: 'lobibox-notify-success',
+            title: "Payment ! ",
+            position: 'top right',
+            icon: false,
+            theme: 'minimal',
+        });
+
+      } if (pay_error != "") {
+
+        Lobibox.notify('warning', {
+            msg: pay_error,
+            class: 'lobibox-notify-success',
+            title: "Payment ! ",
+            position: 'top right',
+            icon: false,
+            theme: 'minimal',
+        });
+
+      }
+
+
+
+      $("#paymentForm").submit(function() {
+        $("#makePaymentBtn").html('<div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>');
+        $("#makePaymentBtn").prop("disabled", true);
+      });
+
+
+
+    })
+  </script>
+
+  <script>
+      $('#programme').on('change', function(){
+        var programId = $(this).val();
+        $("#selectAmount").html($('<div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>'));
+        $.ajax({
+          method: 'GET',
+          url: "payment.php?programme_id="+programId,
+          success:function(result)
+          {
+            if(result != ""){
+                
+                $('#selectAmount').html("Amount");
+                $('#pay_amount').val(result.amount);
+
+            }else{
+              $("#selectAmount").html("Unable to fetch amount");
+            }
+          }
+        });
+      });
+  </script>
 	
 </body>
 </html>

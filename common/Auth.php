@@ -7,9 +7,7 @@ class Auth {
         $this->db = $database->getConnection();
     }
 
-    public function register($username, $password) {
-        // Sanitize input to prevent SQL injection
-        $username = htmlspecialchars($username);
+    public function register($username, $password, $email, $role, $status) {
 
         // Check if the username is already taken
         $stmt = $this->db->prepare('SELECT id FROM users WHERE username = ? LIMIT 1');
@@ -21,32 +19,28 @@ class Auth {
             return false;
         }
 
-        // Hash the password (you should use a strong password hashing library)
+        // Hashing user password
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
         // Insert the new user into the database
-        $stmt = $this->db->prepare('INSERT INTO users (username, password) VALUES (?, ?)');
-        $result = $stmt->execute([$username, $hashedPassword]);
+        $stmt = $this->db->prepare('INSERT INTO users (username, password, email, role, status) VALUES (?, ?, ?, ?, ?)');
+        $result = $stmt->execute([$username, $hashedPassword, $email, $role, $status]);
 
         return $result; // Return true if registration is successful, or false if there was an error
     }
 
 
     public function login($username, $password) {
-        // Sanitize input to prevent SQL injection
-        $username = htmlspecialchars($username);
-        $password = htmlspecialchars($password);
 
         // Fetch user data from the database
-        $stmt = $this->db->prepare('SELECT id, username, password FROM users WHERE username = ? LIMIT 1');
+        $stmt = $this->db->prepare('SELECT id, username, password, role, status, last_login FROM users WHERE username = ? LIMIT 1');
         $stmt->execute([$username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user) {
             // Verify the password
             if (password_verify($password, $user['password'])) {
-                // Password is correct, create a session or token to indicate successful login
-                $_SESSION['user_id'] = $user['id'];
+                
                 return true;
             }
         }
@@ -146,6 +140,6 @@ class Auth {
         return false; // User is not authenticated
     }
 
-    // You can add more methods for features like password reset, user management, etc.
+    
 }
 ?>

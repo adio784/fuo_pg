@@ -1,6 +1,12 @@
 <?php
+session_start();
     // include head start here
-    require_once 'includes/head.php';
+    if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
+        header('Location: /fuo_pg/admission_portal/dashboard');
+      } else {
+        require_once 'includes/head.php';
+      }
+    
 ?>
     <!-- Start wrapper-->
     <div id="wrapper">
@@ -47,9 +53,6 @@
                                 </div>
                                 <input type="hidden" name="login" value="<?php echo rand() ?>">
                                 <button type="submit" id="loginBtn" class="btn btn-outline-primary btn-block waves-effect waves-light">Sign In</button>
-                                <button class="btn btn-success" type="button" onclick="anim5_noti()">SHOW ME</button>
-                                <button class="btn btn-danger" type="button" onclick="anim4_noti()">SHOW ME</button>
-                                <button type="button" type="button" class="btn btn-danger m-1" onclick="error_noti()">DANGER</button>
                                 <div class="text-center pt-3">
                                     <p class="text-muted">Do not have an account? <a href="registration"> Sign Up</a></p>
                                 </div>
@@ -60,9 +63,16 @@
                 <div class="card mb-0">
                     <div class="bg-signin2" ></div>
                     <div class="card-img-overlay rounded-left my-5">
-                        <h2 class="text-white">Sign In</h2>
-                        <h5 class="text-white">to Fountain - Post Graduate School</h5>
-                        <p class="card-text text-white pt-3">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                        <h2 class="text-white">Fountain University</h2>
+                        <h5 class="text-white">Welcome to Fountain University - Post Graduate School</h5>
+                        <p class="card-text text-white pt-3">
+                            <span>To have access to the admission portal, kindly login with: </span>
+                            <ol class="text-white">
+                                <li> Your Application ID as your username </li>
+                                <li> Your Lastname / Surname as your password</li>
+                            </ol>
+                            <span class="text-white"><b> NB: </b> Your application ID has been sent to your registered email address at the point of registration </span>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -75,14 +85,7 @@
     <!--wrapper-->
 
 <!-- Bootstrap core JavaScript-->
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/js/popper.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-
-<!--notification js -->
-<script src="../assets/plugins/notifications/js/lobibox.min.js"></script>
-<script src="../assets/plugins/notifications/js/notifications.min.js"></script>
-<script src="../assets/plugins/notifications/js/notification-custom-script.js"></script>
+<?php require_once 'includes/foot.php'; ?>
 
 <script>
     $(document).ready(function () {

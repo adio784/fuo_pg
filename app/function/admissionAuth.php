@@ -30,6 +30,7 @@ if (isset($_POST['login'])) {
         // Login successful, set session variables or perform other actions
         session_start();
         $_SESSION['user_id']    = $user['id'];
+        $_SESSION['app_id']     = $user['application_id'];
         $_SESSION['admStatus']  = $user['application_status'];
         $response['status']     = 'success';
         $response['message']    = 'Account Successfully Logged In';
@@ -96,7 +97,7 @@ if (isset($_POST['register'])) {
                 $mail->isHTML(true); // Set email format to HTML
                 $mail->Subject = 'Online Application';
                 $mail->Body    .= 'Hello! '. $fullname. '<br>';
-                $mail->Body    .= 'Thanks for signin up on our portal, here is your login details: <br><br>';
+                $mail->Body    .= 'Thank you for signin up on our portal, here is your login details: <br><br>';
                 $mail->Body    .= 'Application ID: '. '<b>'. $applicationID .'</b><br>';
                 $mail->Body    .= 'Password: '. '<b>'. $lastname .'</b><br><br>';
                 $mail->Body    .= 'For more information or enquiry, contact us. <br>';
@@ -134,5 +135,7 @@ if (isset($_POST['register'])) {
     exit();
 
 }
+
+
 
 ?>

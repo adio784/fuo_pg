@@ -94,14 +94,7 @@
 	</div><!--wrapper-->
 	
 <!-- Bootstrap core JavaScript-->
-<script src="../assets/js/jquery.min.js"></script>
-<script src="../assets/js/popper.min.js"></script>
-<script src="../assets/js/bootstrap.min.js"></script>
-
-<!--notification js -->
-<script src="../assets/plugins/notifications/js/lobibox.min.js"></script>
-<script src="../assets/plugins/notifications/js/notifications.min.js"></script>
-<script src="../assets/plugins/notifications/js/notification-custom-script.js"></script>
+<?php require_once 'includes/foot.php'; ?>
 
 <script>
     $(document).ready(function () {
