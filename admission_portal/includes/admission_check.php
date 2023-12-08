@@ -24,6 +24,18 @@ $Prog       = $Crud->read('programme', 'program_id', $User->program);
 $UProgram   = $Crud->read('program_course', 'id', $User->course);
 $UCr        = $Crud->read('countries', 'country_code', $User->country);
 $RCr        = $Crud->read('countries', 'country_code', $User->country_of_origin);
+
+// Acceptance Payment
+$Acct       = $Crud->readAllByTwo('application_payment', 'application_id', $appID, 'AND', 'description', 'Acceptance fee');
+if ( $Acct ) {
+
+    foreach ($Acct as $ac) {
+        $Acceptancepay = $ac->payment_status;
+    }
+    
+} else {
+    $Acceptancepay = 'pending';
+}
 }
 // var_export($User);
 ?>

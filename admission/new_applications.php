@@ -7,77 +7,14 @@
       <!-- Breadcrumb-->
      <div class="row pt-2 pb-2">
         <div class="col-sm-9">
-		    <h4 class="page-title">Dashboard > > ></h4>
+		    <h4 class="page-title">Data Tables</h4>
 		    <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="admission_home">Home</a></li>
             <li class="breadcrumb-item"><a href="javaScript:void();">Application</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Recent</li>
+            <li class="breadcrumb-item active" aria-current="page">New</li>
          </ol>
 	   </div>
      </div>
-
-     <div class="card mt-3 shadow-none border border-light">
-	    <div class="card-content">
-        <div class="row row-group m-0">
-          <div class="col-12 col-lg-6 col-xl-3 border-light">
-              <div class="card-body">
-                <div class="media">
-                  <div class="media-body text-left">
-                    <h4 class="text-info"><?= $TApp->num ?></h4>
-                    <span>Total Applicant</span>
-                    <small>2023/2024 - session</small>
-                  </div>
-                  <div class="align-self-center w-circle-icon rounded bg-info shadow-info">
-                    <i class="icon-basket-loaded text-white"></i>
-                  </div>
-                </div>
-              </div>
-          </div>
-          <div class="col-12 col-lg-6 col-xl-3 border-light">
-            <div class="card-body">
-                <div class="media">
-                  <div class="media-body text-left">
-                    <h4 class="text-danger"><?= $NotAdmitted->num ?></h4>
-                    <span>Not Admitted</span>
-                  </div>
-                  <div class="align-self-center w-circle-icon rounded bg-danger shadow-danger">
-                    <i class="icon-wallet text-white"></i>
-                  </div>
-                </div>
-            </div>
-          </div>
-          <div class="col-12 col-lg-6 col-xl-3 border-light">
-            <div class="card-body">
-                <div class="media">
-                  <div class="media-body text-left">
-                    <h4 class="text-success"><?= $Admitted->num ?></h4>
-                    <span>Admitted</span>
-                  </div>
-                  <div class="align-self-center w-circle-icon rounded bg-success shadow-success">
-                    <i class="icon-pie-chart text-white"></i>
-                  </div>
-                </div>
-            </div>
-          </div>
-          <div class="col-12 col-lg-6 col-xl-3 border-light">
-            <div class="card-body">
-                <div class="media">
-                  <div class="media-body text-left">
-                    <h4 class="text-warning"><?= $Allapp->num ?></h4>
-                    <span>All Applicant</span> <br>
-                    <small> So far</small>
-                  </div>
-                  <div class="align-self-center w-circle-icon rounded bg-warning shadow-warning">
-                    <i class="icon-user text-white"></i>
-                  </div>
-                </div>
-            </div>
-          </div>
-        </div>
-		  </div>
-	  </div>
-
-
     <!-- End Breadcrumb-->
       <div class="row">
         <div class="col-lg-12">
@@ -109,7 +46,7 @@
                                     echo "<tr> <td align='center'> <strong> No record found !!! </strong> </td> </tr>";
 
                                 } else {
-                                    while($recent = $rquery->fetch(PDO::FETCH_OBJ)){
+                                    while($recent = $getNotAdmitted->fetch(PDO::FETCH_OBJ)){
                                         $count ++;
                                         $name   =   strtoupper($recent->last_name) . ' ' . $recent->first_name . ' ' . $recent->middle_name;
                                         $appID  =   $recent->application_id;
@@ -130,8 +67,6 @@
                             <td> <?= formatDate($date) ?> </td>
                             <td> 
                                 <button class="btn btn-primary admissionBtn" type="button" id="<?= $appID ?>"> Admit </button>
-                                <!-- <a href="../app/function/admit_student.php?admit=<?= $appID ?>" class="btn btn-primary">Admit</a>  -->
-                                
                             </td>
                             
 

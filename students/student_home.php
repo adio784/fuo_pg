@@ -1,20 +1,20 @@
 <?php
+
 session_start();
-if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
+if( isset($_SESSION['user_id']) && isset($_SESSION['user_status'])  ){
 
     require_once 'includes/head.php';
     require_once '../core/autoload.php';
     require_once '../core/Database.php';
     require_once '../common/CRUD.php';
-    require_once 'includes/admission_check.php';
 
   } else {
-    header('Location: /fuo_pg/admission_portal/index');
+
+    header('Location: /fuo_pg/students/');
+    
   } 
 ?>
-<?php
-if ( $User == false ) {
-  echo "<h4 class='m-4'> You need to complete your application </h4> <a href='logout' class='btn btn-primary m-4'> Logout </a>"; } else {?>
+
 <!-- Start wrapper-->
  <div id="wrapper">
  
@@ -324,7 +324,7 @@ if ( $User == false ) {
 	<!--End footer-->
    
   </div><!--End wrapper-->
-<?php } ?>
+
 
   <!-- Bootstrap core JavaScript-->
   <?php require_once 'includes/foot.php'; ?>

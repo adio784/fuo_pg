@@ -21,7 +21,7 @@ if (isset($_POST['login'])) {
     $password = ucfirst(htmlspecialchars($_POST['password']));
 
     // Perform user login using the database connection
-    $stmt = $database->getConnection()->prepare('SELECT id, application_id, last_name, application_status FROM `application` WHERE application_id = ? LIMIT 1');
+    $stmt = $database->getConnection()->prepare('SELECT id, application_id, last_name, first_name, middle_name application_status FROM `application` WHERE application_id = ? LIMIT 1');
     $stmt->execute([$username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -31,7 +31,9 @@ if (isset($_POST['login'])) {
         session_start();
         $_SESSION['user_id']    = $user['id'];
         $_SESSION['app_id']     = $user['application_id'];
+        $_SESSION['full_name']  = $user['last_name'] .' '. $user['first_name'];
         $_SESSION['admStatus']  = $user['application_status'];
+
         $response['status']     = 'success';
         $response['message']    = 'Account Successfully Logged In';
 

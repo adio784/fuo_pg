@@ -11,7 +11,7 @@
   </div><!--End wrapper-->
 
   <!-- Bootstrap core JavaScript-->
-  <script src="../assets/js/jquery.min.js"></script>
+  
   <script src="../assets/js/popper.min.js"></script>
   <script src="../assets/js/bootstrap.min.js"></script>
 	
@@ -31,3 +31,24 @@
   <script src="../assets/plugins/Chart.js/Chart.min.js"></script>
   <!-- Index js -->
   <script src="../assets/js/index2.js"></script>
+
+  <!--Sweet Alerts -->
+  <script src="../assets/plugins/alerts-boxes/js/sweetalert.min.js"></script>
+  <script src="../assets/plugins/alerts-boxes/js/sweet-alert-script.js"></script>
+
+  <!--Data Tables js-->
+  <script src="../assets/plugins/bootstrap-datatable/js/jquery.dataTables.min.js"></script>
+  <script src="../assets/plugins/bootstrap-datatable/js/dataTables.bootstrap4.min.js"></script>
+  <script src="../assets/plugins/bootstrap-datatable/js/dataTables.buttons.min.js"></script>
+  <script src="../assets/plugins/bootstrap-datatable/js/buttons.bootstrap4.min.js"></script>
+  <script src="../assets/plugins/bootstrap-datatable/js/jszip.min.js"></script>
+  <script src="../assets/plugins/bootstrap-datatable/js/pdfmake.min.js"></script>
+  <script src="../assets/plugins/bootstrap-datatable/js/vfs_fonts.js"></script>
+  <script src="../assets/plugins/bootstrap-datatable/js/buttons.html5.min.js"></script>
+  <script src="../assets/plugins/bootstrap-datatable/js/buttons.print.min.js"></script>
+  <script src="../assets/plugins/bootstrap-datatable/js/buttons.colVis.min.js"></script>
+
+  <!--notification js -->
+  <script src="../assets/plugins/notifications/js/lobibox.min.js"></script>
+  <script src="../assets/plugins/notifications/js/notifications.min.js"></script>
+  <script src="../assets/plugins/notifications/js/notification-custom-script.js"></script>

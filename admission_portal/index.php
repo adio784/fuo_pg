@@ -106,10 +106,11 @@ session_start();
                 success: function (response) {
                     
                     if (response.status == 'success') {
-                       
+                       console.log(response);
                        document.getElementById("admLoginForm").reset();
                        $login_btn.html('SIGN IN');
-                       
+                       window.location.href='dashboard';
+
                        Lobibox.notify('success', {
                            msg: response.message,
                            class: 'lobibox-notify-success',
@@ -121,7 +122,7 @@ session_start();
                            theme: 'minimal',
                        });
 
-                       window.location='dashboard';
+                       
                       
                    } else {
 						

@@ -40,6 +40,12 @@ class CRUD {
         return $stmt->fetch(PDO::FETCH_OBJ); // Return data as an associative array
     }
 
+    public function countAll($table) {
+        $stmt = $this->db->prepare("SELECT COUNT(id) AS num FROM $table");
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ); // Return data as an associative array
+    }
+
     public function countByOne($table, $field, $id) {
         $stmt = $this->db->prepare("SELECT COUNT(id) AS num FROM $table WHERE $field = ?");
         $stmt->execute([$id]);
@@ -72,6 +78,21 @@ class CRUD {
             $query = "SELECT * FROM $tableName WHERE $field = ?";
             $stmt = $this->db->prepare($query);
             $stmt->execute([$value]);
+
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+            return $result;
+        } catch (PDOException $e) {
+            // Handle database errors here
+            return false;
+        }
+    }
+
+    public function readAllByTwo($tableName, $field, $value, $cond, $field2, $value2) {
+        try {
+            $query = "SELECT * FROM $tableName WHERE $field = ? $cond $field2 =? ORDER BY id DESC";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$value, $value2]);
 
             $result = $stmt->fetchAll(PDO::FETCH_OBJ);
 

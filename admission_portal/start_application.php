@@ -13,6 +13,7 @@
       $Crud       = new CRUD($database);
       $uid        = $_SESSION['user_id'];
       $User       = $Crud->read('application', 'id', $uid);
+      $sts        = $User->application_status;
       $active     = 1;
       $isPHD      = 0;
       $Countries  = $database->getConnection()->prepare('SELECT id, country_name, country_code FROM `countries` ORDER BY country_name ASC');
@@ -22,9 +23,7 @@
 
       $Courses    = $Crud->readAllByOrder('program_course', 'program_id', $User->program, 'course_name', 'ASC');
 
-
-
-          // Get requests -------------------------------------------------------------------------------------------
+      // Get requests -------------------------------------------------------------------------------------------
       // State of origin .............................
       if( isset($_GET['ocountry_id']) )
       {
@@ -119,6 +118,10 @@
 
 ?>
 
+<?php 
+if ($sts == "registered" || $sts == "admitted"){
+  header("Location: admission_home");
+} else { ?>
 <!-- Overlay -->
 <div id="overlay" class="overlay"></div>
 
@@ -381,15 +384,15 @@
                                     <input type="hidden" name="pgAppToken" value="<?php echo uniqid() ?>">
                                       <div class="col-lg-4 col-md-6 col-sm-12">
                                         <label for="">Last Name</label>
-                                        <input type="text" id="fn" name="firstName" style="border:0px">
+                                        <input type="text" id="fn" name="lastName" style="border:0px">
                                       </div>
                                       <div class="col-lg-4 col-md-6 col-sm-12">
                                         <label for="">First Name</label>
-                                        <input type="text" id="ln" name="middleName" style="border:0px">
+                                        <input type="text" id="ln" name="firstName" style="border:0px">
                                       </div>
                                       <div class="col-lg-4 col-md-6 col-sm-12">
                                         <label for="">Middle Name</label>
-                                        <input type="text" id="mn" name="lastName" style="border:0px">
+                                        <input type="text" id="mn" name="middleName" style="border:0px">
                                       </div>
                                     </div>
 
@@ -729,6 +732,5 @@
 </body>
 
 </html>
-country
-state
-city
+
+<?php } ?>

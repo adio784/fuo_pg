@@ -18,15 +18,25 @@
         $Sanitizer  =   new Sanitizer();
         $xpressPay  =   new PAYMENT();
         $appID      =   $_SESSION['app_id'];
+        $name       =   $_SESSION['full_name'];
+        $thisYear   =   date('Y');
+        $db         =   $database->getConnection();
+        $uri        =   $_SERVER['HTTP_HOST']; //$_SERVER['REQUEST_URI'];
 
         // Generation Unique Name For Uploads
         function generateUniqueFileName($originalFileName) {
             return uniqid() . '_' . bin2hex(random_bytes(8)) . '_' . $originalFileName;
         }
 
-        if( isset($_POST['applicationForm']) ) {
+        // Get current session =============================================================
+        $Session            = $Crud->read("access", "setting", "current_session");       //=
+        $current_session    = $Session->value;                                           //=
+        // =================================================================================
 
-            $transferReff   =   "TR".date('Y').'AP'.rand(9, 999999);
+        // Make payment for application form
+        if ( isset($_POST['applicationForm']) ) {
+
+            $transferReff   =   "tr".date('Y').rand(9, 999999);
             $amount         =   trim($_POST['pay_amount']);
             $email          =   trim($_POST['email_address']);
             $programme      =   trim($_POST['programme']);
@@ -68,6 +78,20 @@
                             'callBackUrl'       => "http://localhost/fuo_pg/app/function/application_process.php?xpayment_callback={$transferReff}",
                             "currency"          => "NGN",
                             "transactionId"     => $transferReff,
+                            "metadata"          => [
+                                [
+                                    "Name"      => "Application",
+                                    "Value"     => $appID
+                                ],
+                                [
+                                    "Name"      => "Fullname",
+                                    "Value"     => $name
+                                ],
+                                [
+                                    "Name"      => "Purpose",
+                                    "Value"     => "Application Fee"
+                                ],
+                            ]
                         ];
 
                         $paymentResult = $xpressPay->Xpresspay($data);
@@ -89,6 +113,20 @@
                             'callback_url'      => "http://localhost/fuo_pg/app/function/application_process.php",
                             "currency"          => "NGN",
                             "transactionId"     => $transferReff,
+                            "metadata"          => [
+                                [
+                                    "Name"      => "Application",
+                                    "Value"     => $appID
+                                ],
+                                [
+                                    "Name"      => "Fullname",
+                                    "Value"     => $name
+                                ],
+                                [
+                                    "Name"      => "Purpose",
+                                    "Value"     => "Application Fee"
+                                ],
+                            ]
                         ];
 
                         $paymentResult = $xpressPay->PayStack($data);
@@ -130,6 +168,20 @@
                             'callBackUrl'       => "http://localhost/fuo_pg/app/function/application_process.php?xpayment_callback={$transferReff}",
                             "currency"          => "NGN",
                             "transactionId"     => $transferReff,
+                            "metadata"          => [
+                                [
+                                    "Name"      => "Application",
+                                    "Value"     => $appID
+                                ],
+                                [
+                                    "Name"      => "Fullname",
+                                    "Value"     => $name
+                                ],
+                                [
+                                    "Name"      => "Purpose",
+                                    "Value"     => "Application Fee"
+                                ],
+                            ]
                         ];
 
                         $paymentResult = $xpressPay->Xpresspay($data);
@@ -151,11 +203,25 @@
                             'callback_url'      => "http://localhost/fuo_pg/app/function/application_process.php",
                             "currency"          => "NGN",
                             "transactionId"     => $transferReff,
+                            "metadata"          => [
+                                [
+                                    "Name"      => "Application",
+                                    "Value"     => $appID
+                                ],
+                                [
+                                    "Name"      => "Fullname",
+                                    "Value"     => $name
+                                ],
+                                [
+                                    "Name"      => "Purpose",
+                                    "Value"     => "Application Fee"
+                                ],
+                            ]
                         ];
 
                         $paymentResult = $xpressPay->PayStack($data);
                         $paymentStatus = $paymentResult['status'];
-                        var_export ($paymentResult);
+                        // var_export ($paymentResult);
                         if ($paymentStatus== true) {
                             // Handle the successful payment initiation
                             $paymentData = $paymentResult['data'];
@@ -176,7 +242,8 @@
         }
 
 
-        if( isset($_GET['xpayment_callback']) )
+        // Call back function for Xpress-payments
+        if ( isset($_GET['xpayment_callback']) )
         {
             $transferReff = $_GET['xpayment_callback'];
         
@@ -208,7 +275,7 @@
 
 
         // Api response to update application payment (Paystack)
-        if( isset($_GET['reference']) )
+        if ( isset($_GET['reference']) )
         {
             $transferReff = $_GET['reference'];
 
@@ -237,7 +304,7 @@
 
 
         // Api response to update application payment (Xpresspay)
-        if( isset($_POST['pgAppToken']) )
+        if ( isset($_POST['pgAppToken']) )
         {
 
             $timestamp      = time();
@@ -263,7 +330,7 @@
             $countryOrigin  = Sanitizer::sanitizeInput($_POST['countryOrigin']);
             $stateOrigin    = Sanitizer::sanitizeInput($_POST['stateOrigin']);
             $lgaOrigin      = Sanitizer::sanitizeInput($_POST['lgaOrigin']);
-            $appSess        = date('Y').'/'.date('Y')-1;
+            $appSess        = $current_session;
 
             $oLevel         = basename($_FILES['oLevel']['name']);
             $undergCert     = basename($_FILES['undergCert']['name']);
@@ -355,12 +422,12 @@
 
 
         // Payment of acceptance fee
-        if( isset($_POST['acceptanceForm']) ) {
+        if ( isset($_POST['acceptanceForm']) ) {
 
-            $transferReff   =   "TR".date('Y').'AC'.rand(9, 999999);
+            $transferReff   =   "trn".date('Y').rand(9, 999999);
             $amount         =   trim($_POST['acceptance_fee']);
             $email          =   trim($_POST['email_address']);
-            $desc           =   trim($_POST['purpose']);
+            $desc           =   trim($_POST['purpose']); 
     
             // Check for active payment .........................................................................
             $stmt = $database->getConnection()->prepare('SELECT id, name FROM `payment_method` WHERE status=? ');
@@ -376,91 +443,41 @@
             
             if ( $exPayment == "" ) {
                 // AND payment_status=?
-    
-                $crData = [
-                    "application_id"    => $appID,
-                    "transactionId"     => $transferReff,
-                    "paid_amount"       => $amount,
-                    "description"       => "Application Fee"
-                ];
-                $appData        =  [ 'program' => $programme ];
-    
-                $createPayment  =  $Crud->create('application_payment', $crData);
-                $updateAppl     =  $Crud->update('application', 'application_id', $appID, $appData);
-    
-                if($createPayment) {
-    
-                    if( $activePayment->name == 'Xpress-pay')
-                    {
-    
-                        $data = [
-                            'amount'            => $amount,
-                            'email'             => $email,
-                            'callBackUrl'       => "http://localhost/fuo_pg/app/function/application_process.php?xpayment_callback={$transferReff}",
-                            "currency"          => "NGN",
-                            "transactionId"     => $transferReff,
-                        ];
-    
-                        $paymentResult = $xpressPay->Xpresspay($data);
-                        if ($paymentResult['responseCode'] == "00") {
-                            // Handle the successful payment initiation
-                            $paymentData = $paymentResult['data'];
-                            header('Location: '. $paymentData['paymentUrl']);
-                        } else {
-                            // Handle the payment initiation error
-                            $errorMessage = $paymentResult['data'];
-                            header('Location: /fuo_pg/admission_portal/payment?error="Payment%20Failed,%20Try%20Later!!!"');
-                        }
-                    }    
-                    else 
-                    {
-                        $data = [
-                            'amount'            => $amount * 100,
-                            'email'             => $email,
-                            'callback_url'      => "http://localhost/fuo_pg/app/function/application_process.php",
-                            "currency"          => "NGN",
-                            "transactionId"     => $transferReff,
-                        ];
-    
-                        $paymentResult = $xpressPay->PayStack($data);
-                        $paymentStatus = $paymentResult['status'];
-                        var_export ($paymentResult);
-                        if ($paymentStatus== true) {
-                            // Handle the successful payment initiation
-                            $paymentData = $paymentResult['data'];
-                            header('Location: '. $paymentData['authorization_url']);
-                        } else {
-                            // Handle the payment initiation error
-                            $errorMessage = $paymentResult['data'];
-                            header('Location: /fuo_pg/admission_portal/payment?error=Unable to process payment');
-                        }
-                    }
-    
-                }
-            } else if ( $exPayment->payment_status == 'fail' || $exPayment->payment_status == '' ) {
-    
+                
                 $crData = [
                     "application_id"    => $appID,
                     "transactionId"     => $transferReff,
                     "paid_amount"       => $amount,
                     "description"       => $desc
                 ];
-                $appData        =  [ 'program' => $programme ];
-                
-                $createPayment  =  $Crud->update('application_payment', 'application_id', $appID, $crData); 
     
-                if($createPayment) {
+                $createPayment  =  $Crud->create('application_payment', $crData);
     
-                    if( $activePayment->name == 'Xpress-pay')
+                if ($createPayment) {   
+    
+                    if ( $activePayment->name == 'Xpress-pay')
                     {
     
                         $data = [
                             'amount'            => $amount,
                             'email'             => $email,
-                            'callBackUrl'       => "http://localhost/fuo_pg/app/function/application_process.php?xpayment_callback={$transferReff}",
+                            'callBackUrl'       => 'http://'. $uri."/fuo_pg/app/function/acceptance_payment.php?xpacceptance_callback={$transferReff}",
                             "currency"          => "NGN",
                             "transactionId"     => $transferReff,
-                            "metadata"          => ["purpose" => $desc]
+                            "metadata"          => [
+                                [
+                                    "Name"      => "Application Id",
+                                    "Value"     => $appID
+                                ],
+                                [
+                                    "Name"      => "Fullname",
+                                    "Value"     => $name
+                                ],
+                                [
+                                    "Name"      => "Purpose",
+                                    "Value"     => "Application Fee"
+                                ],
+                            ]
                         ];
     
                         $paymentResult = $xpressPay->Xpresspay($data);
@@ -479,10 +496,23 @@
                         $data = [
                             'amount'            => $amount * 100,
                             'email'             => $email,
-                            'callback_url'      => "http://localhost/fuo_pg/app/function/application_process.php",
+                            'callback_url'      => 'http://'. $uri."/fuo_pg/app/function/acceptance_payment.php?trnId={$transferReff}",
                             "currency"          => "NGN",
                             "transactionId"     => $transferReff,
-                            "metadata"          => ["purpose" => $desc]
+                            "metadata"          => [
+                                [
+                                    "Name"      => "Application Id",
+                                    "Value"     => $appID
+                                ],
+                                [
+                                    "Name"      => "Fullname",
+                                    "Value"     => $name
+                                ],
+                                [
+                                    "Name"      => "Purpose",
+                                    "Value"     => "Application Fee"
+                                ],
+                            ]
                         ];
     
                         $paymentResult = $xpressPay->PayStack($data);
@@ -500,13 +530,99 @@
                     }
     
                 }
+            } else if ( $exPayment->payment_status == 'fail' || $exPayment->payment_status == '' ) {
+
+                $createPayment  =  $db->prepare("UPDATE application_payment SET transactionId=? WHERE application_id=? AND description=?");
+                $createPayment->execute([$transferReff,$appID, $desc]); 
     
+                if($createPayment) {
+    
+                    if( $activePayment->name == 'Xpress-pay')
+                    {
+    
+                        $data = [
+                            'amount'            => $amount,
+                            'email'             => $email,
+                            'callBackUrl'       => 'http://'. $uri."/fuo_pg/app/function/acceptance_payment.php?xpacceptance_callback={$transferReff}",
+                            "currency"          => "NGN",
+                            "transactionId"     => $transferReff,
+                            "metadata"          => [
+                                [
+                                    "Name"      => "Application Id",
+                                    "Value"     => $appID
+                                ],
+                                [
+                                    "Name"      => "Fullname",
+                                    "Value"     => $name
+                                ],
+                                [
+                                    "Name"      => "Purpose",
+                                    "Value"     => "Application Fee"
+                                ],
+                            ]
+                        ];
+    
+                        $paymentResult = $xpressPay->Xpresspay($data);
+                        if ($paymentResult['responseCode'] == "00") {
+                            // Handle the successful payment initiation
+                            $paymentData = $paymentResult['data'];
+                            header('Location: '. $paymentData['paymentUrl']);
+                        } else {
+                            // Handle the payment initiation error
+                            $errorMessage = $paymentResult['data'];
+                            header('Location: /fuo_pg/admission_portal/admission_home?error="Payment%20Failed,%20Try%20Later!!!"');
+                        }
+                    }    
+                    else 
+                    {
+                        
+                        $data = [
+                            'amount'            => $amount * 100,
+                            'email'             => $email,
+                            'callback_url'      => 'http://'. $uri."/fuo_pg/app/function/acceptance_payment.php?trnId={$transferReff}",
+                            "currency"          => "NGN",
+                            "transactionId"     => $transferReff,
+                            "metadata"          => [
+                                [
+                                    "Name"      => "Application Id",
+                                    "Value"     => $appID
+                                ],
+                                [
+                                    "Name"      => "Fullname",
+                                    "Value"     => $name
+                                ],
+                                [
+                                    "Name"      => "Purpose",
+                                    "Value"     => "Application Fee"
+                                ],
+                            ]
+                        ];
+    
+                        $paymentResult = $xpressPay->PayStack($data);
+                        $paymentStatus = $paymentResult['status'];
+                        // var_export ($paymentResult);
+                        if ($paymentStatus== true) {
+                            $paymentData = $paymentResult['data'];
+                            header('Location: '. $paymentData['authorization_url']);
+                        } else {
+                            // Handle the payment initiation error
+                            $errorMessage = $paymentResult['data'];
+                            header('Location: /fuo_pg/admission_portal/admission_home?error=Unable to process payment');
+                        }
+                    }
+    
+                }
+    
+            } else if ( $exPayment->payment_status == 'success') {
+
+                header('Location: /fuo_pg/admission_portal/admission_home?error=Payment%20Already%20Exist%20!!!');
+                
             } else {
                 header('Location: /fuo_pg/admission_portal/admission_home?error=Payment%20Already%20Exist%20!!!');
             }
             
         }
 
-    
+        
     }
 ?>

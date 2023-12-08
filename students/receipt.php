@@ -64,18 +64,18 @@ if( !isset($_SESSION['user_id']) && !isset($_SESSION['admStatus']) ){
 
     $pdf->SetFont('Times-Roman', '', 12);
     $pdf->Cell(40, 10, 'Payment Reference:', 0);
-    $pdf->Cell(60, 10, $xpId, 0, 1);
+    $pdf->Cell(60, 10, $ref, 0, 1);
 
     $pdf->SetFont('Times-Roman', '', 12);
-    $pdf->Cell(40, 10, 'Transaction ID:', 0);
-    $pdf->Cell(60, 10, $ref, 0, 1);
+    $pdf->Cell(40, 10, 'Xpresspay ID:', 0);
+    $pdf->Cell(60, 10, $xpId, 0, 1);
 
     $pdf->SetFont('Times-Roman', '', 12);
     $pdf->Cell(40, 10, 'Student Name:', 0);
     $pdf->Cell(60, 10, $fname, 0, 1);
 
     $pdf->SetFont('Times-Roman', '', 12);
-    $pdf->Cell(40, 10, 'Application Number:', 0);
+    $pdf->Cell(40, 10, 'Matric Number:', 0);
     $pdf->Cell(60, 10, $appID, 0, 1);
 
     $pdf->SetFont('Times-Roman', '', 12);
