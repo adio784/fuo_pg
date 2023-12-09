@@ -6,23 +6,25 @@ if( !isset($_SESSION['user_id']) && !isset($_SESSION['admStatus']) ){
 
   } else {
     
-    require_once 'includes/head.php';
     require_once '../core/autoload.php';
     require_once '../core/Database.php';
     require_once '../common/CRUD.php';
-    require_once 'includes/admission_check.php';
     require_once '../phpqrcode/qrlib.php';
-    require('../fpdf/fpdf.php'); // Include the FPDF library
+    require_once '../fpdf/fpdf.php'; // Include the FPDF library
+    require_once 'includes/students_data.php';
 
     $ref    =   trim($_POST['ref']);
-    $PRecp  =   $Crud->read('application_payment', 'transactionId', $ref);
-    $amt    =   number_format($PRecp->paid_amount, 2);
-    $desc   =   $PRecp->description;
-    $xpId   =   $PRecp->payment_ref;
-    $pgr    =   $UProgram->course_name;
-    $ss     =   $User->application_session;
+    $PRecp  =   $Crud->read('payments_history', 'transaction_id', $ref);
+    $amt    =   number_format($PRecp->amount_paid, 2);
+    $desc   =   $PRecp->payment_desc;
+    $xpId   =   $PRecp->reference;
+    $pgr    =   $program;
+    $appID  =   strtoupper($uid);
+    $fname  =   $User->last_name .' '. $User->first_name .' '. $User->middle_name;
+    $ss     =   $PRecp->payment_session;
+    $sc     =   $course;
     $date   =   date('F g, Y', strtotime($PRecp->created_at));
-    $qrdata =   $appID . $User->last_name . '_' . $desc . '_' . $PRecp->paid_amount;
+    $qrdata =   $appID . $User->last_name . '_' . $desc . '_' . $amt;
     $qrCodeUrl = 'https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=' . urlencode($qrdata);
 
     // Ensure that the local file path for the QR code image is valid
@@ -67,7 +69,7 @@ if( !isset($_SESSION['user_id']) && !isset($_SESSION['admStatus']) ){
     $pdf->Cell(60, 10, $ref, 0, 1);
 
     $pdf->SetFont('Times-Roman', '', 12);
-    $pdf->Cell(40, 10, 'Xpresspay ID:', 0);
+    $pdf->Cell(40, 10, 'Transaction ID:', 0);
     $pdf->Cell(60, 10, $xpId, 0, 1);
 
     $pdf->SetFont('Times-Roman', '', 12);
@@ -81,6 +83,10 @@ if( !isset($_SESSION['user_id']) && !isset($_SESSION['admStatus']) ){
     $pdf->SetFont('Times-Roman', '', 12);
     $pdf->Cell(40, 10, 'Programme :', 0);
     $pdf->Cell(60, 10, $pgr, 0, 1);
+
+    $pdf->SetFont('Times-Roman', '', 12);
+    $pdf->Cell(40, 10, 'Course :', 0);
+    $pdf->Cell(60, 10, $sc, 0, 1);
 
     $pdf->Cell(40, 10, 'Payment Date:', 0);
     $pdf->Cell(60, 10, $date, 0, 1);
@@ -120,7 +126,7 @@ if( !isset($_SESSION['user_id']) && !isset($_SESSION['admStatus']) ){
     $pdf->Cell(0, -20, 'Bursary Signature and Stamp', 0, 1, 'L');
 
     // Embed the locally saved QR code image
-    $pdf->Image($qrImagePath, 10, 210, 40, 40);
+    $pdf->Image($qrImagePath, 10, 230, 40, 40);
     
     ob_end_clean();
 

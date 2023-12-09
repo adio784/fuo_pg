@@ -103,6 +103,22 @@ class CRUD {
         }
     }
 
+    public function readAllByThree($tableName, $field, $value, $cond, $field2, $value2, $cond2, $field3, $value3) {
+        try {
+            $query = "SELECT * FROM $tableName WHERE $field = ? $cond $field2 =? $cond2 $field3 = ? ORDER BY id DESC";
+            $stmt = $this->db->prepare($query);
+            $stmt->execute([$value, $value2, $value3]);
+
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+            return $result;
+        } catch (PDOException $e) {
+            // Handle database errors here
+            return false;
+        }
+    }
+    
+
     public function readAllByOrder($tableName, $field, $value, $orderby, $order) {
         try {
             $query = "SELECT * FROM $tableName WHERE $field = ? ORDER BY $orderby $order";

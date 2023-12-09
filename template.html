@@ -51,3 +51,44 @@
 
         <?php if(){ ?>
           <?php } ?>
+
+
+
+          <!--  CODE USED OF PAYMENT PAGE -->
+          function updateSchoolFee() {
+            var existingSchoolFee = parseInt( $('#school_fee').val() ) || 0;
+            var total_fee = existingSchoolFee;
+            
+           
+
+            $('.fee_check:checked').each(function() {
+                total_fee += parseInt( $(this).val() ) || 0;
+            });
+
+            $('.fee_check:not(:checked)').each(function() {
+                total_fee -= parseInt( $(this).val() ) || 0;
+            });
+
+            // update the school fee field
+            $('#school_fee').val(total_fee);
+        }
+
+        // var inputcheck = $('#school_fee_check');
+                // var existingSchoolFee = parseInt( $('#school_fee').val() ) || 0;
+                // var total_fee = existingSchoolFee;
+                // $('#school_fee_check').prop('checked', inputValue !== '');
+
+                // if(inputcheck.is(':checked')){
+                //     total_fee =+ inputValue || 0;
+                //     alert('checked');
+                // } else {
+                //     alert('unchecked');
+                //     total_fee -= inputValue || 0;
+                // }
+
+                // $('.fee_check:checked').each(function() {
+                    
+                //     var checkedBoxes = parseInt($('.fee_check').val());
+                //     total_fee += checkedBoxes || 0;
+                // });
+                

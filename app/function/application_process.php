@@ -36,7 +36,7 @@
         // Make payment for application form
         if ( isset($_POST['applicationForm']) ) {
 
-            $transferReff   =   "tr".date('Y').rand(9, 999999);
+            $transferReff   =   "trn".date('Y').rand(9, 999999);
             $amount         =   trim($_POST['pay_amount']);
             $email          =   trim($_POST['email_address']);
             $programme      =   trim($_POST['programme']);

@@ -84,7 +84,7 @@ session_start();
                                                 <h4>Hello, '.$fullName .'</h4>
                                                 <p>Thank you for your interest, you have been offered a provisional admission at:</p>
                                                 <h4>Fountain University, Osogbo.</h4>
-                                                <a href="http://localhost/fuo_pg/admission_portal/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to student portal.</a>
+                                                <a href="http://localhost/fuo_pg/admission_portal/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to the student portal.</a>
                                                 <p> Login Details: </p>
                                                 <ul>
                                                     <li>username: '. $appID.'</li>
