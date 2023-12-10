@@ -4,7 +4,7 @@ session_start();
 
     // Payment Initialization
     if( !isset($_SESSION['user_id']) && !isset($_SESSION['admStatus']) ){
-        header('Location: /fuo_pg/admission_portal/index');
+        header('Location: admission_portal/index');
     } else {
 
         require_once '../../core/autoload.php';

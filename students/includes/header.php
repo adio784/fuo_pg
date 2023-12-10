@@ -54,7 +54,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
 
 
 } else {
-  header('Location: /fuo_pg/admission/');
+  header('Location: students/');
 } 
 
 
