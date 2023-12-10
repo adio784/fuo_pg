@@ -35,6 +35,7 @@ if ( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ) {
     }
 
 } else {
+    $uri        = $_SESSION['HTTP_HOST'];
     header("Location: /{$uri}/students/index");
 }
 
