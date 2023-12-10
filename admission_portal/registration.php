@@ -15,6 +15,7 @@
 						require_once 'includes/logo.php';
 					?>
 					 <div class="card-title text-uppercase text-center py-3">Sign Up</div>
+					 <h3 id="appIDOutput"></h3>
 					    <form method="POST" id="admregisterForm" action="../app/function/admissionAuth.php">
 						  <div class="form-group">
 						   <div class="position-relative has-icon-left">
@@ -119,6 +120,7 @@
                        
 						document.getElementById("admregisterForm").reset();
 						$login_btn.html('SIGN UP');
+						$("#appIDOutput").innerHTML = response.app_id;
 						
                         Lobibox.notify('success', {
                             msg: response.message,
@@ -134,6 +136,7 @@
                     } else {
 						
                         $login_btn.html('SIGN UP');
+						$("#appIDOutput").innerHTML = response.app_id;
                         Lobibox.notify('error', {
                             msg: response.message,
 							class: 'lobibox-notify-error',

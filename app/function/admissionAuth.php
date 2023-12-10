@@ -82,14 +82,14 @@ if (isset($_POST['register'])) {
         
             try {
                 //Server settings
-                $mail->SMTPDebug = 2;//SMTP::DEBUG_OFF; // Enable verbose debugging (0 for no debug output)
+                $mail->SMTPDebug = SMTP::DEBUG_OFF; // Enable verbose debugging (0 for no debug output)
                 $mail->isSMTP();
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'adioridwan784@gmail.com'; // Your Gmail email address
                 $mail->Password   = 'oyja rpia qbyv zmsa';       // Your Gmail password or app password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-                $mail->Port       = 465; // TCP port to connect to
+                $mail->Port       = 587; // TCP port to connect to
 
                 //Recipients
                 $mail->setFrom('pgschool@fuo.edu.ng', 'Fountain University, School Of Post Graduate.');
@@ -106,12 +106,16 @@ if (isset($_POST['register'])) {
                 $mail->Body    .= '<b> NB:</b> Do not reply to this email';
 
                 $mail->send();
+
                 $response['status'] = 'success';
+                $response['app_id'] = $applicationID;
                 $response['message'] = 'Account Successfully Created, Check your inbox for application ID';
+
             } catch (Exception $e) {
 
                 $response['status'] = 'error';
-                $response['message'] = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                $response['app_id'] = $applicationID;
+                $response['message'] = "Account Created Successfully, Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
 
             }
 
