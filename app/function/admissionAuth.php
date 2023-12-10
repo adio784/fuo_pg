@@ -82,12 +82,12 @@ if (isset($_POST['register'])) {
         
             try {
                 //Server settings
-                $mail->SMTPDebug = SMTP::DEBUG_OFF; // Enable verbose debugging (0 for no debug output)
+                $mail->SMTPDebug = 2;//SMTP::DEBUG_OFF; // Enable verbose debugging (0 for no debug output)
                 $mail->isSMTP();
-                $mail->Host       = 'mail.fuo.edu.ng';
+                $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
-                $mail->Username   = 'pg@fuo.edu.ng'; // Your Gmail email address
-                $mail->Password   = 'FountainUniversity-PG';//'oyja rpia qbyv zmsa';       // Your Gmail password or app password
+                $mail->Username   = 'adioridwan784@gmail.com'; // Your Gmail email address
+                $mail->Password   = 'oyja rpia qbyv zmsa';       // Your Gmail password or app password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
                 $mail->Port       = 465; // TCP port to connect to
 
