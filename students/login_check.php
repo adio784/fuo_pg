@@ -18,24 +18,24 @@ if ( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ) {
    
     if( $sts =='not_student' ) {
 
-        header("Location: {$uri}/students/not_student");
+        header("Location: /{$uri}/students/not_student");
 
     } else if ($sts =='student') {
 
-        header("Location: {$uri}/students/student_dashboard");
+        header("Location: /{$uri}/students/student_dashboard");
 
     } else if ($sts =='banned') {
 
         session_destroy();
-        header("Location: {$uri}/students/");
+        header("Location: /{$uri}/students/");
 
     } else {
 
-        header("Location: {$uri}/students/");
+        header("Location: /{$uri}/students/");
     }
 
 } else {
-    header('Location: /fuo_pg/students/index');
+    header("Location: /{$uri}/students/index");
 }
 
 ?>
