@@ -18,11 +18,11 @@ if ( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ) {
    
     if( $sts =='not_student' ) {
 
-        header("Location: /not_student");
+        header("Location: /students/not_student");
 
     } else if ($sts =='student') {
 
-        header("Location: /student_dashboard");
+        header("Location: /students/student_dashboard");
 
     } else if ($sts =='banned') {
 
