@@ -13,24 +13,25 @@ if ( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ) {
     $uid        = $_SESSION['user_id'];
     $User      = $Crud->read('users', 'username', $uid);
     $sts        = $User->role;
+    $uri        = $_SESSION['HTTP_HOST'];
     // echo $sts;
    
     if( $sts =='not_student' ) {
 
-        header('Location: /fuo_pg/students/not_student');
+        header("Location: {$uri}/students/not_student");
 
     } else if ($sts =='student') {
 
-        header('Location: /fuo_pg/students/student_dashboard');
+        header("Location: {$uri}/students/student_dashboard");
 
     } else if ($sts =='banned') {
 
         session_destroy();
-        header('Location: /fuo_pg/students/');
+        header("Location: {$uri}/students/");
 
     } else {
 
-        header('Location: /fuo_pg/students/');
+        header("Location: {$uri}/students/");
     }
 
 } else {
