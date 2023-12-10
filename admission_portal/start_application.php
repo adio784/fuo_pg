@@ -16,9 +16,9 @@
       $sts        = $User->application_status;
       $active     = 1;
       $isPHD      = 0;
-      $Countries  = $database->getConnection()->prepare('SELECT id, country_name, country_code FROM `countries` ORDER BY country_name ASC');
+      $Countries  = $database->getConnection()->prepare('SELECT id, country_name, country_code FROM `countries` GROUP BY country_name ORDER BY country_name ASC');
       $Countries->execute();
-      $CountryOrg = $database->getConnection()->prepare('SELECT id, country_name, country_code FROM `countries` WHERE `status`=? ORDER BY country_name ASC');
+      $CountryOrg = $database->getConnection()->prepare('SELECT id, country_name, country_code FROM `countries` WHERE `status`=? GROUP BY country_name ORDER BY country_name ASC');
       $CountryOrg->execute([1]);
 
       $Courses    = $Crud->readAllByOrder('program_course', 'program_id', $User->program, 'course_name', 'ASC');
