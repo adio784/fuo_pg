@@ -3,7 +3,8 @@
     session_start();
    
     if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
-        header('Location: login_check');
+      $uri        = $_SERVER['HTTP_HOST'];
+      header("Location: /{$uri}/login_check/");
     }
 
 ?>
