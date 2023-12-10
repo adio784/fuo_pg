@@ -68,6 +68,8 @@
                 $createPayment  =  $Crud->create('application_payment', $crData);
                 $updateAppl     =  $Crud->update('application', 'application_id', $appID, $appData);
 
+                error_log("This is a test log message.", 3, $errorLogPath);
+
                 if($createPayment) {
 
                     if( $activePayment->name == 'Xpress-pay')
