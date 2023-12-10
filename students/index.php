@@ -4,7 +4,7 @@
    
     if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
       $uri        = $_SERVER['HTTP_HOST'];
-      header("Location: /{$uri}/students/login_check/");
+      header("Location: ". "/{$uri}/students/login_check/");
     }
 
 ?>
