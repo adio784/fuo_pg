@@ -2,10 +2,15 @@
 
 $errorLogPath = '../app/config/error.log';
 
+$directory = dirname($errorLogPath);
+if (!is_dir($directory)) {
+    mkdir($directory, 0777, true);
+}
+
 if (!file_exists($errorLogPath)) {
-    chmod($errorLogPath, 0777);
     $fileHandle = fopen($errorLogPath, 'w') or die('Cannot open file: ' . $errorLogPath);
     fclose($fileHandle);
+    chmod($errorLogPath, 0777);
 }
 
 // Set up error handling
