@@ -22,7 +22,7 @@ if ( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ) {
 
     } else if ($sts =='student') {
 
-        header("Location: /students/student_dashboard");
+        header("Location: /students/student_home");
 
     } else if ($sts =='banned') {
 

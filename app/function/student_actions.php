@@ -4,7 +4,7 @@
    
     if ( !isset($_SESSION['user_id']) && !isset($_SESSION['user_status']) ) {
 
-        header("Location: /index");
+        header("Location: /student/index");
 
     } else {
 
@@ -106,7 +106,7 @@
 
             foreach ($paymentData as $paymentType => $amount) {
 
-                echo $paymentType . $amount . $uid;
+                // echo $paymentType . $amount . $uid;
 
                 // Check if payment already exist ..................................
                 $checkExistPayment      = $db->prepare("SELECT * FROM payments_history WHERE matric_no = ? AND payment_session=? AND payment_desc=? "); $checkExistPayment->execute([$uid, $payment_session, $paymentType]);
@@ -117,7 +117,7 @@
                     if ($getCheckExistPayment->payment_status ==1) {
 
                         $msg = 'Payment Already Exist !!!';
-                        header("Location: /fuo_pg/students/payments?payment_error={$msg}");
+                        header("Location: /students/payments?payment_error={$msg}");
 
                     } else {
 
@@ -186,13 +186,13 @@
                     
                     $errorMessage = $paymentResult['data'];
                     $msg = "Payment Failed, Try Later!!!";
-                    header("Location: /fuo_pg/students/payments?error={$msg}");
+                    header("Location: /students/payments?error={$msg}");
                 }
 
             } else {
 
                 $msg = 'Unable to update payment record, due to system error !!!';
-                header("Location: /fuo_pg/students/payments?error={$msg}");
+                header("Location: /students/payments?error={$msg}");
 
             }
 
