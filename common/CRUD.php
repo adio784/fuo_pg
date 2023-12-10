@@ -8,15 +8,21 @@ class CRUD {
     }
 
     public function create($table, $data) {
-        $fields = implode(', ', array_keys($data));
-        $placeholders = implode(', ', array_fill(0, count($data), '?'));
 
-        $stmt = $this->db->prepare("INSERT INTO $table ($fields) VALUES ($placeholders)");
+        try {
+            $fields = implode(', ', array_keys($data));
+            $placeholders = implode(', ', array_fill(0, count($data), '?'));
 
-        $values = array_values($data);
-        $stmt->execute($values);
+            $stmt = $this->db->prepare("INSERT INTO $table ($fields) VALUES ($placeholders)");
 
-        return $stmt->rowCount() > 0; // Return true if a row was inserted
+            $values = array_values($data);
+            $stmt->execute($values);
+
+            return $stmt->rowCount() > 0; // Return true if a row was inserted
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+        
     }
 
     public function register($table, $data) {
