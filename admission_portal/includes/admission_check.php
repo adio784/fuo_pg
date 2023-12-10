@@ -14,28 +14,28 @@ $Users->execute([$uid]);
 $User       = $Users->fetchObject();
 if ( $User !== false)
 {
-$fname      = $User->last_name. ' ' .$User->first_name. ' ' .$User->middle_name;
-$uname      = $User->first_name. ' ' .$User->middle_name;
-$appID      = $User->application_id;
-$Receipts   = $Crud->readAllBy('application_payment', 'application_id', $appID);
-$adminStat  = 1;
-$isPHD      = 0;
-$Prog       = $Crud->read('programme', 'program_id', $User->program);
-$UProgram   = $Crud->read('program_course', 'id', $User->course);
-$UCr        = $Crud->read('countries', 'country_code', $User->country);
-$RCr        = $Crud->read('countries', 'country_code', $User->country_of_origin);
+    $fname      = $User->last_name. ' ' .$User->first_name. ' ' .$User->middle_name;
+    $uname      = $User->first_name. ' ' .$User->middle_name;
+    $appID      = $User->application_id;
+    $Receipts   = $Crud->readAllBy('application_payment', 'application_id', $appID);
+    $adminStat  = 1;
+    $isPHD      = 0;
+    $Prog       = $Crud->read('programme', 'program_id', $User->program);
+    $UProgram   = $Crud->read('program_course', 'id', $User->course);
+    $UCr        = $Crud->read('countries', 'country_code', $User->country);
+    $RCr        = $Crud->read('countries', 'country_code', $User->country_of_origin);
 
-// Acceptance Payment
-$Acct       = $Crud->readAllByTwo('application_payment', 'application_id', $appID, 'AND', 'description', 'Acceptance fee');
-if ( $Acct ) {
+    // Acceptance Payment
+    $Acct       = $Crud->readAllByTwo('application_payment', 'application_id', $appID, 'AND', 'description', 'Acceptance fee');
+    if ( $Acct ) {
 
-    foreach ($Acct as $ac) {
-        $Acceptancepay = $ac->payment_status;
+        foreach ($Acct as $ac) {
+            $Acceptancepay = $ac->payment_status;
+        }
+        
+    } else {
+        $Acceptancepay = 'pending';
     }
-    
-} else {
-    $Acceptancepay = 'pending';
-}
 }
 // var_export($User);
 ?>

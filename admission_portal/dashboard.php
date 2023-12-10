@@ -14,17 +14,17 @@ if ( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ) {
     $sts        = $User->application_status;
     // var_export($User);
     if( $sts =='pre_register' ) {
-        header('Location: /fuo_pg/admission_portal/payment');
+        header('Location: /admission_portal/payment');
     } else if ($sts =='paid') {
-        header('Location: /fuo_pg/admission_portal/start_application');
+        header('Location: /admission_portal/start_application');
     } else if ($sts =='registered') {
-        header('Location: /fuo_pg/admission_portal/admission_home');
+        header('Location: /admission_portal/admission_home');
     } else {
-        header('Location: /fuo_pg/admission_portal/admission_home');
+        header('Location: /admission_portal/admission_home');
     }
 
 } else {
-    header('Location: /fuo_pg/admission_portal/index');
+    header('Location: /admission_portal/index');
 }
 
 

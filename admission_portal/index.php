@@ -2,7 +2,7 @@
 session_start();
     // include head start here
     if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
-        header('Location: /fuo_pg/admission_portal/dashboard');
+        header('Location: /admission_portal/dashboard');
       } else {
         require_once 'includes/head.php';
       }
