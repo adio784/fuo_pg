@@ -12,6 +12,7 @@
         require_once '../../common/CRUD.php';
         require_once '../../common/Payment.php';
         require_once '../../common/Sanitizer.php';
+        require_once '../../core/error_log.php';
 
         $database   =   new Database();
         $Crud       =   new CRUD($database);
