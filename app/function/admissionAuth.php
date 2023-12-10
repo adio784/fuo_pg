@@ -86,13 +86,13 @@ if (isset($_POST['register'])) {
                 $mail->isSMTP();
                 $mail->Host       = 'mail.fuo.edu.ng';
                 $mail->SMTPAuth   = true;
-                $mail->Username   = 'pgschool@fuo.edu.ng'; // Your Gmail email address
+                $mail->Username   = 'pg@fuo.edu.ng'; // Your Gmail email address
                 $mail->Password   = 'FountainUniversity-PG';//'oyja rpia qbyv zmsa';       // Your Gmail password or app password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
                 $mail->Port       = 465; // TCP port to connect to
 
                 //Recipients
-                $mail->setFrom('info@fuo.edu.ng', 'Fountain University, School Of Post Graduate.');
+                $mail->setFrom('pgschool@fuo.edu.ng', 'Fountain University, School Of Post Graduate.');
                 $mail->addAddress($email, $fullname); // Add recipient email address and name
 
                 // Content

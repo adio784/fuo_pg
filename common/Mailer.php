@@ -21,7 +21,7 @@ class Mailer {
         $this->mailer->isSMTP();
         $this->mailer->Host       = 'mail.fuo.edu.ng'; //'smtp.gmail.com';
         $this->mailer->SMTPAuth   = true;
-        $this->mailer->Username   = 'pgschool@fuo.edu.ng'; //'adioridwan784@gmail.com';
+        $this->mailer->Username   = 'pg@fuo.edu.ng'; //'adioridwan784@gmail.com';
         $this->mailer->Password   = 'FountainUniversity-PG'; //'oyja rpia qbyv zmsa';
         $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $this->mailer->Port       = 465; //587;
@@ -34,7 +34,7 @@ class Mailer {
         try {
 
             //Recipients
-            $this->mailer->setFrom('info@fuo.edu.ng', 'Fountain University, School of Post Graduate Studies.');
+            $this->mailer->setFrom('pg@fuo.edu.ng', 'Fountain University, School of Post Graduate Studies.');
             $this->mailer->addAddress($to, $name); 
 
             // Content
