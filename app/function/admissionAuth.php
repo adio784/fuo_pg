@@ -87,7 +87,7 @@ if (isset($_POST['register'])) {
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'adioridwan784@gmail.com'; // Your Gmail email address
-                $mail->Password   = 'oyja rpia qbyv zmsa';       // Your Gmail password or app password
+                $mail->Password   = 'adioridwan784@ExcelGlobalTech';//'oyja rpia qbyv zmsa';       // Your Gmail password or app password
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
                 $mail->Port       = 587; // TCP port to connect to
 
