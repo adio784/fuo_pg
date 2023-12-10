@@ -4,8 +4,8 @@ $errorLogPath = '../app/config/error.log';
 
 if (!file_exists($errorLogPath)) {
     chmod($errorLogPath, 0777);
-    // $fileHandle = fopen($errorLogPath, 'w') or die('Cannot open file: ' . $errorLogPath);
-    // fclose($fileHandle);
+    $fileHandle = fopen($errorLogPath, 'w') or die('Cannot open file: ' . $errorLogPath);
+    fclose($fileHandle);
 }
 
 // Set up error handling
