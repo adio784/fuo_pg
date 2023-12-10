@@ -1,4 +1,4 @@
-<?php include('includes/header.php');?>
+<?php include('includes/head.php');?>
 
 
         <!-- Header End -->
@@ -34,7 +34,7 @@
         <!-- 404 End -->
 
         
-        <?php include('includes/footer.php');?>
+        <?php include('includes/foot.php');?>
 </body>
 
 </html>

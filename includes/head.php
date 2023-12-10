@@ -8,21 +8,21 @@
     <meta name="Fountain - Post Graduate School" content="" />
     <title>Fountain - Post Graduate School</title>
     <!--favicon-->
-    <link rel="icon" href="assets/images/image_fuo.jpeg" type="image/x-icon">
+    <link rel="icon" href="../assets//images/image_fuo.jpeg" type="image/x-icon">
      <!-- jquery steps CSS-->
-  <link rel="stylesheet" type="text/css" href="assets/plugins/jquery.steps/css/jquery.steps.css">
+  <link rel="stylesheet" type="text/css" href="../assets//plugins/jquery.steps/css/jquery.steps.css">
   <!-- simplebar CSS-->
-  <link href="assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
+  <link href="../assets//plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
     <!-- Bootstrap core CSS-->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../assets//css/bootstrap.min.css" rel="stylesheet" />
     <!-- animate CSS-->
-    <link href="assets/css/animate.css" rel="stylesheet" type="text/css" />
+    <link href="../assets//css/animate.css" rel="stylesheet" type="text/css" />
     <!-- Icons CSS-->
-    <link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+    <link href="../assets//css/icons.css" rel="stylesheet" type="text/css" />
     <!-- Sidebar CSS-->
-  <link href="assets/css/sidebar-menu.css" rel="stylesheet"/>
+  <link href="../assets//css/sidebar-menu.css" rel="stylesheet"/>
     <!-- Custom Style-->
-    <link href="assets/css/app-style.css" rel="stylesheet" />
+    <link href="../assets//css/app-style.css" rel="stylesheet" />
 </head>
 
 <body>
