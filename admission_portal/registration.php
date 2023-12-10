@@ -120,7 +120,7 @@
                        
 						document.getElementById("admregisterForm").reset();
 						$login_btn.html('SIGN UP');
-						$("#appIDOutput").innerHTML = response.app_id;
+						$("#appIDOutput").html(response.app_id);
 						
                         Lobibox.notify('success', {
                             msg: response.message,
@@ -136,7 +136,7 @@
                     } else {
 						
                         $login_btn.html('SIGN UP');
-						$("#appIDOutput").innerHTML = response.app_id;
+						$("#appIDOutput").html(response.app_id);
                         Lobibox.notify('error', {
                             msg: response.message,
 							class: 'lobibox-notify-error',
