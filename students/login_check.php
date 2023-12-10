@@ -11,7 +11,7 @@ if ( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ) {
     $database   = new Database();
     $Crud       = new CRUD($database);
     $uid        = $_SESSION['user_id'];
-    $User      = $Crud->read('users', 'username', $uid);
+    $User       = $Crud->read('users', 'username', $uid);
     $sts        = $User->role;
     $uri        = $_SESSION['HTTP_HOST'];
     // echo $sts;
