@@ -64,7 +64,8 @@ session_start();
                     <div class="bg-signin2" ></div>
                     <div class="card-img-overlay rounded-left my-5">
                         <h2 class="text-white">Fountain University</h2>
-                        <h5 class="text-white">Welcome to Fountain University - Post Graduate School</h5>
+                        <h5 class="text-white"> Welcome to School of Postgraduate Studies (SPGS), Fountain University, Osogbo.</h5>
+                        
                         <p class="card-text text-white pt-3">
                             <span>To have access to the admission portal, kindly login with: </span>
                             <ol class="text-white">

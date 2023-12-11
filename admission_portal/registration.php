@@ -81,9 +81,10 @@
 			<div class="card mb-0">
 	    	   <div class="bg-signup2"></div>
 	    		<div class="card-img-overlay rounded-left my-5">
-				<h2 class="text-white">Sign Up</h2>
-                        <h5 class="text-white">to Fountain - Post Graduate School</h5>
-                 <p class="card-text text-white pt-3">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+				<h2 class="text-white">Create An Account</h2>
+                <h5 class="text-white">Welcome to School of Postgraduate Studies (SPGS), Fountain University, Osogbo.</h5>
+                <p class="card-text text-white pt-3"> Fill the form correctly and pay attention to the prompt after the registration.</p>
+                <p class="card-text text-white pt-3"> Thank you!.</p>
              </div>
 	    	</div>
 	     </div>
@@ -93,32 +94,32 @@
     <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
 
 	<button id="noticeModal" class="btn btn-primary m-1 d-none" data-toggle="modal" data-target="#fullprimarymodal">Primary</button>
-                <div class="modal fade" id="fullprimarymodal">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header bg-primary">
-                        <h5 class="modal-title text-white"><i class="fa fa-star"></i> Successful Application </h5>
-                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <h4>Congratulations !</h4>
-                        <p>You account has been successfully created. </p>
-                        <p>Here are your login Details:</p>
-						<ul>
-							<li> Username : <strong id="appid"> </strong> </li>
-							<li> Password : <strong id="lastname"> </strong> </li>
-						</ul>
-						<p> For further information, contact PG support. </p>
+	<div class="modal fade" id="fullprimarymodal">
+		<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header bg-primary">
+			<h5 class="modal-title text-white"><i class="fa fa-star"></i> Successful Application </h5>
+			<button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			</div>
+			<div class="modal-body">
+			<h4>Congratulations !</h4>
+			<p>You account has been successfully created. </p>
+			<p>Here are your login Details:</p>
+			<ul>
+				<li> Username : <strong id="appid"> </strong> </li>
+				<li> Password : <strong id="lastname"> </strong> </li>
+			</ul>
+			<p> For further information, contact PG support. </p>
 
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+			</div>
+			<div class="modal-footer">
+			<button type="button" class="btn btn-light" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+			</div>
+		</div>
+		</div>
+	</div>
     <!--End Back To Top Button-->
 	</div><!--wrapper-->
 	
