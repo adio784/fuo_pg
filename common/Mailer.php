@@ -19,12 +19,12 @@ class Mailer {
 
         $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;
         $this->mailer->isSMTP();
-        $this->mailer->Host       = 'smtp.gmail.com';
+        $this->mailer->Host       = 'smtp.hostinger.com';//'smtp.gmail.com';
         $this->mailer->SMTPAuth   = true;
-        $this->mailer->Username   = 'adioridwan784@gmail.com';
-        $this->mailer->Password   = 'oyja rpia qbyv zmsa';
+        $this->mailer->Username   = 'ayotunde@zuuroo.com';//'adioridwan784@gmail.com';
+        $this->mailer->Password   = 'Oyenike1.';//'oyja rpia qbyv zmsa';
         $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $this->mailer->Port       = 587;
+        $this->mailer->Port       = 465;//587;
 
     }
 
@@ -34,7 +34,7 @@ class Mailer {
         try {
 
             //Recipients
-            $this->mailer->setFrom('pg@fuo.edu.ng', 'Fountain University, School of Post Graduate Studies.');
+            $this->mailer->setFrom('pgschool@fuo.edu.ng', 'Fountain University, School of Post Graduate Studies.');
             $this->mailer->addAddress($to, $name); 
 
             // Content
