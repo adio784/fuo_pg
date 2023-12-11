@@ -7,13 +7,8 @@ use PHPMailer\PHPMailer\Exception;
 require_once '../../core/autoload.php';
 require_once '../../core/Database.php';
 require_once '../../common/Sanitizer.php';
-require '../../PHPMailer/src/Exception.php';
-require '../../PHPMailer/src/PHPMailer.php';
-require '../../PHPMailer/src/SMTP.php';
-
 
 $database   = new Database();
-$mail       = new PHPMailer(true);
 $Sanitizer  = new Sanitizer;
 $Sanitiz    = $Sanitizer->sanitizeInput($firstname);
 
@@ -83,10 +78,10 @@ if (isset($_POST['register'])) {
         if($createUser)
         {
 
-            $response['status'] = 'error';
+            $response['status'] = 'success';
             $response['app_id'] = $applicationID;
             $response['surname']= $lastname;
-            $response['message']= "Account Created Successfully, Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            $response['message']= "Account Created Successfully";
         }
         else
         {
