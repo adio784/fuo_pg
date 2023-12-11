@@ -111,6 +111,7 @@
 				<li> Username : <strong id="appid"> </strong> </li>
 				<li> Password : <strong id="lastname"> </strong> </li>
 			</ul>
+			<p> <a href="index" class="btn btn-info"> Click here to continue application </a>
 			<p> For further information, contact PG support. </p>
 
 			</div>
