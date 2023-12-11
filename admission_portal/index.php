@@ -52,9 +52,9 @@ session_start();
                                     </div>
                                 </div>
                                 <input type="hidden" name="login" value="<?php echo rand() ?>">
-                                <button type="submit" id="loginBtn" class="btn btn-outline-primary btn-block waves-effect waves-light">Sign In</button>
+                                <button type="submit" id="loginBtn" class="btn btn-outline-primary btn-block waves-effect waves-light">Login</button>
                                 <div class="text-center pt-3">
-                                    <p class="text-muted">Do not have an account? <a href="registration"> Sign Up</a></p>
+                                    <p class="text-muted">New applicant ? <a href="registration"> Register </a></p>
                                 </div>
                             </form>
                         </div>
