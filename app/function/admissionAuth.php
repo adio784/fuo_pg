@@ -82,49 +82,11 @@ if (isset($_POST['register'])) {
 
         if($createUser)
         {
-        
-            try {
-                //Server settings
-                $mail->SMTPDebug = SMTP::DEBUG_OFF; // Enable verbose debugging (0 for no debug output)
-                $mail->isSMTP();
-                $mail->Host       = 'smtp.gmail.com';
-                $mail->SMTPAuth   = true;
-                $mail->Username   = 'adioridwan784@gmail.com'; // Your Gmail email address
-                $mail->Password   = 'oyja rpia qbyv zmsa';       // Your Gmail password or app password
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-                $mail->Port       = 587; // TCP port to connect to
 
-                //Recipients
-                $mail->setFrom('pgschool@fuo.edu.ng', 'Fountain University, School Of Post Graduate.');
-                $mail->addAddress($email, $fullname); // Add recipient email address and name
-
-                // Content
-                $mail->isHTML(true); // Set email format to HTML
-                $mail->Subject = 'Online Application';
-                $mail->Body    .= 'Hello! '. $fullname. '<br>';
-                $mail->Body    .= 'Thank you for signin up on our portal, here is your login details: <br><br>';
-                $mail->Body    .= 'Application ID: '. '<b>'. $applicationID .'</b><br>';
-                $mail->Body    .= 'Password: '. '<b>'. $lastname .'</b><br><br>';
-                $mail->Body    .= 'For more information or enquiry, contact us. <br>';
-                $mail->Body    .= '<b> NB:</b> Do not reply to this email';
-
-                $mail->send();
-
-                $response['status'] = 'success';
-                $response['app_id'] = $applicationID;
-                $response['message'] = 'Account Successfully Created, Check your inbox for application ID';
-
-            } catch (Exception $e) {
-
-                $response['status'] = 'error';
-                $response['app_id'] = $applicationID;
-                $response['message'] = "Account Created Successfully, Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-
-            }
-
-            // $response['status'] = 'success';
-            // $response['message'] = 'Account Successfully Created, Check your inbox for application ID';
-
+            $response['status'] = 'error';
+            $response['app_id'] = $applicationID;
+            $response['surname']= $lastname;
+            $response['message']= "Account Created Successfully, Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
         else
         {

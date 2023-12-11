@@ -91,6 +91,34 @@
     
      <!--Start Back To Top Button-->
     <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+
+	<button id="noticeModal" class="btn btn-primary m-1 d-none" data-toggle="modal" data-target="#fullprimarymodal">Primary</button>
+                <div class="modal fade" id="fullprimarymodal">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header bg-primary">
+                        <h5 class="modal-title text-white"><i class="fa fa-star"></i> Successful Application </h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h4>Congratulations !</h4>
+                        <p>You account has been successfully created. </p>
+                        <p>Here are your login Details:</p>
+						<ul>
+							<li> Username : <strong id="appid"> </strong> </li>
+							<li> Password : <strong id="lastname"> </strong> </li>
+						</ul>
+						<p> For further information, contact PG support. </p>
+
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
     <!--End Back To Top Button-->
 	</div><!--wrapper-->
 	
@@ -121,17 +149,21 @@
 						document.getElementById("admregisterForm").reset();
 						$login_btn.html('SIGN UP');
 						$("#appIDOutput").html(response.app_id);
+						$("#appid").html(response.app_id);
+						$("#lastname").html(response.surname);
+						$("#noticeModal").click();
+
 						
-                        Lobibox.notify('success', {
-                            msg: response.message,
-							class: 'lobibox-notify-success',
-							title: "Success !",
-                            position: 'top right',
-							icon: 'glyphicon glyphicon-ok-sign',
-							sound: 'sound2.mp3',
-							delay: 15000,
-							theme: 'minimal',
-                        });
+                        // Lobibox.notify('success', {
+                        //     msg: response.message,
+						// 	class: 'lobibox-notify-success',
+						// 	title: "Success !",
+                        //     position: 'top right',
+						// 	icon: 'glyphicon glyphicon-ok-sign',
+						// 	sound: 'sound2.mp3',
+						// 	delay: 15000,
+						// 	theme: 'minimal',
+                        // });
                        
                     } else {
 						

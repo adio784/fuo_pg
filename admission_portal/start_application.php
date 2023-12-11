@@ -223,7 +223,7 @@ if ($sts == "registered" || $sts == "admitted"){
                               <!-- <input id="address" type="text" class="required form-control"> -->
                             </div>
                             <div class="form-group">
-                              <label for="country"> Country *</label>
+                              <label for="country"> Country of Residence *</label>
                               <select class="required form-control" id="country" required>
                                   <option value="" selected>-- Select Country --</option>
                                   <?php 
@@ -384,11 +384,11 @@ if ($sts == "registered" || $sts == "admitted"){
                                     <input type="hidden" name="pgAppToken" value="<?php echo uniqid() ?>">
                                       <div class="col-lg-4 col-md-6 col-sm-12">
                                         <label for="">Last Name</label>
-                                        <input type="text" id="fn" name="lastName" style="border:0px">
+                                        <input type="text" id="ln" name="lastName" style="border:0px">
                                       </div>
                                       <div class="col-lg-4 col-md-6 col-sm-12">
                                         <label for="">First Name</label>
-                                        <input type="text" id="ln" name="firstName" style="border:0px">
+                                        <input type="text" id="fn" name="firstName" style="border:0px">
                                       </div>
                                       <div class="col-lg-4 col-md-6 col-sm-12">
                                         <label for="">Middle Name</label>
