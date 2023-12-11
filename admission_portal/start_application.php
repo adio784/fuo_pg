@@ -258,11 +258,11 @@ if ($sts == "registered" || $sts == "admitted"){
                             <div class="form-group row">
                               <div class="col-sm-6">
                                 <label for="emailAddress" class="col-sm-12 col-form-label">Email Address *</label>
-                                <input id="emailAddress" type="email" class="required form-control" required>
+                                <input id="emailAddress" type="email" class="required form-control" value="<?php echo $User->email; ?>" required>
                               </div>
                               <div class="col-sm-6">
                                 <label for="phoneNumber" class="col-sm-12 col-form-label">Phone Number *</label>
-                                <input id="phoneNumber" type="text" class="required form-control" pattern="[0-9]{11}" required>
+                                <input id="phoneNumber" type="text" class="required form-control" value="<?php echo $User->phone_number; ?>" pattern="[0-9]{11}" required>
                               </div>
                             </div>
                             <div class="form-group">

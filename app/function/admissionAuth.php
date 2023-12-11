@@ -6,6 +6,7 @@ use PHPMailer\PHPMailer\Exception;
 
 require_once '../../core/autoload.php';
 require_once '../../core/Database.php';
+require_once '../../common/Sanitizer.php';
 require '../../PHPMailer/src/Exception.php';
 require '../../PHPMailer/src/PHPMailer.php';
 require '../../PHPMailer/src/SMTP.php';
@@ -13,6 +14,8 @@ require '../../PHPMailer/src/SMTP.php';
 
 $database   = new Database();
 $mail       = new PHPMailer(true);
+$Sanitizer  = new Sanitizer;
+$Sanitiz    = $Sanitizer->sanitizeInput($firstname);
 
 if (isset($_POST['login'])) {
     
@@ -56,11 +59,11 @@ if (isset($_POST['login'])) {
 if (isset($_POST['register'])) {
     
     // getConnection
-    $firstname      = ucfirst(htmlspecialchars($_POST['firstname']));
-    $lastname       = ucfirst(htmlspecialchars($_POST['lastname']));
-    $middlename     = ucfirst(htmlspecialchars($_POST['middlename']));
-    $email          = htmlspecialchars($_POST['email']);
-    $phoneNumber    = htmlspecialchars($_POST['phoneNumber']);
+    $firstname      = ucfirst($Sanitizer->sanitizeInput($_POST['firstname']));
+    $lastname       = ucfirst($Sanitizer->sanitizeInput($_POST['lastname']));
+    $middlename     = ucfirst($Sanitizer->sanitizeInput($_POST['middlename']));
+    $email          = $Sanitizer->sanitizeInput($_POST['email']);
+    $phoneNumber    = $Sanitizer->sanitizeInput($_POST['phoneNumber']);
     $applicationID  = 'FPG'.date('y').rand(9,99999);
     $response       = [];
     $fullname       = $lastname. ' '. $firstname. ' '. $middlename;
