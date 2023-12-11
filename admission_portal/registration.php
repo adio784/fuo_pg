@@ -146,7 +146,7 @@
 
                     if (response.status == 'success') {
                        
-						document.getElementById("admregisterForm").reset();
+						$('#admregisterForm')[0].reset();
 						$login_btn.html('SIGN UP');
 						$("#appIDOutput").html(response.app_id);
 						$("#appid").html(response.app_id);
