@@ -67,11 +67,15 @@ session_start();
     
                         $createStudent  =   $db->prepare("INSERT INTO students (matric_no, application_id, last_name, first_name, middle_name, email, mobile_no, dob, gender, religion, admission_session, admission_year, course, program) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                         $createStudent->execute([ $nmatric, $appID, $lastName, $firstName, $middleName, $email, $phoneNumber, $dob, $gender, $religion, $current_session, $thisYear, $college, $department]);
+
+                        $createUser  =   $db->prepare("INSERT INTO users (username, email, password, role, status) VALUES(?,?,?,?,?)");
+                        $createUser->execute([$username, $email, $password, $role, $status]);
                         
-                        if ($createStudent) {
+                        if ($createStudent && $createUser) {
     
                             $appData    = ["application_status" => "admitted", "application_session" => $current_session];
                             $upd_admiss = $Crud->update("application", "application_id", $appID, $appData);
+                            
 
                             // ++++++++++++++++++++ SEND MAIL TO ADMITTED USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++
                             $subject    = 'FUO PG Admission';
@@ -102,9 +106,6 @@ session_start();
                                 $result = $Mailer->sendMail($email, $subject, $body, $fullName);
 
                                 if ($result === true) {
-                                    
-                                    $createUser  =   $db->prepare("INSERT INTO users (username, email, password, role, status) VALUES(?,?,?,?,?)");
-                                    $createUser->execute([$username, $email, $password, $role, $status]);
 
                                     $response['status']         = 'success';
                                     $response['statusCode']     = 200;

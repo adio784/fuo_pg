@@ -19,12 +19,13 @@ class Mailer {
 
         $this->mailer->SMTPDebug = 2;// SMTP::DEBUG_OFF;
         $this->mailer->isSMTP();
-        $this->mailer->Host       = 'smtp.hostinger.com';//'smtp.gmail.com';
+        $this->mailer->Host       = 'tls://smtp.gmail.com';
         $this->mailer->SMTPAuth   = true;
-        $this->mailer->Username   = 'ayotunde@zuuroo.com';//'adioridwan784@gmail.com';
-        $this->mailer->Password   = 'Oyenike1.';//'oyja rpia qbyv zmsa';
-        $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $this->mailer->Port       = 465;//587;
+        $this->mailer->Username   = 'adioridwan784@gmail.com';
+        $this->mailer->Password   = 'oyja rpia qbyv zmsa';
+        $this->mailer->SMTPSecure = 'tls';
+        // $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $this->mailer->Port       = 587;
 
     }
 
