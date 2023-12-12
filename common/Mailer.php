@@ -17,7 +17,7 @@ class Mailer {
         
         $this->mailer = new PHPMailer(true);
 
-        $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;
+        $this->mailer->SMTPDebug = 2;// SMTP::DEBUG_OFF;
         $this->mailer->isSMTP();
         $this->mailer->Host       = 'smtp.hostinger.com';//'smtp.gmail.com';
         $this->mailer->SMTPAuth   = true;
@@ -33,8 +33,9 @@ class Mailer {
 
         try {
 
+            $schName = 'Fountain University, School of Post Graduate Studies.';
             //Recipients
-            $this->mailer->setFrom('pgschool@fuo.edu.ng', 'Fountain University, School of Post Graduate Studies.');
+            $this->mailer->setFrom('pgschool@fuo.edu.ng', $schName);
             $this->mailer->addAddress($to, $name); 
 
             // Content

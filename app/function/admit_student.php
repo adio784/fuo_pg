@@ -114,7 +114,7 @@ session_start();
 
                                     $response['status']         = 'fail';
                                     $response['statusCode']      = 400;
-                                    $response['message']        = 'Student Created Successfully, But Could Not Be Notified, Dues to System Error !!!';
+                                    $response['message']        = "Student Created Successfully, But Could Not Be Notified, Dues to System Error !!! {$result}";
 
                                 }
 
