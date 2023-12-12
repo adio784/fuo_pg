@@ -136,8 +136,8 @@
   <script>
     $(document).ready(function () {
       var authID = "<?php if(isset($_SESSION['user_id'])){ echo $_SESSION['user_id']; }else { echo ''; } ?>";
-      var pay_success = "<?php if(isset($_GET['pay_success']) != "" ) { echo $_GET['pay_success']; }else{ echo ""; } ?>"; 
-      var pay_error = "<?php if(isset($_GET['error']) != "" ) { echo $_GET['error']; }else { echo ""; } ?>"; 
+      var pay_success = "<?= (isset($_GET['pay_success'])) ? $_GET['pay_success'] : ""; ?>"; 
+      var pay_error = "<?= (isset($_GET['error'])) ? $_GET['error'] : ""; ?>"; 
       var appStatus = "<?php $User->application_status; ?>"; 
 
       var msg = 'Select your choice of programme and course to generate payment, proceed with payment to start your application';
