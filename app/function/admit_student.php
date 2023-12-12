@@ -43,29 +43,29 @@ session_start();
                     $std       = $db->prepare("SELECT * FROM `application` WHERE application_id=?");
                     $std->execute([$appID]);
 
-                    $Mailer->sendMail($email, $subject, $body, $fullName);
+                   
                     
-                    // if ( $std->rowCount() > 0 ) {
-                    //     while ($row = $std->fetchObject() ) {
-                    //     $nmatric    = "***";
-                    //     $firstName  = $row->first_name;
-                    //     $lastName   = $row->last_name;
-                    //     $middleName = $row->middle_name;
-                    //     $fullName   = strtoupper($lastName) . ' '. $firstName .' '. $middleName;
-                    //     $email      = $row->email;
-                    //     $phoneNumber= $row->phone_number;
-                    //     $dob        = $row->date_of_birth;
-                    //     $gender     = $row->gender;
-                    //     $religion   = $row->religion;
-                    //     $department = $row->program;
-                    //     $college    = $row->course;
-                    //     }
-                    //     // registered
-                    //     $username   = strtolower($appID);
-                    //     $surname    = strtolower($lastName);
-                    //     $password   = password_hash($surname, PASSWORD_BCRYPT);
-                    //     $role       = "not_student";
-                    //     $status     = "active";
+                    if ( $std->rowCount() > 0 ) {
+                        while ($row = $std->fetchObject() ) {
+                        $nmatric    = "***";
+                        $firstName  = $row->first_name;
+                        $lastName   = $row->last_name;
+                        $middleName = $row->middle_name;
+                        $fullName   = strtoupper($lastName) . ' '. $firstName .' '. $middleName;
+                        $email      = $row->email;
+                        $phoneNumber= $row->phone_number;
+                        $dob        = $row->date_of_birth;
+                        $gender     = $row->gender;
+                        $religion   = $row->religion;
+                        $department = $row->program;
+                        $college    = $row->course;
+                        }
+                        // registered
+                        $username   = strtolower($appID);
+                        $surname    = strtolower($lastName);
+                        $password   = password_hash($surname, PASSWORD_BCRYPT);
+                        $role       = "not_student";
+                        $status     = "active";
 
                     //     $result = $Mailer->sendMail($email, $subject, $body, $fullName);
     
@@ -102,7 +102,7 @@ session_start();
                                                 <img src="https://fuo.edu.ng/wp-content/uploads/2021/02/logo.jpg" alt="Fountain University, Osogbo">
                                             </body>
                                         </html>';
-
+                                        $Mailer->sendMail($email, $subject, $body, $fullName);
                             // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
                             // if ($upd_admiss) {
@@ -138,15 +138,15 @@ session_start();
                         //     $response['message']        = 'Error Admitting Student !!!';
     
                         // }
-                //     }
+                    }
                 
-                // } else {
+                } else {
 
-                //     $response['status']         = 'fail';
-                //     $response['statusCode']      = 400;
-                //     $response['message']        = 'Student Already Profiled, Contact ICT !!!';
+                    $response['status']         = 'fail';
+                    $response['statusCode']      = 400;
+                    $response['message']        = 'Student Already Profiled, Contact ICT !!!';
 
-                // }
+                }
                  // new_student
                  // not_student
                  // student
