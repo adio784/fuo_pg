@@ -20,7 +20,7 @@ class Mailer {
         $this->mailer->SMTPDebug = 2;// SMTP::DEBUG_OFF;
         $this->mailer->isSMTP();
         $this->mailer->Host       = "tls://smtp.gmail.com";
-        $this->mailer->SMTPAuth   = true;
+        $this->mailer->SMTPAuth   = false;
         $this->mailer->Username   = "adioridwan784@gmail.com";
         $this->mailer->Password   = "oyja rpia qbyv zmsa";
         $this->mailer->SMTPSecure = "tls";
