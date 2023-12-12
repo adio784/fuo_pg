@@ -130,7 +130,7 @@
                             <td> <?= formatDate($date) ?> </td>
                             <td> 
                                 <button class="btn btn-primary admissionBtn" type="button" id="<?= $appID ?>"> Admit </button>
-                                <a href="../app/function/admit_student.php?admit=<?= $appID ?>" class="btn btn-primary">Admit</a> 
+                                <!-- <a href="../app/function/admit_student.php?admit=<?= $appID ?>" class="btn btn-primary">Admit</a>  -->
                                 
                             </td>
                             
