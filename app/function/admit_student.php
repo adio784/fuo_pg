@@ -64,17 +64,19 @@ session_start();
                         $password   = password_hash($surname, PASSWORD_BCRYPT);
                         $role       = "not_student";
                         $status     = "active";
-    
-                        $createStudent  =   $db->prepare("INSERT INTO students (matric_no, application_id, last_name, first_name, middle_name, email, mobile_no, dob, gender, religion, admission_session, admission_year, course, program) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-                        $createStudent->execute([ $nmatric, $appID, $lastName, $firstName, $middleName, $email, $phoneNumber, $dob, $gender, $religion, $current_session, $thisYear, $college, $department]);
 
-                        $createUser  =   $db->prepare("INSERT INTO users (username, email, password, role, status) VALUES(?,?,?,?,?)");
-                        $createUser->execute([$username, $email, $password, $role, $status]);
+                        $result = $Mailer->sendMail($email, $subject, $body, $fullName);
+    
+                        // $createStudent  =   $db->prepare("INSERT INTO students (matric_no, application_id, last_name, first_name, middle_name, email, mobile_no, dob, gender, religion, admission_session, admission_year, course, program) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                        // $createStudent->execute([ $nmatric, $appID, $lastName, $firstName, $middleName, $email, $phoneNumber, $dob, $gender, $religion, $current_session, $thisYear, $college, $department]);
+
+                        // $createUser  =   $db->prepare("INSERT INTO users (username, email, password, role, status) VALUES(?,?,?,?,?)");
+                        // $createUser->execute([$username, $email, $password, $role, $status]);
                         
                         if ($createStudent && $createUser) {
     
-                            $appData    = ["application_status" => "admitted", "application_session" => $current_session];
-                            $upd_admiss = $Crud->update("application", "application_id", $appID, $appData);
+                            // $appData    = ["application_status" => "admitted", "application_session" => $current_session];
+                            // $upd_admiss = $Crud->update("application", "application_id", $appID, $appData);
                             
 
                             // ++++++++++++++++++++ SEND MAIL TO ADMITTED USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -101,31 +103,31 @@ session_start();
 
                             // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
-                            if ($upd_admiss) {
+                            // if ($upd_admiss) {
 
-                                $result = $Mailer->sendMail($email, $subject, $body, $fullName);
+                            //     $result = $Mailer->sendMail($email, $subject, $body, $fullName);
 
-                                if ($result === true) {
+                            //     if ($result === true) {
 
-                                    $response['status']         = 'success';
-                                    $response['statusCode']     = 200;
-                                    $response['message']        = 'Student Successfully Admited, and Profiled for Student Portal ';
+                            //         $response['status']         = 'success';
+                            //         $response['statusCode']     = 200;
+                            //         $response['message']        = 'Student Successfully Admited, and Profiled for Student Portal ';
 
-                                } else {
+                            //     } else {
 
-                                    $response['status']         = 'fail';
-                                    $response['statusCode']      = 400;
-                                    $response['message']        = "Student Created Successfully, But Could Not Be Notified, Dues to System Error !!! {$result}";
+                            //         $response['status']         = 'fail';
+                            //         $response['statusCode']      = 400;
+                            //         $response['message']        = "Student Created Successfully, But Could Not Be Notified, Dues to System Error !!! {$result}";
 
-                                }
+                            //     }
 
-                            } else {
+                            // } else {
     
-                                $response['status']         = 'fail';
-                                $response['statusCode']      = 400;
-                                $response['message']        = 'Student Created, But Unable To Admit Student Due to System Error !!!';
+                            //     $response['status']         = 'fail';
+                            //     $response['statusCode']      = 400;
+                            //     $response['message']        = 'Student Created, But Unable To Admit Student Due to System Error !!!';
         
-                            }
+                            // }
     
                         } else {
     
