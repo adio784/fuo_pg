@@ -42,30 +42,32 @@ session_start();
                 if ($qstd->rowCount() < 1) {
                     $std       = $db->prepare("SELECT * FROM `application` WHERE application_id=?");
                     $std->execute([$appID]);
-                    
-                    if ( $std->rowCount() > 0 ) {
-                        while ($row = $std->fetchObject() ) {
-                        $nmatric    = "***";
-                        $firstName  = $row->first_name;
-                        $lastName   = $row->last_name;
-                        $middleName = $row->middle_name;
-                        $fullName   = strtoupper($lastName) . ' '. $firstName .' '. $middleName;
-                        $email      = $row->email;
-                        $phoneNumber= $row->phone_number;
-                        $dob        = $row->date_of_birth;
-                        $gender     = $row->gender;
-                        $religion   = $row->religion;
-                        $department = $row->program;
-                        $college    = $row->course;
-                        }
-                        // registered
-                        $username   = strtolower($appID);
-                        $surname    = strtolower($lastName);
-                        $password   = password_hash($surname, PASSWORD_BCRYPT);
-                        $role       = "not_student";
-                        $status     = "active";
 
-                        $result = $Mailer->sendMail($email, $subject, $body, $fullName);
+                    $Mailer->sendMail($email, $subject, $body, $fullName);
+                    
+                    // if ( $std->rowCount() > 0 ) {
+                    //     while ($row = $std->fetchObject() ) {
+                    //     $nmatric    = "***";
+                    //     $firstName  = $row->first_name;
+                    //     $lastName   = $row->last_name;
+                    //     $middleName = $row->middle_name;
+                    //     $fullName   = strtoupper($lastName) . ' '. $firstName .' '. $middleName;
+                    //     $email      = $row->email;
+                    //     $phoneNumber= $row->phone_number;
+                    //     $dob        = $row->date_of_birth;
+                    //     $gender     = $row->gender;
+                    //     $religion   = $row->religion;
+                    //     $department = $row->program;
+                    //     $college    = $row->course;
+                    //     }
+                    //     // registered
+                    //     $username   = strtolower($appID);
+                    //     $surname    = strtolower($lastName);
+                    //     $password   = password_hash($surname, PASSWORD_BCRYPT);
+                    //     $role       = "not_student";
+                    //     $status     = "active";
+
+                    //     $result = $Mailer->sendMail($email, $subject, $body, $fullName);
     
                         // $createStudent  =   $db->prepare("INSERT INTO students (matric_no, application_id, last_name, first_name, middle_name, email, mobile_no, dob, gender, religion, admission_session, admission_year, course, program) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                         // $createStudent->execute([ $nmatric, $appID, $lastName, $firstName, $middleName, $email, $phoneNumber, $dob, $gender, $religion, $current_session, $thisYear, $college, $department]);
@@ -136,15 +138,15 @@ session_start();
                         //     $response['message']        = 'Error Admitting Student !!!';
     
                         // }
-                    }
+                //     }
                 
-                } else {
+                // } else {
 
-                    $response['status']         = 'fail';
-                    $response['statusCode']      = 400;
-                    $response['message']        = 'Student Already Profiled, Contact ICT !!!';
+                //     $response['status']         = 'fail';
+                //     $response['statusCode']      = 400;
+                //     $response['message']        = 'Student Already Profiled, Contact ICT !!!';
 
-                }
+                // }
                  // new_student
                  // not_student
                  // student
