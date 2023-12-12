@@ -73,7 +73,7 @@ session_start();
                         // $createUser  =   $db->prepare("INSERT INTO users (username, email, password, role, status) VALUES(?,?,?,?,?)");
                         // $createUser->execute([$username, $email, $password, $role, $status]);
                         
-                        if ($createStudent && $createUser) {
+                        // if ($createStudent && $createUser) {
     
                             // $appData    = ["application_status" => "admitted", "application_session" => $current_session];
                             // $upd_admiss = $Crud->update("application", "application_id", $appID, $appData);
@@ -129,13 +129,13 @@ session_start();
         
                             // }
     
-                        } else {
+                        // } else {
     
-                            $response['status']         = 'fail';
-                            $response['statusCode']      = 400;
-                            $response['message']        = 'Error Admitting Student !!!';
+                        //     $response['status']         = 'fail';
+                        //     $response['statusCode']      = 400;
+                        //     $response['message']        = 'Error Admitting Student !!!';
     
-                        }
+                        // }
                     }
                 
                 } else {
