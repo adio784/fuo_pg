@@ -214,6 +214,10 @@
                     cancel: true,
                     confirm: true,
                     },
+
+                    
+
+
                 }).then((result) => {
                 // if (result.true) {
 
@@ -246,6 +250,14 @@
                             theme: 'minimal',
                             });
 
+                            // $(document).ajaxStop(function(){
+                            //     window.location.reload();
+                            // });
+
+                          setTimeout( function(){// wait for 5 secs(2)
+                              location.reload(); // then reload the page.(3)
+                          }, 5000); 
+
                         } else {
                             
                             $login_btn.html('Admit');
@@ -265,7 +277,11 @@
                             theme: 'minimal',
                             });
 
-                        }
+                            setTimeout( function(){// wait for 5 secs(2)
+                              location.reload(); // then reload the page.(3)
+                          }, 5000); 
+
+                          }
                         },
                         error: function (xhr, status, error) {
                             console.error(xhr.responseText);
