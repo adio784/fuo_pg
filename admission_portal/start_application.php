@@ -181,7 +181,7 @@ if ($sts == "registered" || $sts == "admitted"){
 
                                 <div class="col-sm-4">
                                 <label for="birthDate" class="col-sm-12 col-form-label">Dat of Birth *</label>
-                                  <input id="birthDate" type="date" class="required form-control" max="2003-01-01" required>
+                                  <input id="birthDate" type="date" class="required form-control" max="2003-12-31" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -591,8 +591,10 @@ if ($sts == "registered" || $sts == "admitted"){
           success: function (response) {
 
             if (response.status == 'success') {
+
               document.getElementById("pg_application_form").reset();
               $submit_btn.html('SUBMIT APPLICATION');
+              $submit_btn.removeClass('disabled');
                     
               Lobibox.notify('success', {
                 msg: response.message,
@@ -603,6 +605,7 @@ if ($sts == "registered" || $sts == "admitted"){
                 delay: 15000,
                 theme: 'minimal',
               });
+              
               $('#overlay').hide();
               $('#preloader').hide();
 
@@ -611,6 +614,8 @@ if ($sts == "registered" || $sts == "admitted"){
             } else {
               
               $submit_btn.html('SUBMIT APPLICATION');
+              $submit_btn.removeClass('disabled');
+
               Lobibox.notify('error', {
                 msg: response.message,
                 class: 'lobibox-notify-error',
