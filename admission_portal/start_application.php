@@ -148,20 +148,20 @@ if ($sts == "registered" || $sts == "admitted"){
                         <section style="display: block; overflow: scroll">
                             <div class="form-group">
                                 <label for="firstName"> First Name *</label>
-                                <input class="required form-control" id="firstName" type="text" value="<?php echo $User->first_name; ?>">
+                                <input class="required form-control" id="firstName" type="text" required value="<?php echo $User->first_name; ?>">
                             </div>
                             <div class="form-group">
-                                <label for="middleName"> Middle Name *</label>
+                                <label for="middleName"> Middle Name </label>
                                 <input id="middleName" type="text" class="required form-control" value="<?php echo $User->middle_name; ?>">
                             </div>
                             <div class="form-group">
                                 <label for="lastName"> Last Name *</label>
-                                <input id="lastName" type="text" class="required form-control" value="<?php echo $User->last_name; ?>">
+                                <input id="lastName" type="text" class="required form-control" required value="<?php echo $User->last_name; ?>">
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-4">
                                 <label for="gender" class="col-sm-12 col-form-label">Gender *</label>
-                                <select class="required form-control" id="gender">
+                                <select class="required form-control" id="gender" required>
                                   <option value="" selected> -- Select Option -- </option>
                                   <option value="Male">Male</option>
                                   <option value="Female">Female</option>
@@ -171,7 +171,7 @@ if ($sts == "registered" || $sts == "admitted"){
                               
                                 <div class="col-sm-4">
                                 <label for="religion" class="col-sm-12 col-form-label">Religion *</label>
-                                <select class="required form-control" id="religion">
+                                <select class="required form-control" id="religion" required>
                                   <option value="">-- Select Religion -- </option>
                                   <option value="Islam">Islam</option>
                                   <option value="Christainity">Christainity</option>
@@ -181,7 +181,7 @@ if ($sts == "registered" || $sts == "admitted"){
 
                                 <div class="col-sm-4">
                                 <label for="birthDate" class="col-sm-12 col-form-label">Dat of Birth *</label>
-                                  <input id="birthDate" type="date" class="required form-control">
+                                  <input id="birthDate" type="date" class="required form-control" max="2003-01-01" required>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -276,12 +276,12 @@ if ($sts == "registered" || $sts == "admitted"){
                             <div class="form-group row">
                               <div class="col-sm-6">
                                 <label for="undergraduateCourse" class="col-sm-12 col-form-label">Undergraduate Course *</label>
-                                <input id="undergraduateCourse" type="text" class="required form-control">
+                                <input id="undergraduateCourse" type="text" class="required form-control" required>
                               </div>
                               
                               <div class="col-sm-6">
                                 <label for="classDegree" class="col-sm-12 col-form-label">Class of Degree *</label>
-                                <select class="required form-control" id="classDegree">
+                                <select class="required form-control" id="classDegree" required>
                                   <option value="" selected> -- Select Degree -- </option>
                                   <option>Third Class</option>
                                   <option>Second Class Lower</option>
@@ -294,18 +294,18 @@ if ($sts == "registered" || $sts == "admitted"){
 
                             <div class="form-group">
                               <label for="instituteAtt"> Institution Attended *</label>
-                              <input id="instituteAtt" type="text" class="required form-control">
+                              <input id="instituteAtt" type="text" class="required form-control" required>
                             </div>
 
                             <div class="form-group d-none">
                               <label for="entryMode"> Mode of Entry *</label>
-                              <input id="entryMode" type="text" class="required form-control">
+                              <input id="entryMode" type="text" class="required form-control" required>
                             </div>
 
                             <div class="form-group">
                               <label for="courseOfStudy"> Course of Study *</label>
                               <!-- <input id="courseOfStudy" type="text" class="required form-control"> -->
-                              <select id="courseOfStudy" class="required form-control" >
+                              <select id="courseOfStudy" class="required form-control" required>
                                   <option value="" selected> -- Select Course of Study -- </option>
                                   <?php 
                                   if ($Courses !== false ) {
@@ -324,18 +324,18 @@ if ($sts == "registered" || $sts == "admitted"){
                           <section style="display: block; overflow: scroll">
                               <div class="form-group">
                                 <label for="oLevel">O Levels *</label>
-                                <input id="oLevel" type="file" class="required form-control" accept=".jpg, .jpeg, .png">
+                                <input id="oLevel" type="file" class="required form-control" accept=".jpg, .jpeg, .png" required>
                                 <!-- accept="application/pdf,image/*" -->
                               </div>
 
                               <div class="form-group">
                                 <label for="undergCert">Undergraduate Certificate *</label>
-                                <input id="undergCert" type="file" class="required form-control" accept="application/pdf*">
+                                <input id="undergCert" type="file" class="required form-control" accept="application/pdf*" required>
                               </div>
 
                               <div class="form-group">
                                 <label for="tranScripts"> Transcripts *</label>
-                                <input id="tranScripts" type="file" class="required form-control" accept="application/pdf,image/*">
+                                <input id="tranScripts" type="file" class="required form-control" accept="application/pdf,image/*" required>
                               </div>
 
                               <?php if($User->program == '836293'){ $isPHD = 1; ?>
@@ -349,7 +349,7 @@ if ($sts == "registered" || $sts == "admitted"){
                               <input type="hidden" name="" id="isPhd" value="<?php echo $isPHD; ?>">
                               <div class="form-group">
                                 <label for="passPorts"> Passport *</label>
-                                <input id="passPorts" type="file" class="required form-control" accept="application/pdf,image/*">
+                                <input id="passPorts" type="file" class="required form-control" accept="application/pdf,image/*" required>
                               </div>
                               <div class="form-group">
                                   <label class="col-lg-12 control-label">(*) Mandatory</label>
