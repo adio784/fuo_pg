@@ -122,7 +122,7 @@
 
                         <tr>
                             <td> <?= $count ?> </td>
-                            <td><img src="../admission_portal/admissionUploads/<?= $img ?>" class="product-img" alt="product img"></td>
+                            <td><img src="../admission_portal/admissionUploads/<?= $img ?>" class="product-img" alt="applicant img"></td>
                             <td> <?= $appID ?> </td>
                             <td> <?= $name ?> </td>
                             <td> <span class="badge gradient-quepal text-white shadow p-2"><?= $prog ?></span></td>
