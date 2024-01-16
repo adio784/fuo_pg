@@ -21,10 +21,10 @@ class Mailer {
         $this->mailer->isSMTP();
         $this->mailer->Host       = 'smtp.gmail.com';
         $this->mailer->SMTPAuth   = true;
-        $this->mailer->Username   = 'adioridwan784@gmail.com';
-        $this->mailer->Password   = 'oyja rpia qbyv zmsa';
-        $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //PHPMailer::ENCRYPTION_STARTTLS;
-        $this->mailer->Port       = 465; //587;
+        $this->mailer->Username   = 'fuosogbo@gmail.com';
+        $this->mailer->Password   = 'ddcdpbvankoytkdf';
+        $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;//PHPMailer::ENCRYPTION_SMTPS; //
+        $this->mailer->Port       = 587; //465 ;
 
     }
 
