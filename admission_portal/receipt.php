@@ -28,6 +28,11 @@ if( !isset($_SESSION['user_id']) && !isset($_SESSION['admStatus']) ){
     // Ensure that the local file path for the QR code image is valid
     $qrImagePath = '../qrimages/qrcode.png';
 
+    // Create directory if not exist ...............
+    if ( !file_exists($qrImagePath)) {
+      mkdir('../qrimages/', 0777, true);
+    }
+
     // Download the QR code image from the URL and save it to the local file path
     file_put_contents($qrImagePath, file_get_contents($qrCodeUrl));
 

@@ -2,7 +2,7 @@
 session_start();
     // include head start here
     if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
-        header('Location: /admission_portal/dashboard');
+        header('Location: dashboard');
       } else {
         require_once 'includes/head.php';
       }
@@ -54,7 +54,7 @@ session_start();
                                 <input type="hidden" name="login" value="<?php echo rand() ?>">
                                 <button type="submit" id="loginBtn" class="btn btn-outline-primary btn-block waves-effect waves-light">Login</button>
                                 <div class="text-center pt-3">
-                                    <p class="text-muted">New applicant ? <a href="registration"> Register </a></p>
+                                    <p class="text-muted">New applicant ? <a href="registration"> Create an Account </a></p>
                                 </div>
                             </form>
                         </div>

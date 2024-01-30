@@ -195,6 +195,7 @@ if ($sts == "registered" || $sts == "admitted"){
                               <label for="">Country of Origin</label>
                               <select class="required form-control" id="countryOrigin" required>
                                   <option value="" selected>-- Select Country --</option>
+                                  <option value="NG">Nigeria</option>
                                   <?php 
                                     while($CtryOrg = $CountryOrg->fetchObject() ){?>
                                     <option value="<?php echo $CtryOrg->country_code; ?>"><?php echo $CtryOrg->country_name; ?></option>
@@ -205,15 +206,12 @@ if ($sts == "registered" || $sts == "admitted"){
                               <label for="">State of Origin</label>
                               <select class="required form-control" id="stateOrigin" required>
                                   <option value="" selected>-- Select State --</option>
-                                  <option value="oyo">Nigeria</option>
-                                  <option value="osun">USA</option>
                               </select>
                             </div>
                             <div class="col-4">
                               <label for="">LGA of Origin</label>
                               <select class="required form-control" id="lgaOrigin" required>
                                   <option value="" selected>-- Select LGA --</option>
-                                  <option> Aja </option>
                               </select>
                             </div>
                           </div>
@@ -226,6 +224,7 @@ if ($sts == "registered" || $sts == "admitted"){
                               <label for="country"> Country of Residence *</label>
                               <select class="required form-control" id="country" required>
                                   <option value="" selected>-- Select Country --</option>
+                                  <option value="NG">Nigeria</option>
                                   <?php 
                                     while($Country = $Countries->fetchObject()){?>
                                     <option value="<?php echo $Country->country_code; ?>"><?php echo $Country->country_name; ?></option>
@@ -276,7 +275,7 @@ if ($sts == "registered" || $sts == "admitted"){
                             <div class="form-group row">
                               <div class="col-sm-6">
                                 <label for="undergraduateCourse" class="col-sm-12 col-form-label">Undergraduate Course *</label>
-                                <input id="undergraduateCourse" type="text" class="required form-control" required>
+                                <input id="undergraduateCourse" type="text" class="required form-control" style="text-transform: capitalize;" placeholder="Follow this format: Computer Science" required>
                               </div>
                               
                               <div class="col-sm-6">
@@ -294,7 +293,7 @@ if ($sts == "registered" || $sts == "admitted"){
 
                             <div class="form-group">
                               <label for="instituteAtt"> Institution Attended *</label>
-                              <input id="instituteAtt" type="text" class="required form-control" required>
+                              <input id="instituteAtt" type="text" class="required form-control" autocapitalize="words" style="text-transform: capitalize;" placeholder="Follow this format: Fountain University, Osogbo" required>
                             </div>
 
                             <div class="form-group d-none">
@@ -321,8 +320,11 @@ if ($sts == "registered" || $sts == "admitted"){
                         </section>
 
                         <h3>Uploading of Documents</h3>
+                        
                           <section style="display: block; overflow: scroll">
+                            
                               <div class="form-group">
+                                <p class="text-warning"> <strong> 150KB on all uploads, all files must be in jpeg, jpg, png format, except transcript, which can be pdf format. </strong> </p>
                                 <label for="oLevel">O Levels *</label>
                                 <input id="oLevel" type="file" class="required form-control" accept=".jpg, .jpeg, .png" required>
                                 <!-- accept="application/pdf,image/*" -->
@@ -507,6 +509,7 @@ if ($sts == "registered" || $sts == "admitted"){
 
                                     <div class="row">
                                       <!-- Images -->
+                                      
                                       <div class="col-lg-4 col-md-6 col-sm-12">
                                         <label for="">O'level Upload</label>
                                         <input type="file" name="oLevel" class="d-none1 d-none" id="olu">

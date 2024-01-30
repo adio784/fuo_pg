@@ -38,7 +38,7 @@
 						   <div class="form-group">
 							<div class="position-relative has-icon-left">
 								<label for="exampleInputMiddleName" class="sr-only">Middle Name</label>
-								<input type="text" id="exampleInputName" class="form-control" placeholder="Middle Name" name="middlename" required>
+								<input type="text" id="exampleInputName" class="form-control" placeholder="Middle Name" name="middlename">
 								<div class="form-control-position">
 									<i class="icon-user"></i>
 								</div>
@@ -62,12 +62,7 @@
 							  </div>
 						   </div>
 						  </div>
-						  <div class="form-group mb-0">
-						   <div class="demo-checkbox">
-			                <input type="checkbox" id="user-checkbox" class="filled-in chk-col-primary" checked="" required/>
-			                <label for="user-checkbox">I Accept terms & conditions</label>
-						  </div>
-						 </div>
+						 
 						 <input type="hidden" name="register" value="<?php echo rand() ?>">
 						 <button type="submit" id="registerBtn" class="btn btn-outline-primary btn-block waves-effect waves-light"> Sign Up </button>
 						
@@ -84,6 +79,9 @@
 				<h2 class="text-white">Create An Account</h2>
                 <h5 class="text-white">Welcome to School of Postgraduate Studies (SPGS), Fountain University, Osogbo.</h5>
                 <p class="card-text text-white pt-3"> Fill the form correctly and pay attention to the prompt after the registration.</p>
+				<p>
+					<a href='index' class="btn btn-info mt-4 mb-2"> Click here to login </a>
+				</p>
                 <p class="card-text text-white pt-3"> Thank you!.</p>
              </div>
 	    	</div>
@@ -112,6 +110,7 @@
 				<li> Password : <strong id="lastname"> </strong> </li>
 			</ul>
 			<p> <a href="index" class="btn btn-info p-2"> Click here to continue application </a>
+			<p> <strong>NB:</strong>  Copy / Screenshot the registration details. </p>
 			<p> For further information, contact PG support. </p>
 			</div>
 			<div class="modal-footer">

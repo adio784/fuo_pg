@@ -18,7 +18,7 @@
               tempor
               incididunt ut labore et
               dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exer</p>
-            <a href="admission_portal/" class="btn btn-primary" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".7">Apply now</a>
+            <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".7">Apply now</a>
           </div>
         </div>
       </div>
@@ -31,7 +31,7 @@
               tempor
               incididunt ut labore et
               dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exer</p>
-            <a href="admission_portal/" class="btn btn-primary" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".7">Apply now</a>
+            <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".7">Apply now</a>
           </div>
         </div>
       </div>
@@ -44,7 +44,7 @@
               tempor
               incididunt ut labore et
               dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exer</p>
-            <a href="admission_portal/" class="btn btn-primary" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="zoomIn" data-delay-in=".7">Apply now</a>
+            <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="zoomIn" data-delay-in=".7">Apply now</a>
           </div>
         </div>
       </div>

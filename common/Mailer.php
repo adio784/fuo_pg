@@ -25,7 +25,7 @@ class Mailer {
         $this->mailer->Password   = 'ddcdpbvankoytkdf';
         $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;//PHPMailer::ENCRYPTION_SMTPS; //
         $this->mailer->Port       = 587; //465 ;
-
+        
     }
 
     public function sendMail($to, $subject, $body, $name)

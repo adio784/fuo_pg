@@ -10,7 +10,6 @@ require_once '../../common/Sanitizer.php';
 
 $database   = new Database();
 $Sanitizer  = new Sanitizer;
-$Sanitiz    = $Sanitizer->sanitizeInput($firstname);
 
 if (isset($_POST['login'])) {
     

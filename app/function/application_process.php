@@ -113,7 +113,8 @@
                             'email'             => $email,
                             'callback_url'      => "http://localhost/fuo_pg/app/function/application_process.php",
                             "currency"          => "NGN",
-                            "transactionId"     => $transferReff,
+                            "reference"         => $transferReff,
+                            'trxref'        =>  '',
                             "metadata"          => [
                                 [
                                     "Name"      => "Application",
@@ -124,6 +125,14 @@
                                     "Value"     => $name
                                 ],
                                 [
+                                    "Name"      => "Email",
+                                    "Value"     => $email
+                                ],
+                                [
+                                    "Name"      => "Amount paid",
+                                    "Value"     => $amount
+                                ],
+                                [
                                     "Name"      => "Purpose",
                                     "Value"     => "Application Fee"
                                 ],
@@ -132,7 +141,7 @@
 
                         $paymentResult = $xpressPay->PayStack($data);
                         $paymentStatus = $paymentResult['status'];
-                        var_export ($paymentResult);
+                        // var_export ($paymentResult);
                         if ($paymentStatus== true) {
                             // Handle the successful payment initiation
                             $paymentData = $paymentResult['data'];
@@ -203,7 +212,8 @@
                             'email'             => $email,
                             'callback_url'      => "http://localhost/fuo_pg/app/function/application_process.php",
                             "currency"          => "NGN",
-                            "transactionId"     => $transferReff,
+                            "reference"         => $transferReff,
+                            'trxref'            =>  '',
                             "metadata"          => [
                                 [
                                     "Name"      => "Application",
@@ -212,6 +222,14 @@
                                 [
                                     "Name"      => "Fullname",
                                     "Value"     => $name
+                                ],
+                                [
+                                    "Name"      => "Email",
+                                    "Value"     => $email
+                                ],
+                                [
+                                    "Name"      => "Amount paid",
+                                    "Value"     => $amount
                                 ],
                                 [
                                     "Name"      => "Purpose",
@@ -243,7 +261,7 @@
         }
 
 
-        // Call back function for Xpress-payments
+        // Api response to update application payment (Xpresspay)
         if ( isset($_GET['xpayment_callback']) )
         {
             $transferReff = $_GET['xpayment_callback'];
@@ -261,7 +279,8 @@
                 $crData = [
                     "payment_ref"       => $paymentData->paymentReference,
                     "message"           => $paymentVResult->responseMessage,
-                    "payment_status"    => "success"
+                    "payment_status"    => "success",
+                    "payment_mode"      => "xpresspay"
                 ];
                 $appData  = [ "application_status" => "paid" ];
                 $createPayment  =  $Crud->update('application_payment', 'transactionId', $transferReff, $crData);
@@ -285,16 +304,17 @@
             if ($paymentVResult['status'] == true) {
                 
                 $paymentData = $paymentVResult['data'];
-                // var_dump($paymentData);
+                var_export(json_encode($paymentData));
                 $crData = [
-                    "payment_ref"       => $paymentData['reference'],
+                    "payment_ref"       => $paymentData['id'],
                     "message"           => $paymentVResult['message'],
-                    "payment_status"    => "success"
+                    "payment_status"    => "success",
+                    "payment_mode"      => "paystack"
                 ];
                 $appData        = [ "application_status" => "paid" ];
                 $createPayment  = $Crud->update('application_payment', 'transactionId', $transferReff, $crData);
                 $updateAppl     = $Crud->update('application', 'application_id', $appID, $appData);
-                header('Location: http://localhost/fuo_pg/admission_portal/payment?pay_success=Payment%20Successful!!!');
+                header('Location: http://localhost/fuo_pg/admission_portal/payment?trx_id='.$transferReff.'&&pay_success=Payment%20Successful!!!');
 
             } 
             else {
@@ -304,7 +324,7 @@
         }
 
 
-        // Api response to update application payment (Xpresspay)
+        // Application form submittion
         if ( isset($_POST['pgAppToken']) )
         {
 
@@ -475,6 +495,14 @@
                                     "Value"     => $name
                                 ],
                                 [
+                                    "Name"      => "Email",
+                                    "Value"     => $email
+                                ],
+                                [
+                                    "Name"      => "Amount paid",
+                                    "Value"     => $amount
+                                ],
+                                [
                                     "Name"      => "Purpose",
                                     "Value"     => "Application Fee"
                                 ],
@@ -508,6 +536,14 @@
                                 [
                                     "Name"      => "Fullname",
                                     "Value"     => $name
+                                ],
+                                [
+                                    "Name"      => "Email",
+                                    "Value"     => $email
+                                ],
+                                [
+                                    "Name"      => "Amount paid",
+                                    "Value"     => $amount
                                 ],
                                 [
                                     "Name"      => "Purpose",
@@ -557,6 +593,14 @@
                                     "Value"     => $name
                                 ],
                                 [
+                                    "Name"      => "Email",
+                                    "Value"     => $email
+                                ],
+                                [
+                                    "Name"      => "Amount paid",
+                                    "Value"     => $amount
+                                ],
+                                [
                                     "Name"      => "Purpose",
                                     "Value"     => "Application Fee"
                                 ],
@@ -591,6 +635,14 @@
                                 [
                                     "Name"      => "Fullname",
                                     "Value"     => $name
+                                ],
+                                [
+                                    "Name"      => "Email",
+                                    "Value"     => $email
+                                ],
+                                [
+                                    "Name"      => "Amount paid",
+                                    "Value"     => $amount
                                 ],
                                 [
                                     "Name"      => "Purpose",

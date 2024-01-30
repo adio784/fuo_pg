@@ -69,13 +69,17 @@
         <div class="collapse navbar-collapse" id="navigation">
           <ul class="navbar-nav ml-auto text-center">
             <li class="nav-item active">
-              <a class="nav-link" href="index.html">Home</a>
+              <a class="nav-link" href="index">Home</a>
             </li>
+            
             <li class="nav-item @@events">
-              <a class="nav-link" href="events.html">Admission portal</a>
+              <a class="nav-link" href="admission_portal/">Admission portal</a>
             </li>
             <li class="nav-item @@blog">
-              <a class="nav-link" href="blog.html">Student portal</a>
+              <a class="nav-link" href="students/">Student portal</a>
+            </li>
+            <li class="nav-item @@blog">
+              <a class="nav-link" href="lecturers/">Lecturer portal</a>
             </li>
 
             <li class="nav-item @@contact">

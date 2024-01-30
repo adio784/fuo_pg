@@ -1,4 +1,5 @@
 <?php
+
 require_once '../../core/autoload.php';
 require_once '../../core/Database.php';
 require_once '../../common/Auth.php';

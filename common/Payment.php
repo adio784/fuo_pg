@@ -87,7 +87,6 @@ class PAYMENT {
     // Payment verifications .........................................................
     public function verifyPaystack($PaymentRef) {
         
-
         $apiUrl = "https://api.paystack.co/transaction/verify/{$PaymentRef}";
 
         $headers = [
