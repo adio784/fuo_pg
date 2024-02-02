@@ -92,7 +92,6 @@
         }
 
         // Procees student payment ........................................................
-
         if ( isset($_POST['payment_process']) ) {
 
 
@@ -117,7 +116,7 @@
                     if ($getCheckExistPayment->payment_status ==1) {
 
                         $msg = 'Payment Already Exist !!!';
-                        header("Location: /students/payments?payment_error={$msg}");
+                        header("Location: payments?payment_error={$msg}");
 
                     } else {
 
@@ -149,7 +148,7 @@
                 $data = [
                     'amount'            => $amountToPay,
                     'email'             => $email,
-                    'callBackUrl'       => "http://". $uri."/fuo_pg/app/function/student_actions.php?xpayment_callback={$transferReff}",
+                    'callBackUrl'       => "http://". $uri."    /app/function/student_actions.php?xpayment_callback={$transferReff}",
                     "currency"          => "NGN",
                     "transactionId"     => $transferReff,
                     "metadata"          => [
@@ -186,13 +185,13 @@
                     
                     $errorMessage = $paymentResult['data'];
                     $msg = "Payment Failed, Try Later!!!";
-                    header("Location: /students/payments?error={$msg}");
+                    header("Location: ../../students/payments?error={$msg}");
                 }
 
             } else {
 
                 $msg = 'Unable to update payment record, due to system error !!!';
-                header("Location: /students/payments?error={$msg}");
+                header("Location: ../../students/payments?error={$msg}");
 
             }
 

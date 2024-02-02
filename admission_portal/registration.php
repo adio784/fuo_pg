@@ -103,7 +103,7 @@
 			</div>
 			<div class="modal-body">
 			<h4>Congratulations !</h4>
-			<p>You account has been successfully created. </p>
+			<p>Your account has been successfully created. </p>
 			<p>Here are your login Details:</p>
 			<ul>
 				<li> Username : <strong id="appid"> </strong> </li>

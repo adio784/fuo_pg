@@ -47,7 +47,7 @@
 		 		<img src="../../assets/images/fuo_logo.jpeg">
 		 	</div>
 		  <div class="card-title text-uppercase text-center py-3">Sign In</div>
-		    <form method="POST" action="../app/function/Userauth.php" id="admissionLogin">
+		    <form method="POST" action="../../../app/function/Userauth.php" id="admissionLogin">
 			  <div class="form-group">
 			   <div class="position-relative has-icon-right">
 				  <label for="exampleInputUsername" class="sr-only">Username</label>
@@ -125,7 +125,7 @@
             // Perform AJAX validation
             $.ajax({
                 type: 'POST',
-                url: '../app/function/Userauth.php', 
+                url: '../../app/function/Userauth.php', 
                 data: formData,
                 success: function (response) {
                     

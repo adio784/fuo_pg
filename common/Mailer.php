@@ -17,14 +17,14 @@ class Mailer {
         
         $this->mailer = new PHPMailer(true);
 
-        $this->mailer->SMTPDebug = SMTP::DEBUG_OFF; //SMTP::DEBUG_SERVER;
+        $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;              //SMTP::DEBUG_OFF; //SMTP::DEBUG_SERVER;
         $this->mailer->isSMTP();
-        $this->mailer->Host       = 'smtp.gmail.com';
+        $this->mailer->Host       = 'mail.fuo.edu.ng';
         $this->mailer->SMTPAuth   = true;
-        $this->mailer->Username   = 'fuosogbo@gmail.com';
-        $this->mailer->Password   = 'ddcdpbvankoytkdf';
-        $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;//PHPMailer::ENCRYPTION_SMTPS; //
-        $this->mailer->Port       = 587; //465 ;
+        $this->mailer->Username   = 'pgschool@fuo.edu.ng';
+        $this->mailer->Password   = 'Fount@!nUniversity';
+        $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;        //PHPMailer::ENCRYPTION_STARTTLS;
+        $this->mailer->Port       = 465;                                //587
         
     }
 

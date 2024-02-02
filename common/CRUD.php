@@ -63,6 +63,12 @@ class CRUD {
         $stmt->execute([$id, $val]);
         return $stmt->fetch(PDO::FETCH_OBJ); // Return data as an associative array
     }
+
+    public function countByThree($table, $field, $id, $field2, $val, $field3, $va3) {
+        $stmt = $this->db->prepare("SELECT COUNT(id) AS num FROM $table WHERE $field = ? AND $field2 = ? AND $field3 = ? ");
+        $stmt->execute([$id, $val, $va3]);
+        return $stmt->fetch(PDO::FETCH_OBJ); // Return data as an associative array
+    }
     
     public function readAll($tableName) {
         try {

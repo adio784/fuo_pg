@@ -16,9 +16,9 @@
       $sts        = $User->application_status;
       $active     = 1;
       $isPHD      = 0;
-      $Countries  = $database->getConnection()->prepare('SELECT id, country_name, country_code FROM `countries` GROUP BY country_name ORDER BY country_name ASC');
+      $Countries  = $database->getConnection()->prepare('SELECT country_name, country_code, code FROM `countries` ORDER BY country_name ASC');
       $Countries->execute();
-      $CountryOrg = $database->getConnection()->prepare('SELECT id, country_name, country_code FROM `countries` WHERE `status`=? GROUP BY country_name ORDER BY country_name ASC');
+      $CountryOrg = $database->getConnection()->prepare('SELECT country_name, country_code, code FROM `countries` WHERE `status`=? ORDER BY country_name ASC');
       $CountryOrg->execute([1]);
 
       $Courses    = $Crud->readAllByOrder('program_course', 'program_id', $User->program, 'course_name', 'ASC');
@@ -195,7 +195,7 @@ if ($sts == "registered" || $sts == "admitted"){
                               <label for="">Country of Origin</label>
                               <select class="required form-control" id="countryOrigin" required>
                                   <option value="" selected>-- Select Country --</option>
-                                  <option value="NG">Nigeria</option>
+                                  <option value="160">Nigeria</option>
                                   <?php 
                                     while($CtryOrg = $CountryOrg->fetchObject() ){?>
                                     <option value="<?php echo $CtryOrg->country_code; ?>"><?php echo $CtryOrg->country_name; ?></option>
@@ -224,7 +224,7 @@ if ($sts == "registered" || $sts == "admitted"){
                               <label for="country"> Country of Residence *</label>
                               <select class="required form-control" id="country" required>
                                   <option value="" selected>-- Select Country --</option>
-                                  <option value="NG">Nigeria</option>
+                                  <option value="160">Nigeria</option>
                                   <?php 
                                     while($Country = $Countries->fetchObject()){?>
                                     <option value="<?php echo $Country->country_code; ?>"><?php echo $Country->country_name; ?></option>

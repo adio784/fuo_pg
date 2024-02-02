@@ -384,6 +384,13 @@
                 $masterCertNewDest = NULL;
             }
 
+            // Get department ID from the PG Course selected =============================================
+            while ($getDepartment          = $Crud->read('program_course', 'id', $courseOfStudy) )
+            {
+                $department                = $getDepartment->department_id;
+            }
+            // ===========================================================================================
+
             // Update application record ..................................................................
             $userData       = [
                 'first_name'    => $firstname,
@@ -398,6 +405,7 @@
                 'state'         => $state,
                 'lga'           => $city,
                 'course'        => $courseOfStudy,
+                'department'    => $department,
                 'institute_attended'=> $instituteAtt,
                 'course_studied'    => $undergraduateCourse,
                 'class_degree'      => $classDegree,

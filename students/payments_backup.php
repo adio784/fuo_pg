@@ -1,14 +1,9 @@
 <?php include 'includes/header.php'; ?>
 
-<?php
-    echo $_POST['payment_session'];
-    if ( !isset($_POST['payment_session']) || isset($_POST['payment_session'])=='' && $page_path == "payments.php" ) 
-    {
-        header('location: pre_payments');
-    }
+// Get Administrative fee
+    $getSchoolFee           = $Crud->readAllByTwo("student_fees", "status", 1, "AND", "program_id", $programId);
+    foreach ($getSchoolFee as $gschoolFee) $schoolFee = number_format($gschoolFee->amount_paid);
     
-?>
-
 <div class="clearfix"></div>
 	
   <div class="content-wrapper">
@@ -16,7 +11,7 @@
       <!-- Breadcrumb-->
      <div class="row pt-2 pb-2">
         <div class="col-sm-9">
-		    <h4 class="page-title">Student Fees > > > <?= $payment_session  ?></h4>
+		    <h4 class="page-title">Student Fees > > ></h4>
 		    <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="admission_home">Home</a></li>
             <li class="breadcrumb-item"><a href="javaScript:void();">Application</a></li>
@@ -76,19 +71,18 @@
                     <tr>
                         <th width="75px">*</th>
                         <th>Purpose</th>
-                        <th>Semester</th>
                         <th>Amount to pay</th>
                     </tr>
                 </thead>
                 <tbody>
-                        <tr>
-                            <td> <input type="checkbox" class="fee_check form-control" disabled> </td>
-                            <th> <strong> Administrative Fee</strong></th>
-                            <th> <span class="badge bg-secondary text-white p-2">All Semester</span></th>
-                            <th> <?= $adminFee ?> </th>
-                        </tr>
-
                     <?php $count = 1; ?>
+                        <tr>
+                            <td> <input type="checkbox" data-id="Schoo fee=<?= $gschoolFee->amount_paid ?>" class="fee_check form-control" id="school_fee_check" disabled> </td>
+                            <th> <strong> School Fee</strong> <input type="text" name="paymentsPurposes[Schoo fee]" id="sch_fee" class="form-control" placeholder="enter amount you want to pay"></th>
+                            <th> <?= $schoolFee ?> </th>
+
+
+                        </tr>
 
                         <!-- Iterate thru the existing data -->
                         <?php 
@@ -100,11 +94,10 @@
                                 } else {
                                     foreach( $getPayments as $record ){
 
-                                        if ($record->payment_type == 'Administrative fee') {
+                                        if ($record->payment_type == 'School fee') {
                                             continue;
                                         }
                                         $paymentType    =   $record->payment_type;
-                                        $paymentSemester=   $record->payment_semester;
                                         $amountPaid     =   $record->amount_paid;
                                         $count ++;
                         ?>
@@ -112,8 +105,9 @@
                         <tr>
                             <td><input type="checkbox" name="paymentsPurposes[<?= $paymentType ?>]" data-id="<?= $paymentType ?>=<?= $amountPaid ?>" id="feecheck<?= $count ?>" class="fee_check form-control" value="<?= $amountPaid ?>"> </td>
                             <td> <?= $paymentType ?> </td>
-                            <td> <span class="badge bg-secondary text-white p-2"> <?= ucfirst($paymentSemester) . ' Semester' ?> </span></td>
                             <td> <?= number_format($amountPaid) ?> </td>
+
+
                         </tr>
 
                         </form> 
@@ -125,7 +119,6 @@
                     <tr>
                         <th>*</th>
                         <th>Purpose</th>
-                        <th>Semester</th>
                         <th>Amount to pay</th>
                     </tr>
                 </tfoot>
@@ -187,7 +180,16 @@
                     // alert('unchecked');
                     total_fee -= check_box_value || 0;
                     var replacWrd = ','+purpose_val;
-                }                
+                }
+                
+
+                // $('.fee_check:checked').each(function() {
+                    // total_fee += check_box_value || 0;
+                // });
+
+                // $('.fee_check:not(:checked)').each(function() {
+                //     total_fee -= check_box_value || 0;
+                // });
 
                 // update the school fee field
                 $('#school_fee').val(total_fee);
@@ -204,6 +206,27 @@
                 var checkedFees = $('.fee_check:checked').length;
                 $('#fees_count').text(checkedFees);
             }
+
+            var existingSchoolFee2 = parseInt( $('#school_fee').val() ) || 0;
+            $('#sch_fee').on('keyup', function() {
+
+                $('.fee_check').prop('checked', false);
+
+                var inputValue  = $(this).val();
+                var total_value = existingSchoolFee2;
+                var check_box_value = parseInt(inputValue);
+                var total_fee = 0;
+                
+                total_value += check_box_value || 0;
+               
+                $('#school_fee_check').prop('checked', true, inputValue !== '');
+                $('#school_fee_check').val(total_value);
+                $('#school_fee').val(total_value);
+                
+                
+                updateCounterFee();
+                
+            })
 
         })
     </script>

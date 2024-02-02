@@ -20,7 +20,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
     }
     // Row counts ...............................................................................................................
     $Admitted   = $Crud->countByTwo('application', 'application_status', 'admitted', 'application_session', $current_session);
-    $NotAdmitted= $Crud->countByTwo('application', 'application_status', 'registered', 'application_session', $current_session);
+    $NotAdmitted= $Crud->countByTwo('application', 'application_status', 'recommend', 'application_session', $current_session);
     $TApp       = $Crud->countByOne('application', 'application_session', $current_session);
     $Allapp     = $Crud->countAll('application');
     // ..........................................................................................................................
@@ -40,7 +40,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
                                 AND application.application_status = ?
                                 GROUP BY application.application_id
                                 ORDER BY application.id DESC LIMIT 5");
-    $rquery->execute([$current_session, 'registered']);
+    $rquery->execute([$current_session, 'recommend']);
     $rcount     = $rquery->rowCount();
 
     // ..............................................................................................................................
@@ -60,7 +60,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
                     WHERE application.application_status = ?
                     GROUP BY application.application_id
                     ORDER BY application.id DESC ");
-                    $getNotAdmitted->execute(['registered']);
+                    $getNotAdmitted->execute(['recommend']);
 
     // Get all admitted
     $getAllApplicant= $db->prepare("SELECT  
@@ -96,7 +96,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
                     ORDER BY application.id DESC ");
                     $getAdmitted->execute([$current_session, 'admitted']);
 
-    $getNotice    = $Crud->readAllByTwo('application', 'application_status', 'registered', 'AND', 'application_session', $current_session);
+    $getNotice    = $Crud->readAllByTwo('application', 'application_status', 'recommend', 'AND', 'application_session', $current_session);
 
 
 } else {

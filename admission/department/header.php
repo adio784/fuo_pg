@@ -3,9 +3,9 @@
 session_start();
 if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
     // user_role
-    require_once '../core/autoload.php';
-    require_once '../core/Database.php';
-    require_once '../common/CRUD.php';
+    require_once '../../core/autoload.php';
+    require_once '../../core/Database.php';
+    require_once '../../common/CRUD.php';
 
     $database   = new Database();
     $Crud       = new CRUD($database);
@@ -13,16 +13,20 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
     $uid        = $_SESSION['user_id'];
 
     $csession           = $Crud->read('access', 'setting', 'current_session');
+    $officerD           = $Crud->read('users', 'username', $uid);
+    $officerDept        = $officerD->department_id;
+    $deptDetail         = $Crud->read('department', 'id', $officerDept);
+    $offDepartName      = $deptDetail->department_name;
     $current_session    = $csession->value;
 
     function formatDate($dt) {
       return date('D-M g, Y', strtotime($dt));
     }
     // Row counts ...............................................................................................................
-    $Admitted   = $Crud->countByTwo('application', 'application_status', 'admitted', 'application_session', $current_session);
-    $NotAdmitted= $Crud->countByTwo('application', 'application_status', 'registered', 'application_session', $current_session);
-    $TApp       = $Crud->countByOne('application', 'application_session', $current_session);
-    $Allapp     = $Crud->countAll('application');
+    $Admitted   = $Crud->countByThree('application', 'application_status', 'admitted', 'application_session', $current_session, 'department', $officerDept);
+    $NotAdmitted= $Crud->countByThree('application', 'application_status', 'registered', 'application_session', $current_session, 'department', $officerDept);
+    $TApp       = $Crud->countByTwo('application', 'application_session', $current_session, 'department', $officerDept);
+    $Allapp     = $Crud->countByOne('application', 'department', $officerDept);
     // ..........................................................................................................................
     //  Get recent applicants ....................................................................................................
     $rquery     = $db->prepare("SELECT  
@@ -36,11 +40,12 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
                                 ON programme.program_id = program_course.program_id
                                 INNER JOIN user_credentials
                                 ON application.application_id = user_credentials.application_id
-                                WHERE application.application_session = ? 
+                                WHERE application.application_session = ?
+                                AND application.department = ?
                                 AND application.application_status = ?
                                 GROUP BY application.application_id
                                 ORDER BY application.id DESC LIMIT 5");
-    $rquery->execute([$current_session, 'registered']);
+    $rquery->execute([$current_session, $officerDept, 'registered']);
     $rcount     = $rquery->rowCount();
 
     // ..............................................................................................................................
@@ -58,9 +63,10 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
                     ON application.application_id = user_credentials.application_id
                     -- WHERE application.application_session = ? 
                     WHERE application.application_status = ?
+                    AND application.department = ?
                     GROUP BY application.application_id
                     ORDER BY application.id DESC ");
-                    $getNotAdmitted->execute(['registered']);
+                    $getNotAdmitted->execute(['registered', $officerDept]);
 
     // Get all admitted
     $getAllApplicant= $db->prepare("SELECT  
@@ -74,9 +80,10 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
                     ON programme.program_id = program_course.program_id
                     INNER JOIN user_credentials
                     ON application.application_id = user_credentials.application_id
+                    WHERE application.department = ?
                     GROUP BY application.application_id
                     ORDER BY application.id DESC ");
-                    $getAllApplicant->execute();
+                    $getAllApplicant->execute([$officerDept]);
 
     // Get not admitted
     $getAdmitted  = $db->prepare("SELECT  
@@ -90,11 +97,12 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
                     ON programme.program_id = program_course.program_id
                     INNER JOIN user_credentials
                     ON application.application_id = user_credentials.application_id
-                    WHERE application.application_session = ? 
+                    WHERE application.application_session = ?
+                    AND application.department = ?
                     AND application.application_status = ?
                     GROUP BY application.application_id
                     ORDER BY application.id DESC ");
-                    $getAdmitted->execute([$current_session, 'admitted']);
+                    $getAdmitted->execute([$current_session, $officerDept, 'admitted']);
 
     $getNotice    = $Crud->readAllByTwo('application', 'application_status', 'registered', 'AND', 'application_session', $current_session);
 
@@ -117,28 +125,28 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
   <meta name="author" content=""/>
   <title>Welcome: FUO - Admission Office</title>
   <!--favicon-->
-  <link rel="icon" href="../assets/images/fuo_logo.jpeg" type="image/x-icon">
+  <link rel="icon" href="../../assets/images/fuo_logo.jpeg" type="image/x-icon">
   <!-- jquery steps CSS-->
-  <link rel="stylesheet" type="text/css" href="../assets/plugins/jquery.steps/css/jquery.steps.css">
+  <link rel="stylesheet" type="text/css" href="../../assets/plugins/jquery.steps/css/jquery.steps.css">
   <!-- Vector CSS -->
-  <link href="../assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
+  <link href="../../assets/plugins/vectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet"/>
   <!-- simplebar CSS-->
-  <link href="../assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
+  <link href="../../assets/plugins/simplebar/css/simplebar.css" rel="stylesheet"/>
   <!-- Bootstrap core CSS-->
-  <link href="../assets/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="../../assets/css/bootstrap.min.css" rel="stylesheet"/>
   <!-- animate CSS-->
-  <link href="../assets/css/animate.css" rel="stylesheet" type="text/css"/>
+  <link href="../../assets/css/animate.css" rel="stylesheet" type="text/css"/>
   <!-- Icons CSS-->
-  <link href="../assets/css/icons.css" rel="stylesheet" type="text/css"/>
+  <link href="../../assets/css/icons.css" rel="stylesheet" type="text/css"/>
   <!-- Sidebar CSS-->
-  <link href="../assets/css/sidebar-menu.css" rel="stylesheet"/>
+  <link href="../../assets/css/sidebar-menu.css" rel="stylesheet"/>
   <!-- Custom Style-->
-  <link href="../assets/css/app-style.css" rel="stylesheet"/>
+  <link href="../../assets/css/app-style.css" rel="stylesheet"/>
   <!-- Notification -->
-  <link rel="stylesheet" href="../assets/plugins/notifications/css/lobibox.min.css"/>
+  <link rel="stylesheet" href="../../assets/plugins/notifications/css/lobibox.min.css"/>
     <!--Data Tables -->
-  <link href="../assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
-  <link href="../assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/plugins/bootstrap-datatable/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+  <link href="../../assets/plugins/bootstrap-datatable/css/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css">
   
   <!-- Style for overlay and preloader -->
   <style>
@@ -182,7 +190,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
   </style>
   <!-- Overlay preloader -->
   
-  <script src="../assets/js/jquery.min.js"></script>
+  <script src="../../assets/js/jquery.min.js"></script>
 </head>
 
 <body>
@@ -202,7 +210,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
    <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true" class="bg-body border-right border-light shadow-none">
      <div class="brand-logo">
       <a href="index.html">
-       <img src="../assets/images/fuo_logo.jpeg" class="logo-icon" alt="logo icon">
+       <img src="../../assets/images/fuo_logo.jpeg" class="logo-icon" alt="logo icon">
        <h5 class="logo-text">Admission Office</h5>
      </a>
 	 </div>
@@ -213,13 +221,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
           <i class="icon-home"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
         </a>
       </li>
-      <li>
-        <a href="new_applications" class="waves-effect">
-          <i class="icon-briefcase"></i>
-          <span>New Applicants</span>
-          <small class="badge float-right badge-danger"><?= ($rcount > 0) ? $rcount.' New' : '' ?></small>
-        </a>
-      </li>
+
       <li>
         <a href="admitted_students" class="waves-effect">
           <i class="icon-calendar"></i> <span>Admitted</span>
@@ -232,16 +234,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
           <span>Not Admitted</span>
           <i class="fa fa-angle-left pull-right"></i>
         </a>
-      </li>
-
-      <li>
-        <a href="all_application" class="waves-effect">
-          <i class="icon-layers"></i>
-          <span>All Applications</span>
-          <i class="fa fa-angle-left pull-right"></i>
-        </a>
-      </li>
-     
+      </li>     
 	
       <li class="sidebar-header">OTHER link</li>
       <li><a href="logout" class="waves-effect"><i class="fa fa-circle-o text-yellow"></i> <span>Logout</span></a></li>
@@ -300,13 +293,13 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
 
                 <li class="nav-item">
                 <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown" href="#">
-                    <span class="user-profile"><img src="../assets/images/avatars/avatar-17.png" class="img-circle" alt="user avatar"></span>
+                    <span class="user-profile"><img src="../../assets/images/avatars/avatar-17.png" class="img-circle" alt="user avatar"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                 <li class="dropdown-item user-details">
                     <a href="javaScript:void();">
                     <div class="media">
-                        <div class="avatar"><img class="align-self-start mr-3" src="../assets/images/avatars/avatar-17.png" alt="user avatar"></div>
+                        <div class="avatar"><img class="align-self-start mr-3" src="../../assets/images/avatars/avatar-17.png" alt="user avatar"></div>
                         <div class="media-body">
                         <h6 class="mt-2 user-title">Admission Office</h6>
                         <p class="user-subtitle">admission@fuopg.edu.ng</p>

@@ -27,6 +27,35 @@ session_start();
         $current_session    = $Session->value;                                           //=
         // =================================================================================
 
+        // Recommend Student for Admission .................................................
+        
+        if ( isset($_GET['recommend']) )
+        {
+            $appID = $_GET['recommend'];
+            $appData    = ["application_status" => "recommend", "application_session" => $current_session];
+            $upd_admiss = $Crud->update("application", "application_id", $appID, $appData);
+
+            if ($upd_admiss) {
+
+                $response['status']         = 'success';
+                $response['statusCode']     = 200;
+                $response['message']        = 'Student Recommended for Admittion. ';
+
+            } else {
+
+                $response['status']         = 'fail';
+                $response['statusCode']      = 400;
+                $response['message']        = 'An Error Occured While Processing Your Request, Try Later!!!';
+
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit();
+            
+        }
+        // .................................................................................
+
 
          // Admitting Student
          if ( isset($_GET['admit']) )
@@ -46,19 +75,20 @@ session_start();
                    
                     
                     if ( $std->rowCount() > 0 ) {
-                        while ($row = $std->fetchObject() ) {
-                        $nmatric    = "***";
-                        $firstName  = $row->first_name;
-                        $lastName   = $row->last_name;
-                        $middleName = $row->middle_name;
-                        $fullName   = strtoupper($lastName) . ' '. $firstName .' '. $middleName;
-                        $email      = $row->email;
-                        $phoneNumber= $row->phone_number;
-                        $dob        = $row->date_of_birth;
-                        $gender     = $row->gender;
-                        $religion   = $row->religion;
-                        $department = $row->program;
-                        $college    = $row->course;
+                        while ($row = $std->fetchObject() )
+                        {
+                            $nmatric    = "***";
+                            $firstName  = $row->first_name;
+                            $lastName   = $row->last_name;
+                            $middleName = $row->middle_name;
+                            $fullName   = strtoupper($lastName) . ' '. $firstName .' '. $middleName;
+                            $email      = $row->email;
+                            $phoneNumber= $row->phone_number;
+                            $dob        = $row->date_of_birth;
+                            $gender     = $row->gender;
+                            $religion   = $row->religion;
+                            $department = $row->program;
+                            $college    = $row->course;
                         }
                         // registered
                         $username   = strtolower($appID);
@@ -90,14 +120,15 @@ session_start();
                                             <body>
                                                 <h3> ADMISSION FUO | SCHOOL OF POST GRADUATE STUDIES.</h3>
                                                 <h4>Hello, '.$fullName .'</h4>
-                                                <p>Thank you for your interest, you have been offered a provisional admission at:</p>
-                                                <h4>Fountain University, Osogbo.</h4>
-                                                <a href="http://localhost/fuo_pg/admission_portal/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to the student portal.</a>
-                                                <p> Login Details: </p>
+                                                <p> Here are your login Details:</p>
                                                 <ul>
                                                     <li>username: '. $appID.'</li>
                                                     <li>password: '. $surname .'</li>
                                                 </ul>
+                                                <h4>Fountain University, Osogbo.</h4>
+                                                <a href="http://localhost/fuo_pg/admission_portal/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to the student portal.</a>
+                                                <p> Login Details: </p>
+                                                
                                                 <p> <b> NB:</b> Do not reply to this email </p>
                                                 <img src="https://fuo.edu.ng/wp-content/uploads/2021/02/logo.jpg" alt="Fountain University, Osogbo">
                                             </body>

@@ -8,6 +8,7 @@
      <div class="row pt-2 pb-2">
         <div class="col-sm-9">
 		    <h4 class="page-title">Dashboard > > ></h4>
+        <h6>Department of <span class="badge bg-primary text-white p-2"><?= $offDepartName ?> </span> </h6>
 		    <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="admission_home">Home</a></li>
             <li class="breadcrumb-item"><a href="javaScript:void();">Application</a></li>
@@ -122,14 +123,14 @@
 
                         <tr>
                             <td> <?= $count ?> </td>
-                            <td><img src="../admission_portal/admissionUploads/<?= $img ?>" class="product-img" alt="applicant img"></td>
+                            <td><img src="../../admission_portal/admissionUploads/<?= $img ?>" class="product-img" alt="applicant img"></td>
                             <td> <?= $appID ?> </td>
                             <td> <?= $name ?> </td>
                             <td> <span class="badge gradient-quepal text-white shadow p-2"><?= $prog ?></span></td>
                             <td> <?= $cours ?> </td>
                             <td> <?= formatDate($date) ?> </td>
                             <td> 
-                                <button class="btn btn-primary admissionBtn" type="button" id="<?= $appID ?>"> Admit </button>
+                                <button class="btn btn-primary admissionBtn" type="button" id="<?= $appID ?>"> Recommend </button>
                                 <!-- <a href="../app/function/admit_student.php?admit=<?= $appID ?>" class="btn btn-primary">Admit</a>  -->
                                 
                             </td>
@@ -228,13 +229,13 @@
                     // Perform AJAX validation
                     $.ajax({
                         type: 'GET',
-                        url: '../app/function/admit_student.php?admit='+dataId,
+                        url: '../../app/function/admit_student.php?recommend='+dataId,
                         dataType: 'json',
                         success: function (response) {
                         console.log(response);
                         if (response.status == 'success') {
                                     
-                            $login_btn.html('Admit');
+                            $login_btn.html('Recommend');
                             $login_btn.removeClass('disabled');
                             $('#overlay').hide();
                             $('#preloader').hide();
@@ -260,7 +261,7 @@
 
                         } else {
                             
-                            $login_btn.html('Admit');
+                            $login_btn.html('Recommend');
                             $login_btn.removeClass('disabled');
                             $('#overlay').hide();
                             $('#preloader').hide();

@@ -11,46 +11,37 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
 
     // ........ PAYMENT SESSION .............................................................................
     $payment_session    = isset($_POST['pay_session']) ? $_POST['pay_session'] : $current_session;
-
+    $page_path          = end(explode('/', trim($_SERVER['REQUEST_URI'], '/')));
 
     function formatDate($dt) {
       return date('D-M g, Y', strtotime($dt));
     }
+
     // Row counts ...............................................................................................................
     $Admitted   = $Crud->countByTwo('application', 'application_status', 'admitted', 'application_session', $current_session);
     $NotAdmitted= $Crud->countByTwo('application', 'application_status', 'registered', 'application_session', $current_session);
     $TApp       = $Crud->countByOne('application', 'application_session', $current_session);
     $Allapp     = $Crud->countAll('application');
     // ..........................................................................................................................
-    //  Get recent applicants ....................................................................................................
-    // $rquery     = $db->prepare("SELECT  
-    //                             application.first_name, application.last_name, application.middle_name,
-    //                             application.created_at, application.application_id, user_credentials.passport,
-    //                             application.email, programme.programme_title, program_course.course_name
-    //                             FROM application
-    //                             INNER JOIN programme
-    //                             ON application.program = programme.program_id
-    //                             INNER JOIN program_course
-    //                             ON programme.program_id = program_course.program_id
-    //                             INNER JOIN user_credentials
-    //                             ON application.application_id = user_credentials.application_id
-    //                             WHERE application.application_session = ? 
-    //                             AND application.application_status = ?
-    //                             GROUP BY application.application_id
-    //                             ORDER BY application.id DESC LIMIT 5");
-    // $rquery->execute([$current_session, 'registered']);
-    // $rcount     = $rquery->rowCount();
-
-    // ..............................................................................................................................
+    
     // Get payment histories
     $getPaymentsHistories   = $Crud->readAllByTwo("payments_history", "matric_no", $uid, "AND", "payment_session", $current_session);
-    // Get all available payments
-    $getPayments            = $Crud->readAllByThree("student_fees", "status", 1, "AND", "program_id", $programId, 'AND', 'payment_session', $current_session);
-    // Get school fee
-    $getSchoolFee           = $Crud->readAllByTwo("student_fees", "status", 1, "AND", "program_id", $programId);
-    foreach ($getSchoolFee as $gschoolFee) $schoolFee = number_format($gschoolFee->amount_paid);
-
+    
+    // Notifications
     $getNotice    = $Crud->readAllByTwo('application', 'application_status', 'registered', 'AND', 'application_session', $current_session);
+
+    // Get all available payments
+    if ( isset($_POST['payment_session']) ) {
+      $payment_session        = $_POST['payment_session'];
+      $getPayments            = $Crud->readAllByThree("student_fees", "status", 1, "AND", "program_id", $programId, 'AND', 'payment_session', $payment_session );
+
+      // Get Administrative fee
+      $getAdminFee           = $Crud->readAllByThree("student_fees", "status", 1, "AND", "payment_type", 'Administrative fee', 'AND', 'payment_session', $payment_session);
+      foreach($getAdminFee As $adminFees)
+      $adminFee = number_format($adminFees->amount_paid);
+    }
+    
+    
 
 
 } else {
@@ -170,7 +161,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
         </a>
       </li>
       <li>
-        <a href="payments" class="waves-effect">
+        <a href="pre_payments" class="waves-effect">
           <i class="icon-wallet"></i>
           <span>Payments</span>
           <small class="badge float-right badge-danger"><?php  //' New' : '' ?></small>

@@ -7,6 +7,7 @@ use PHPMailer\PHPMailer\Exception;
 require_once '../../core/autoload.php';
 require_once '../../core/Database.php';
 require_once '../../common/Sanitizer.php';
+require_once '../../common/Mailer.php';
 
 $database   = new Database();
 $Sanitizer  = new Sanitizer;
@@ -61,6 +62,7 @@ if (isset($_POST['register'])) {
     $applicationID  = 'FPG'.date('y').rand(9,99999);
     $response       = [];
     $fullname       = $lastname. ' '. $firstname. ' '. $middlename;
+    $Mailer         =   new Mailer();
     $application_status = 'pre_register';
 
 
@@ -74,13 +76,52 @@ if (isset($_POST['register'])) {
         $createUser = $database->getConnection()->prepare("INSERT INTO `application` (application_id, first_name, middle_name, last_name, phone_number, email, application_status) VALUES(?, ?, ?, ?, ?, ?, ?) ");
         $createUser->execute([$applicationID, $firstname, $middlename, $lastname, $phoneNumber, $email, $application_status]);
 
+         // ++++++++++++++++++++ SEND MAIL TO ADMITTED USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+         $subject    = 'FUO PG Admission';
+         $body       = '<html>
+                         <head>
+                             <title>PG - Admission</title>
+                         </head>
+                         <body>
+                             <h3> ADMISSION FUO | SCHOOL OF POST GRADUATE STUDIES.</h3>
+                             <h4>Hello, '.$fullName .'</h4>
+                             <h4> Congratulations ! </h4>
+                             <p> You account has been successfully created.</p>
+                             <p> Here are your login Details:</p>
+                             <ul>
+                                <li>username: '. $applicationID.'</li>
+                                <li>password: '. $lastname .'</li>
+                            </ul>
+                             <a href="http://localhost/fuo_pg/admission_portal/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to continue application </a>
+                             <p> For further information, contact PG support. </p>
+                             
+                             <p> <b> NB:</b> Do not reply to this email </p>
+                             <img src="https://fuo.edu.ng/wp-content/uploads/2021/02/logo.jpg" alt="Fountain University, Osogbo">
+                         </body>
+                     </html>';
+                    //  $Mailer->sendMail($email, $subject, $body, $fullName);
+         // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
         if($createUser)
         {
+            $result = $Mailer->sendMail($email, $subject, $body, $fullName);
 
-            $response['status'] = 'success';
-            $response['app_id'] = $applicationID;
-            $response['surname']= $lastname;
-            $response['message']= "Account Created Successfully";
+            if ($result === true) {
+
+                $response['status'] = 'success';
+                $response['app_id'] = $applicationID;
+                $response['surname']= $lastname;
+                $response['message']= "Account Created Successfully";
+
+            } else {
+
+                $response['status'] = 'success';
+                $response['app_id'] = $applicationID;
+                $response['surname']= $lastname;
+                $response['message']= "Account Created Successfully, Unable To Send Mail.";
+
+            }
+
         }
         else
         {

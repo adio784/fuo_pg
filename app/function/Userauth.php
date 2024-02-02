@@ -35,6 +35,8 @@ if (isset($_POST['login'])) {
                 $user_login = "lecturer_home";
             } elseif ( $user->role == "admission" ) {
                 $user_login = "admission_home";
+            } elseif ( $user->role == "admission_dept" ) {
+                $user_login = "admission_home";
             } elseif ( $user->role == "access_control" ) {
                 $user_login = "admin_home";
             } elseif ( $user->role == "not_student" ) {

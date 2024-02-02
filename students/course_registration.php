@@ -1,4 +1,9 @@
 <?php include 'includes/header.php'; ?>
+<?php
+  //  Get list of courses for this student in this program .................................
+  $getCourse  = $Crud->readAllByThree("dept_courses", "is_active", 1, "AND", "department", $departmentId, 'AND', 'pg_course', $courseId);
+
+?>
 
 <div class="clearfix"></div>
 	
@@ -7,11 +12,11 @@
       <!-- Breadcrumb-->
      <div class="row pt-2 pb-2">
         <div class="col-sm-9">
-		    <h4 class="page-title">Student Fees > > ></h4>
+		    <h4 class="page-title">Course Registration > > > <?= $courseId ?></h4>
 		    <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="admission_home">Home</a></li>
-            <li class="breadcrumb-item"><a href="javaScript:void();">Application</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Fees</li>
+            <li class="breadcrumb-item"><a href="student_home">Home</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">Students</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Course registration</li>
          </ol>
 	   </div>
      </div>
