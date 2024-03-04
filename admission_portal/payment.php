@@ -105,7 +105,7 @@
 				          <hr>
                   <div class="card-body">
                     <h4>Congratulations !</h4>
-                    <p>You have taken the very first step towards the application process, now start application ...</p>
+                    <p>You have taken the very first step towards the application process, now start your application ...</p>
                   </div>
                   <a href="start_application" class="btn btn-primary shadow-primary px-5 btn-block"><i class="icon-lock"></i> Start Application </a>
                   

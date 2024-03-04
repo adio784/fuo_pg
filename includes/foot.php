@@ -31,8 +31,8 @@
           <a class="logo-footer" href="index.html"><img class="img-fluid mb-4 w-50" src="assets/images/logo.jpg" alt="logo"></a>
           <ul class="list-unstyled">
             <li class="mb-2">Fountain University, Osogbo. P.O Box: 2365, Oke Osun, Osun State, NIGERIA </li>
-            <li class="mb-2">+234 00 000 0000</li>
-            <li class="mb-2">+234 00 000 0000</li>
+            <li class="mb-2">+234 70 356 70556</li>
+            <li class="mb-2">+234 91 2437 8969</li>
             <li class="mb-2">pgschool@fuo.edu.ng</li>
           </ul>
         </div>

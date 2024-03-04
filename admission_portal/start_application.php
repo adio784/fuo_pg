@@ -53,7 +53,7 @@
           if( $ostate_id != "" )
           {    
               // Get data .........................................................................
-              $ostate_ids = $Crud->readAllByOrder('cities', 'state_id', $ostate_id, 'name', 'ASC');
+              $ostate_ids = $Crud->readAllByOrder('lga', 'state_id', $ostate_id, 'name', 'ASC');
               // .....................................................................................................
 
               $response['status']   = 'success';
@@ -244,13 +244,14 @@ if ($sts == "registered" || $sts == "admitted"){
                               </div>
                               
                               <div class="col-sm-6">
-                                <label for="city" class="col-sm-12 col-form-label">City *</label>
-                                <select class="required form-control" id="city" required>
+                                <label for="city" class="col-sm-12 col-form-label">City /Town *</label>
+                                <input type="text" class="form-control" id="city" required>
+                                <!-- <select class="required form-control" id="city" required>
                                 <option value="" selected> -- Select City -- </option>
                                   <option value="Ibadan">Ibadan</option>
                                   <option value="Ogbomoso">Ogbomoso</option>
                                   <option value="Osogbo">Osogbo</option>
-                                </select>
+                                </select> -->
                               </div>
                             </div>
 
@@ -270,7 +271,7 @@ if ($sts == "registered" || $sts == "admitted"){
                             <br> <br>
                         </section>
 
-                        <h3>Pogramme Details</h3>
+                        <h3>Programme Details</h3>
                         <section style="display: block; overflow: scroll">
                             <div class="form-group row">
                               <div class="col-sm-6">
@@ -302,7 +303,7 @@ if ($sts == "registered" || $sts == "admitted"){
                             </div>
 
                             <div class="form-group">
-                              <label for="courseOfStudy"> Course of Study *</label>
+                              <label for="courseOfStudy"> Proposed Course of Study *</label>
                               <!-- <input id="courseOfStudy" type="text" class="required form-control"> -->
                               <select id="courseOfStudy" class="required form-control" required>
                                   <option value="" selected> -- Select Course of Study -- </option>
@@ -335,11 +336,6 @@ if ($sts == "registered" || $sts == "admitted"){
                                 <input id="undergCert" type="file" class="required form-control" accept="application/pdf*" required>
                               </div>
 
-                              <div class="form-group">
-                                <label for="tranScripts"> Transcripts *</label>
-                                <input id="tranScripts" type="file" class="required form-control" accept="application/pdf,image/*" required>
-                              </div>
-
                               <?php if($User->program == '836293'){ $isPHD = 1; ?>
                               <input type="hidden" id="isPhd" value="<?php echo $isPHD; ?>">
                               <div class="form-group">
@@ -354,8 +350,15 @@ if ($sts == "registered" || $sts == "admitted"){
                                 <input id="passPorts" type="file" class="required form-control" accept="application/pdf,image/*" required>
                               </div>
                               <div class="form-group">
-                                  <label class="col-lg-12 control-label">(*) Mandatory</label>
+                                <label for="tranScripts"> Transcripts **</label>
+                                <!-- <input id="tranScripts" type="file" class="required form-control" accept="application/pdf,image/*" required> -->
+                              </div> 
+                              <hr>
+                              <div class="form-group">
+                                  <label class="col-lg-12 control-label"> (*) Mandatory</label>
+                                  <label class="col-lg-12 control-label"> (**) Official Academic Transcript Should Be Addressed To The Secretary, School Of Postgraduate Studies, Fountain University, P.M.B. 4491, Oke-Osun, Osogbo, Osun State, Nigeria. </label>
                               </div>
+                              
                           </section>
 
                         <!-- <section>
@@ -371,186 +374,186 @@ if ($sts == "registered" || $sts == "admitted"){
 
                 <button class="btn btn-primary m-1 d-none" data-toggle="modal" data-target="#largesizemodal" id="previewFormBtn">Large Size Modal</button>
 
-                        <div class="modal fade" id="largesizemodal">
-                          <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title"><i class="fa fa-star"></i> Preview Form</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                          <form action="../app/function/application_process.php" id="pg_application_form" method="POST" enctype="multipart/form-data">
-                              <div class="modal-body pl-4">
-                                    <div class="row">
-                                    <input type="hidden" name="pgAppToken" value="<?php echo uniqid() ?>">
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Last Name</label>
-                                        <input type="text" id="ln" name="lastName" style="border:0px">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">First Name</label>
-                                        <input type="text" id="fn" name="firstName" style="border:0px">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Middle Name</label>
-                                        <input type="text" id="mn" name="middleName" style="border:0px">
-                                      </div>
-                                    </div>
-
-                                    <div class="row">
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Gender</label> <br>
-                                        <input type="text" id="gn" name="gender" style="border:0px">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Religion</label>
-                                        <input type="text" id="rl" name="religion" style="border:0px">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Date of Birth</label>
-                                        <input type="text" id="db" name="birthDate" style="border:0px">
-                                      </div>
-                                    </div>
-
-                                    <div class="row">
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Address</label>
-                                        <input type="text" id="ad" name="address" style="border:0px">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Country</label>
-                                        <input type="text" id="cr" name="country" style="border:0px">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">State</label>
-                                        <p> <input type="text" id="st" name="state" style="border:0px"> </p>
-                                      </div>
-                                    </div>
-
-                                    <div class="row">
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">City</label>
-                                        <p> <input type="text" id="ct" name="city" style="border:0px"> </p>
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Email Address</label>
-                                        <input type="text" id="em" name="emailAddress" style="border:0px">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Phone Number</label>
-                                        <input type="text" id="pn" name="phoneNumber" style="border:0px">
-                                      </div>
-                                    </div>
-                                    
-                                    <div class="row">
-                                      <div class="col-12 mt-3">
-                                        <h6>Origin</h6>
-                                        <hr>
-                                      </div>
-                                    </div>
-
-                                    <div class="row mt-4">
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Country of Origin</label>
-                                        <input type="text" id="co" name="countryOrigin" style="border:0px">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">State of Origin</label>
-                                        <input type="text" id="so" name="stateOrigin" style="border:0px">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">LGA of Origin</label>
-                                        <p> <input type="text" id="lo" name="lgaOrigin" style="border:0px"> </p>
-                                      </div>
-                                    </div>
-
-                                    
-                                    <div class="row">
-                                      <div class="col-12 mt-3">
-                                        <h6>Academics</h6>
-                                        <hr>
-                                      </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Undergraduate Course</label>
-                                        <input type="text" id="uc" name="undergraduateCourse" style="border:0px">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Class of Degree</label>
-                                        <input type="text" id="cd" name="classDegree" style="border:0px">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Institute Attended</label>
-                                        <input type="text" id="ia" name="instituteAtt" style="border:0px">
-                                      </div>
-                                    </div>
-
-                                    <div class="row mt-4">
-                                      <!-- <div class="col-md-4 col-sm-12">
-                                        <label for="">Entry Mode</label>
-                                        <p> <input type="text" id="rm" name="entryMode" style="border:0px"> </p>
-                                      </div> -->
-                                      <div class="col-sm-12">
-                                        <label for="">Course of Study</label> <br>
-                                        <input type="text" id="cs" style="border:0px">
-                                        <input type="hidden1" id="csed" name="courseOfStudy" style="border:0px">
-                                      </div>
-                                    </div>
-                                    
-
-                                    <div class="row">
-                                      <div class="col-12 mt-3">
-                                        <h6>Uploads .................................. </h6>
-                                        <br>
-                                      </div>
-                                    </div>
-
-                                    <div class="row">
-                                      <!-- Images -->
-                                      
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">O'level Upload</label>
-                                        <input type="file" name="oLevel" class="d-none1 d-none" id="olu">
-                                        <img alt="" id="ol" class="card-img w-100">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Undergraduate Certificate</label>
-                                        <input type="file" name="undergCert" class="d-none1 d-none" id="upu">
-                                        <img alt="" id="up" class="card-img w-100">
-                                      </div>
-                                      <div class="col-lg-4 col-md-6 col-sm-12">
-                                        <label for="">Transcript</label>
-                                        <input type="file" name="transcript" class="d-none1 d-none" id="tsu">
-                                        <img alt="" id="cpt" class="card-img w-100">
-                                      </div>
-
-                                      <div class="col-lg-4 col-md-6 col-sm-12 mt-4">
-                                        <label for="">Passport</label>
-                                        <input type="file" name="passport" class="d-none1 d-none" id="psu">
-                                        <img alt="" id="prr" class="card-img w-100">
-                                      </div>
-                                      <?php if($User->program == '836293'){ ?>
-                                        <div class="col-lg-4 col-md-6 col-sm-12 mt-4">
-                                          <label for="">Master Certificate</label>
-                                          <input type="file" name="masterCert" class="d-none1 d-none" id="msu">
-                                          <img alt="" id="ms" class="card-img w-100">
-                                        </div>
-                                      <?php } ?>
-                                      
-                                      <!-- Images -->
-                                    </div>
-                                
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelModal"><i class="fa fa-times"></i> Close</button>
-                                <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fa fa-check-square-o"></i> Submit Application</button>
-                              </div>
-                          </form>
-                            </div>
+                    <div class="modal fade" id="largesizemodal">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title"><i class="fa fa-star"></i> Preview Form</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
                           </div>
+                      <form action="../app/function/application_process.php" id="pg_application_form" method="POST" enctype="multipart/form-data">
+                          <div class="modal-body pl-4">
+                                <div class="row">
+                                <input type="hidden" name="pgAppToken" value="<?php echo uniqid() ?>">
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Last Name</label>
+                                    <input type="text" id="ln" name="lastName" style="border:0px">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">First Name</label>
+                                    <input type="text" id="fn" name="firstName" style="border:0px">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Middle Name</label>
+                                    <input type="text" id="mn" name="middleName" style="border:0px">
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Gender</label> <br>
+                                    <input type="text" id="gn" name="gender" style="border:0px">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Religion</label>
+                                    <input type="text" id="rl" name="religion" style="border:0px">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Date of Birth</label>
+                                    <input type="text" id="db" name="birthDate" style="border:0px">
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Address</label>
+                                    <input type="text" id="ad" name="address" style="border:0px">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Country</label>
+                                    <input type="text" id="cr" name="country" style="border:0px">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">State</label>
+                                    <p> <input type="text" id="st" name="state" style="border:0px"> </p>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">City</label>
+                                    <p> <input type="text" id="ct" name="city" style="border:0px" value="Apo"> </p>
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Email Address</label>
+                                    <input type="text" id="em" name="emailAddress" style="border:0px">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Phone Number</label>
+                                    <input type="text" id="pn" name="phoneNumber" style="border:0px">
+                                  </div>
+                                </div>
+                                
+                                <div class="row">
+                                  <div class="col-12 mt-3">
+                                    <h6>Origin</h6>
+                                    <hr>
+                                  </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Country of Origin</label>
+                                    <input type="text" id="co" name="countryOrigin" style="border:0px">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">State of Origin</label>
+                                    <input type="text" id="so" name="stateOrigin" style="border:0px">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">LGA of Origin</label>
+                                    <p> <input type="text" id="lo" name="lgaOrigin" style="border:0px"> </p>
+                                  </div>
+                                </div>
+
+                                
+                                <div class="row">
+                                  <div class="col-12 mt-3">
+                                    <h6>Academics</h6>
+                                    <hr>
+                                  </div>
+                                </div>
+                                <div class="row mt-4">
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Undergraduate Course</label>
+                                    <input type="text" id="uc" name="undergraduateCourse" style="border:0px">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Class of Degree</label>
+                                    <input type="text" id="cd" name="classDegree" style="border:0px">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Institute Attended</label>
+                                    <input type="text" id="ia" name="instituteAtt" style="border:0px">
+                                  </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                  <!-- <div class="col-md-4 col-sm-12">
+                                    <label for="">Entry Mode</label>
+                                    <p> <input type="text" id="rm" name="entryMode" style="border:0px"> </p>
+                                  </div> -->
+                                  <div class="col-sm-12">
+                                    <label for="">Course of Study</label> <br>
+                                    <input type="text" id="cs" style="border:0px">
+                                    <input type="hidden" id="csed" name="courseOfStudy" style="border:0px">
+                                  </div>
+                                </div>
+                                
+
+                                <div class="row">
+                                  <div class="col-12 mt-3">
+                                    <h6>Uploads .................................. </h6>
+                                    <br>
+                                  </div>
+                                </div>
+
+                                <div class="row">
+                                  <!-- Images -->
+                                  
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">O'level Upload</label>
+                                    <input type="file" name="oLevel" class="d-none1 d-none" id="olu">
+                                    <img alt="" id="ol" class="card-img w-100">
+                                  </div>
+                                  <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Undergraduate Certificate</label>
+                                    <input type="file" name="undergCert" class="d-none1 d-none" id="upu">
+                                    <img alt="" id="up" class="card-img w-100">
+                                  </div>
+                                  <!-- <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label for="">Transcript</label>
+                                    <input type="file" name="transcript" class="d-none1 d-none" id="tsu">
+                                    <img alt="" id="cpt" class="card-img w-100">
+                                  </div> -->
+
+                                  <div class="col-lg-4 col-md-6 col-sm-12 mt-4">
+                                    <label for="">Passport</label>
+                                    <input type="file" name="passport" class="d-none1 d-none" id="psu">
+                                    <img alt="" id="prr" class="card-img w-100">
+                                  </div>
+                                  <?php if($User->program == '836293'){ ?>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 mt-4">
+                                      <label for="">Master Certificate</label>
+                                      <input type="file" name="masterCert" class="d-none1 d-none" id="msu">
+                                      <img alt="" id="ms" class="card-img w-100">
+                                    </div>
+                                  <?php } ?>
+                                  
+                                  <!-- Images -->
+                                </div>
+                            
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="cancelModal"><i class="fa fa-times"></i> Close</button>
+                            <button type="submit" class="btn btn-primary" id="submitBtn"><i class="fa fa-check-square-o"></i> Submit Application</button>
+                          </div>
+                      </form>
                         </div>
+                      </div>
+                    </div>
 
             </div>
           </div>
@@ -618,6 +621,8 @@ if ($sts == "registered" || $sts == "admitted"){
               
               $submit_btn.html('SUBMIT APPLICATION');
               $submit_btn.removeClass('disabled');
+              $('#overlay').hide();
+              $('#preloader').hide();
 
               Lobibox.notify('error', {
                 msg: response.message,
@@ -714,26 +719,26 @@ if ($sts == "registered" || $sts == "admitted"){
           })
       });
 
-      $('#state').change(function(){
-          let str = $(this).val();
-          $("#city").html($('<div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>'));
-          // alert(str);
-          $.ajax({
-              method: 'GET',
-              url: "start_application.php?state_id="+str,
-              success:function(result)
-              {
-                  if(result.data != ""){
-                      $('#city').html("<option value='' selected>"+ '-- Select LGA --' + "</option>");
-                      $.each(result.data, function(key, item) {
-                        $('#city').append(
-                          '<option value='+item.id+'>'+ item.name +'</option>'
-                        )
-                      });
-                  }
-              }
-          })
-      });
+      // $('#state').change(function(){
+      //     let str = $(this).val();
+      //     $("#city").html($('<div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>'));
+      //     // alert(str);
+      //     $.ajax({
+      //         method: 'GET',
+      //         url: "start_application.php?state_id="+str,
+      //         success:function(result)
+      //         {
+      //             if(result.data != ""){
+      //                 $('#city').html("<option value='' selected>"+ '-- Select LGA --' + "</option>");
+      //                 $.each(result.data, function(key, item) {
+      //                   $('#city').append(
+      //                     '<option value='+item.id+'>'+ item.name +'</option>'
+      //                   )
+      //                 });
+      //             }
+      //         }
+      //     })
+      // });
     
     })
   </script>

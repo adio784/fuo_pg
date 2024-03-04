@@ -41,7 +41,7 @@
                         <?php 
                                 $count = 0;
 
-                                if ($rcount < 1) {
+                                if ($getAdmitted < 1) {
 
                                     echo "<tr> <td align='center'> <strong> No record found !!! </strong> </td> </tr>";
 
@@ -60,7 +60,7 @@
 
                         <tr>
                             <td> <?= $count ?> </td>
-                            <td><img src="../admission_portal/admissionUploads/<?= $img ?>" class="product-img" alt="product img"></td>
+                            <td><img src="../admission_portal/admissionUploads/<?= $img ?>" class="product-img" alt="student_<?= $appID ?>"></td>
                             <td> <?= $appID ?> </td>
                             <td> <?= $name ?> </td>
                             <td> <span class="badge gradient-quepal text-white shadow p-2"><?= $status ?></span></td>

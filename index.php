@@ -6,7 +6,7 @@
 
 
 <!-- hero slider -->
-<section class="hero-section overlay bg-cover" data-background="assets/images/banner/banner-1.jpg">
+<section class="hero-section overlay bg-cover" data-background="assets/images/banner/pg_slid1.jpg">
   <div class="container">
     <div class="hero-slider">
       <!-- slider item -->
@@ -14,10 +14,10 @@
         <div class="row">
           <div class="col-md-8">
             <h1 class="text-white" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".1">Welcome to PG School, FUO.</h1>
-            <p class="text-muted mb-4" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor
-              incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exer</p>
+            <p class="text-muted mb-4" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".4">
+              You are welcomed to the website of the School of Postgraduate Studies, Fountain University, Osogbo.
+              The postgraduate School was established in the year 2017 to advance the frontiers of knowledge 
+              beyond the basic provisions of the programmes at undergraduate level.</p>
             <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".7">Apply now</a>
           </div>
         </div>
@@ -27,10 +27,11 @@
         <div class="row">
           <div class="col-md-8">
             <h1 class="text-white" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".1">Your bright future is our mission</h1>
-            <p class="text-muted mb-4" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor
-              incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exer</p>
+            <p class="text-muted mb-4" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".4">
+              Our Mission is to provide Students with sound academic training using cutting-edge technologies 
+              ranging from physical to virtual (high-breed) handled by  world-class Academics 
+              with ICT as tools.
+            </p>
             <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".7">Apply now</a>
           </div>
         </div>
@@ -39,11 +40,11 @@
       <div class="hero-slider-item">
         <div class="row">
           <div class="col-md-8">
-            <h1 class="text-white" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">Your bright future is our mission</h1>
-            <p class="text-muted mb-4" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".4">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-              tempor
-              incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exer</p>
+            <h1 class="text-white" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1"> We Are Committed to Giving You the Best </h1>
+            <p class="text-muted mb-4" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".4">
+              You are encouraged to explore our website to obtain the necessary information about our postgraduate programmes.
+              Taking any of our programmes will make you navigate the ocean of knowledge and become not only employable but 
+              also an employer of labour. </p>
             <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="zoomIn" data-delay-in=".7">Apply now</a>
           </div>
         </div>
@@ -82,8 +83,8 @@
           </div>
           <div class="col-sm-6 col-xl-5 mb-xl-5 mb-lg-3 mb-4 text-center text-sm-left">
             <i class="ti-write mb-xl-4 mb-lg-3 mb-4 feature-icon"></i>
-            <h3 class="mb-xl-4 mb-lg-3 mb-4">Admission Now</h3>
-            <p>Admsion now opens for all programmes at Fountain University, Osogbo - School of Post Graduate. Click admission at the top-right side of this page and follow the procedure. </p>
+            <h3 class="mb-xl-4 mb-lg-3 mb-4">Apply Now</h3>
+            <p>Admission now opens for all programmes at Fountain University, Osogbo - School of Postgraduate. Click admission at the top-right side of this page and follow the procedure. </p>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 <?php
-error_reporting(1);
+// error_reporting(0);
 // Register an autoloader function
 spl_autoload_register(function ($class) {
     // Define the base directory for your classes

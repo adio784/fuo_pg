@@ -34,14 +34,14 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
 
     <li class="nav-item dropdown-lg">
       <a class="nav-link dropdown-toggle dropdown-toggle-nocaret waves-effect" data-toggle="dropdown" href="javascript:void();">
-	  <i class="icon-bell"></i><span class="badge badge-primary badge-up">10</span></a>
+	  <i class="icon-bell"></i><span class="badge badge-primary badge-up">0</span></a>
       <div class="dropdown-menu dropdown-menu-right">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item d-flex justify-content-between align-items-center">
+          <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
           You have 10 Notifications
-          <span class="badge badge-primary">10</span>
-          </li>
-          <li class="list-group-item">
+          <span class="badge badge-primary">0</span>
+          </li> -->
+          <!-- <li class="list-group-item">
           <a href="javaScript:void();">
            <div class="media">
              <i class="icon-people fa-2x mr-3 text-info"></i>
@@ -51,8 +51,8 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
             </div>
           </div>
           </a>
-          </li>
-          <li class="list-group-item">
+          </li> -->
+          <!-- <li class="list-group-item">
           <a href="javaScript:void();">
            <div class="media">
              <i class="icon-cup fa-2x mr-3 text-warning"></i>
@@ -62,8 +62,8 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
             </div>
           </div>
           </a>
-          </li>
-          <li class="list-group-item">
+          </li> -->
+          <!-- <li class="list-group-item">
           <a href="javaScript:void();">
            <div class="media">
              <i class="icon-bell fa-2x mr-3 text-danger"></i>
@@ -73,8 +73,8 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
             </div>
           </div>
           </a>
-          </li>
-          <li class="list-group-item"><a href="javaScript:void();">See All Notifications</a></li>
+          </li> -->
+          <!-- <li class="list-group-item"><a href="javaScript:void();">See All Notifications</a></li> -->
         </ul>
       </div>
     </li>
@@ -89,8 +89,8 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
            <div class="media">
              <div class="avatar"><img class="align-self-start mr-3" src="admissionUploads/<?php echo $User->passport ?>" alt="user avatar"></div>
             <div class="media-body">
-            <h6 class="mt-2 user-title">Ridwan Adio</h6>
-            <p class="user-subtitle">adioridwan784@gmail.com</p>
+            <h6 class="mt-2 user-title"><?php echo $uname ?></h6>
+            <p class="user-subtitle"><?php echo $User->email ?></p>
             </div>
            </div>
           </a>
@@ -185,7 +185,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
                             </p>
                             <h6>Class of Degree</h6>
                             <p>
-                                Second Class Upper.<?php echo $User->class_degree ?>
+                                <?php echo $User->class_degree ?>
                             </p>
                         </div>
                         <div class="col-md-6">
@@ -211,11 +211,6 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
                                     <tr>
                                         <td>
                                             <strong>Course</strong> <?php echo $UProgram->course_name ?>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <strong>Mode of Entry</strong> Inter-University Transfer <?php echo $User->religion ?>
                                         </td>
                                     </tr>
                                 </tbody>

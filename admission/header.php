@@ -1,6 +1,7 @@
 <?php
 
 session_start();
+ob_start();
 if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
     // user_role
     require_once '../core/autoload.php';
@@ -20,7 +21,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
     }
     // Row counts ...............................................................................................................
     $Admitted   = $Crud->countByTwo('application', 'application_status', 'admitted', 'application_session', $current_session);
-    $NotAdmitted= $Crud->countByTwo('application', 'application_status', 'recommend', 'application_session', $current_session);
+    $NotAdmitted= $Crud->countByTwo('application', 'application_status', 'rejected', 'application_session', $current_session);
     $TApp       = $Crud->countByOne('application', 'application_session', $current_session);
     $Allapp     = $Crud->countAll('application');
     // ..........................................................................................................................
@@ -60,7 +61,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
                     WHERE application.application_status = ?
                     GROUP BY application.application_id
                     ORDER BY application.id DESC ");
-                    $getNotAdmitted->execute(['recommend']);
+                    $getNotAdmitted->execute(['rejected']);
 
     // Get all admitted
     $getAllApplicant= $db->prepare("SELECT  
@@ -94,7 +95,11 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
                     AND application.application_status = ?
                     GROUP BY application.application_id
                     ORDER BY application.id DESC ");
-                    $getAdmitted->execute([$current_session, 'admitted']);
+                    $getAdmitted->execute([$current_session, "admitted"]);
+
+    // Get all students
+    $getStudents  = $db->prepare("SELECT * FROM students WHERE admission_session = ?");
+    $getStudents->execute([$current_session]);
 
     $getNotice    = $Crud->readAllByTwo('application', 'application_status', 'recommend', 'AND', 'application_session', $current_session);
 
@@ -242,6 +247,13 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
         </a>
       </li>
      
+      <li class="sidebar-header">Issue Matric</li>
+      <li>
+        <a href="all_students" class="waves-effect">
+          <i class="icon-graduation"></i>
+          <span>All Student</span>
+        </a>
+      </li>
 	
       <li class="sidebar-header">OTHER link</li>
       <li><a href="logout" class="waves-effect"><i class="fa fa-circle-o text-yellow"></i> <span>Logout</span></a></li>

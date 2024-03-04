@@ -8,6 +8,7 @@ require_once '../../core/autoload.php';
 require_once '../../core/Database.php';
 require_once '../../common/Sanitizer.php';
 require_once '../../common/Mailer.php';
+// require_once '../../AfricasTalkingSms/Mailer.php';
 
 $database   = new Database();
 $Sanitizer  = new Sanitizer;
@@ -83,11 +84,10 @@ if (isset($_POST['register'])) {
                              <title>PG - Admission</title>
                          </head>
                          <body>
-                             <h3> ADMISSION FUO | SCHOOL OF POST GRADUATE STUDIES.</h3>
-                             <h4>Hello, '.$fullName .'</h4>
+                             <h3> ADMISSION FUO | SCHOOL OF POSTGRADUATE STUDIES.</h3>
+                             <h4>Hello, '.$fullname .'</h4>
                              <h4> Congratulations ! </h4>
-                             <p> You account has been successfully created.</p>
-                             <p> Here are your login Details:</p>
+                             <p> Your account has been successfully created. Here are your login Details:</p>
                              <ul>
                                 <li>username: '. $applicationID.'</li>
                                 <li>password: '. $lastname .'</li>
@@ -104,9 +104,16 @@ if (isset($_POST['register'])) {
 
         if($createUser)
         {
-            $result = $Mailer->sendMail($email, $subject, $body, $fullName);
+            $result = $Mailer->sendMail($email, $subject, $body, $fullname);
 
             if ($result === true) {
+
+                // $pho_no     = "2347035743427";
+                // $username   = "sandBox";
+                // $apiKey     = "c4c956d8d7ba8511d301fc8cb964936f7074f520d596165197b2e1e1f939b26e";
+
+                // $subject    = "SPGS, New Application";
+                // $message    = $fullName . " " . " Has Just Completed An Application, Login to Follow Up.";
 
                 $response['status'] = 'success';
                 $response['app_id'] = $applicationID;

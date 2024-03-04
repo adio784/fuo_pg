@@ -49,7 +49,6 @@
                         <th>Programme</th>
                         <th>Course</th>
                         <th>Date</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,15 +80,7 @@
                             <td> <?= $name ?> </td>
                             <td> <span class="badge gradient-quepal text-white shadow p-2"><?= $prog ?></span></td>
                             <td> <?= $cours ?> </td>
-                            <td> <?= formatDate($date) ?> </td>
-                            <td> 
-                                <button class="btn btn-primary admissionBtn" type="button" id="<?= $appID ?>"> Admit </button>
-                                <!-- <a href="../app/function/admit_student.php?admit=<?= $appID ?>" class="btn btn-primary">Admit</a>  -->
-                                
-                            </td>
-                            
-
-
+                            <td> <?= formatDate($date) ?> </td>                         
                         </tr>
 
                         <?php } } ?>

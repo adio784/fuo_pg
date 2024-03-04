@@ -51,7 +51,7 @@
                 $('#co').val( $('#countryOrigin option:selected').text() );
                 $('#so').val( $('#stateOrigin option:selected').text() );
                 $('#lo').val( $('#lgaOrigin option:selected').text() );
-                $('#ct').val( $('#city option:selected').text() );
+                $('#ct').val( $('#city').val() );
                 $('#em').val( $('#emailAddress').val() );
                 $('#pn').val( $('#phoneNumber').val() );
                 $('#uc').val( $('#undergraduateCourse').val() );
@@ -63,7 +63,6 @@
 
                 const olevelInput = $('#oLevel')[0];
                 const ungradInput = $('#undergCert')[0];
-                const transcInput = $('#tranScripts')[0];
                 const masterInput = $('#masterCerts')[0];
                 const passpoInput = $('#passPorts')[0];
                 var isPhd = $('#isPhd').val();
@@ -84,15 +83,6 @@
                         $('#upu')[0].files = ungradInput.files;
                     };
                     reader.readAsDataURL(ungradInput.files[0]);
-                }
-
-                if (transcInput.files && transcInput.files[0]) {
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#cpt').attr('src', e.target.result);
-                        $('#tsu')[0].files = transcInput.files;
-                    };
-                    reader.readAsDataURL(transcInput.files[0]);
                 }
 
                 if (passpoInput.files && passpoInput.files[0]) {

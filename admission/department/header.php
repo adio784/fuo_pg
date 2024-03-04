@@ -1,6 +1,8 @@
 <?php
 
 session_start();
+ob_start();
+
 if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
     // user_role
     require_once '../../core/autoload.php';
@@ -44,7 +46,7 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
                                 AND application.department = ?
                                 AND application.application_status = ?
                                 GROUP BY application.application_id
-                                ORDER BY application.id DESC LIMIT 5");
+                                ORDER BY application.id DESC");
     $rquery->execute([$current_session, $officerDept, 'registered']);
     $rcount     = $rquery->rowCount();
 

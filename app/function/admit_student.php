@@ -57,59 +57,61 @@ session_start();
         // .................................................................................
 
 
-         // Admitting Student
-         if ( isset($_GET['admit']) )
-         {  
-            $appID = $_GET['admit'];
+        // Admitting Student ---------------------------------------------------------------
+        if ( isset($_GET['admit']) )
+        {  
+        $appID = $_GET['admit'];
+        
+            try {
             
-             try {
+            //  echo $appID;
+                $qstd      = $db->prepare("SELECT matric_no, first_name FROM students WHERE application_id=?"); $qstd->execute([$appID]);
                 
-                //  echo $appID;
-                 $qstd      = $db->prepare("SELECT matric_no, first_name FROM students WHERE application_id=?"); $qstd->execute([$appID]);
-                 
-                //  Check if student already created ...............................................
-                if ($qstd->rowCount() < 1) {
-                    $std       = $db->prepare("SELECT * FROM `application` WHERE application_id=?");
-                    $std->execute([$appID]);
+            //  Check if student already created ...............................................
+            if ($qstd->rowCount() < 1) {
+                $std       = $db->prepare("SELECT * FROM `application` WHERE application_id=?");
+                $std->execute([$appID]);
 
-                   
+                
+                
+                if ( $std->rowCount() > 0 ) {
                     
-                    if ( $std->rowCount() > 0 ) {
-                        while ($row = $std->fetchObject() )
-                        {
-                            $nmatric    = "***";
-                            $firstName  = $row->first_name;
-                            $lastName   = $row->last_name;
-                            $middleName = $row->middle_name;
-                            $fullName   = strtoupper($lastName) . ' '. $firstName .' '. $middleName;
-                            $email      = $row->email;
-                            $phoneNumber= $row->phone_number;
-                            $dob        = $row->date_of_birth;
-                            $gender     = $row->gender;
-                            $religion   = $row->religion;
-                            $department = $row->program;
-                            $college    = $row->course;
-                        }
-                        // registered
-                        $username   = strtolower($appID);
-                        $surname    = strtolower($lastName);
-                        $password   = password_hash($surname, PASSWORD_BCRYPT);
-                        $role       = "not_student";
-                        $status     = "active";
+                    while ($row = $std->fetchObject() )
+                    {
+                        $nmatric    = "***";
+                        $firstName  = $row->first_name;
+                        $lastName   = $row->last_name;
+                        $middleName = $row->middle_name;
+                        $fullName   = strtoupper($lastName) . ' '. $firstName .' '. $middleName;
+                        $email      = $row->email;
+                        $phoneNumber= $row->phone_number;
+                        $dob        = $row->date_of_birth;
+                        $gender     = $row->gender;
+                        $religion   = $row->religion;
+                        $program    = $row->program;
+                        $department = $row->department;
+                        $college    = $row->course;
+                    }
+                    // registered
+                    $username   = strtolower($appID);
+                    $surname    = strtolower($lastName);
+                    $password   = password_hash($surname, PASSWORD_BCRYPT);
+                    $role       = "not_student";
+                    $status     = "active";
 
-                        $result = $Mailer->sendMail($email, $subject, $body, $fullName);
-    
-                        $createStudent  =   $db->prepare("INSERT INTO students (matric_no, application_id, last_name, first_name, middle_name, email, mobile_no, dob, gender, religion, admission_session, admission_year, course, program) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-                        $createStudent->execute([ $nmatric, $appID, $lastName, $firstName, $middleName, $email, $phoneNumber, $dob, $gender, $religion, $current_session, $thisYear, $college, $department]);
+                    $result = $Mailer->sendMail($email, $subject, $body, $fullName);
 
-                        $createUser  =   $db->prepare("INSERT INTO users (username, email, password, role, status) VALUES(?,?,?,?,?)");
-                        $createUser->execute([$username, $email, $password, $role, $status]);
-                        
-                        if ($createStudent && $createUser) {
-    
+                    $createStudent  =   $db->prepare("INSERT INTO students (matric_no, application_id, last_name, first_name, middle_name, email, mobile_no, dob, gender, religion, admission_session, admission_year, course, department, program) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    $createStudent->execute([ $nmatric, $appID, $lastName, $firstName, $middleName, $email, $phoneNumber, $dob, $gender, $religion, $current_session, $thisYear, $college, $department, $program]);
+
+                    $createUser  =   $db->prepare("INSERT INTO users (username, email, password, role, status) VALUES(?,?,?,?,?)");
+                    $createUser->execute([$username, $email, $password, $role, $status]);
+                    
+                    if ($createStudent && $createUser) {
+
                             $appData    = ["application_status" => "admitted", "application_session" => $current_session];
                             $upd_admiss = $Crud->update("application", "application_id", $appID, $appData);
-                            
+                        
 
                             // ++++++++++++++++++++ SEND MAIL TO ADMITTED USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++
                             $subject    = 'FUO PG Admission';
@@ -133,9 +135,9 @@ session_start();
                                                 <img src="https://fuo.edu.ng/wp-content/uploads/2021/02/logo.jpg" alt="Fountain University, Osogbo">
                                             </body>
                                         </html>';
-                                        // $Mailer->sendMail($email, $subject, $body, $fullName);
+                                    // $Mailer->sendMail($email, $subject, $body, $fullName);
                             // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    
+
                             if ($upd_admiss) {
 
                                 $result = $Mailer->sendMail($email, $subject, $body, $fullName);
@@ -155,22 +157,28 @@ session_start();
                                 }
 
                             } else {
-    
+
                                 $response['status']         = 'fail';
                                 $response['statusCode']      = 400;
                                 $response['message']        = 'Student Created, But Unable To Admit Student Due to System Error !!!';
         
                             }
-    
+
                         } else {
-    
+
                             $response['status']         = 'fail';
                             $response['statusCode']      = 400;
                             $response['message']        = 'Error Admitting Student !!!';
-    
+
                         }
+                    } else {
+
+                        $response['status']         = 'fail';
+                        $response['statusCode']      = 400;
+                        $response['message']        = 'Unable to Profile Student !!!';
+
                     }
-                
+            
                 } else {
 
                     $response['status']         = 'fail';
@@ -178,23 +186,154 @@ session_start();
                     $response['message']        = 'Student Already Profiled, Contact ICT !!!';
 
                 }
-                 // new_student
-                 // not_student
-                 // student
-             } catch (\Throwable $th) {
-                 //throw $th;
- 
-                 $response['status']         = 'fail';
-                 $response['statusCode']     = 500;
-                 $response['message']        = $th;
- 
-             }
+                // new_student
+                // not_student
+                // student
+            } catch (\Throwable $th) {
+                //throw $th;
 
-             header('Content-Type: application/json');
-             echo json_encode($response);
-             exit();
-         }
+                $response['status']         = 'fail';
+                $response['statusCode']     = 500;
+                $response['message']        = explode(',', $th);
 
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit();
+        }
+
+        // Rejecting Student  --------------------------------------------------------------
+        if ( isset($_GET['reject']) )
+        {  
+           $appID = $_GET['reject'];
+           
+            try {
+               
+               // Check if student already created ...............................................
+              
+                $std       = $db->prepare("SELECT * FROM `application` WHERE application_id=?");
+                $std->execute([$appID]);
+
+                if ( $std->rowCount() > 0 ) {
+
+                    $appData    = ["application_status" => "rejected", "application_session" => $current_session];
+                    $upd_admiss = $Crud->update("application", "application_id", $appID, $appData);
+
+                    // ++++++++++++++++++++ SEND MAIL TO ADMITTED USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    $subject    = 'FUO PG Admission';
+                    $body       = '<html>
+                                    <head>
+                                        <title>PG - Admission</title>
+                                    </head>
+                                    <body>
+                                        <h3> ADMISSION FUO | SCHOOL OF POST GRADUATE STUDIES.</h3>
+                                        <h4>Hello, '.$fullName .'</h4>
+                                        <p> Here are your login Details:</p>
+                                        <ul>
+                                            <li>username: '. $appID.'</li>
+                                            <li>password: '. $surname .'</li>
+                                        </ul>
+                                        <h4>Fountain University, Osogbo.</h4>
+                                        <a href="http://localhost/fuo_pg/admission_portal/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to the student portal.</a>
+                                        <p> Login Details: </p>
+                                        
+                                        <p> <b> NB:</b> Do not reply to this email </p>
+                                        <img src="https://fuo.edu.ng/wp-content/uploads/2021/02/logo.jpg" alt="Fountain University, Osogbo">
+                                    </body>
+                                </html>';
+                                // $Mailer->sendMail($email, $subject, $body, $fullName);
+                    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+                    if ($upd_admiss) {
+
+                        $result = $Mailer->sendMail($email, $subject, $body, $fullName);
+
+                        if ($result === true) {
+
+                            $response['status']         = 'success';
+                            $response['statusCode']     = 200;
+                            $response['message']        = 'Application Successfully Rejected And Notified !!! ';
+
+                        } else {
+
+                            $response['status']         = 'fail';
+                            $response['statusCode']      = 400;
+                            $response['message']        = "Application Successfully Rejected, Due To System Error !!! {$result}";
+
+                        }
+
+                    } else {
+
+                        $response['status']         = 'fail';
+                        $response['statusCode']      = 400;
+                        $response['message']        = 'Application Could Not Be Rejected !!!';
+
+                    }
+
+                } else {
+                
+                    $response['status']         = 'fail';
+                    $response['statusCode']      = 400;
+                    $response['message']        = 'Applicant Record Doesn\'t Exist !!!';
+
+                }
+               
+            } catch (\Throwable $th) {
+                //throw $th;
+
+                $response['status']         = 'fail';
+                $response['statusCode']     = 500;
+                $response['message']        = $th;
+
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit();
+        }
+
+
+        // Adding matriculation number for each student --------------------------------------
+        if ( isset($_POST['addMatric']))
+        {
+            $appID      = $_POST['appId'];
+            $matricId   = $_POST['matricId'];
+
+            try {
+
+                $upd_students   = $db->prepare("UPDATE students SET matric_no=? WHERE application_id=?");
+                $upd_students->execute([$matricId, $appID]);
+
+                $upd_users   = $db->prepare("UPDATE users SET username=? WHERE username=?");
+                $upd_users->execute([$matricId, $appID]);
+
+                $createNotice   =   $db->prepare("INSERT INTO notification (matric_no, subject, message) VALUES(?,?,?)");
+                $createNotice->execute([ $matricId, 'Matric Number', 'You have been issued matric number, you can now login with it.']);
+
+                if ( $upd_students && $upd_users && $createNotice) {
+                    $response['status']         = 'success';
+                    $response['statusCode']     = 200;
+                    $response['message']        = 'Matric Number Successfully Added !!! ';
+                } else {
+                    $response['status']         = 'fail';
+                    $response['statusCode']      = 400;
+                    $response['message']        = "Matric Number Couldn't Be Added !!!";
+                }
+
+            } catch (\Throwable $th) {
+                //throw $th;
+
+                $response['status']         = 'fail';
+                $response['statusCode']     = 500;
+                $response['message']        = explode(',', $th);
+
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit();
+        }
     }
 
 ?>
