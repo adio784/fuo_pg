@@ -609,7 +609,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     $data = [
                         'amount'            => $amount,
                         'email'             => $email,
-                        'callBackUrl'       => $uri . "/fuo_pg/app/function/acceptance_payment.php?xpacceptance_callback={$transferReff}",
+                        'callBackUrl'       => $uri . "/app/function/acceptance_payment.php?xpacceptance_callback={$transferReff}",
                         "currency"          => "NGN",
                         "transactionId"     => $transferReff,
                         "metadata"          => [
@@ -650,7 +650,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     $data = [
                         'amount'            => $amount * 100,
                         'email'             => $email,
-                        'callback_url'      => $uri . "/fuo_pg/app/function/acceptance_payment.php?trnId={$transferReff}",
+                        'callback_url'      => $uri . "/app/function/acceptance_payment.php?trnId={$transferReff}",
                         "currency"          => "NGN",
                         "transactionId"     => $transferReff,
                         "metadata"          => [

@@ -1,6 +1,9 @@
 <?php
 
 session_start();
+$protocol       = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$url_protocol   = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$url            = $protocol . $_SERVER['HTTP_HOST'];
 
     // Payment Initialization
     if( !isset($_SESSION['user_id']) && !isset($_SESSION['admStatus']) ){
@@ -44,12 +47,12 @@ session_start();
                 ];
                 $createPayment  = $Crud->update('application_payment', 'transactionId', $transferReff, $crData);
                 // $createPayment  = $Crud->update('application_payment', 'description', 'Acceptance fee', $crData);
-                header('Location: http://localhost/fuo_pg/admission_portal/admission_home?pay_success=Payment%20Successful!!!');
+                header('Location: ' . $url . '/admission_portal/admission_home?pay_success=Payment%20Successful!!!');
 
             } 
             else {
             
-                header('Location: http://localhost/fuo_pg/admission_portal/admission_home?error=Payment%20%20Could%20Not%20Be%20Verified,%20Try%20Requery%20!!!');
+                header('Location: ' . $url . '/admission_portal/admission_home?error=Payment%20%20Could%20Not%20Be%20Verified,%20Try%20Requery%20!!!');
             }
         }
 
@@ -71,11 +74,11 @@ session_start();
                 ];
                 $appData  = [ "application_status" => "paid" ];
                 $createPayment  =  $Crud->update('application_payment', 'transactionId', $transferReff, $crData);
-                header('Location: http://localhost/fuo_pg/admission_portal/admission_home?pay_success=Payment%20Successful!!!');
+                header('Location: '. $url .'/admission_portal/admission_home?pay_success=Payment%20Successful!!!');
 
             } else {
             
-                header('Location: http://localhost/fuo_pg/admission_portal/admission_home?error=Payment%20%20Could%20Not%20Be%20Verified,%20Try%20Requery%20!!!');
+                header('Location: '. $url .'/admission_portal/admission_home?error=Payment%20%20Could%20Not%20Be%20Verified,%20Try%20Requery%20!!!');
             }
         }
 
