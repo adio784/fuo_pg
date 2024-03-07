@@ -19,16 +19,20 @@ $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             <div class="hero-slider-item">
                 <div class="row">
                     <div class="col-md-8">
-                        <h1 class="text-white" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".1">
+                        <h1 class="text-white" data-animation-out="fadeOutRight" data-delay-out="5"
+                            data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".1">
                             Welcome to PG
                             School, FUO.</h1>
-                        <p class="text-muted mb-4" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".4">
+                        <p class="text-muted mb-4" data-animation-out="fadeOutRight" data-delay-out="5"
+                            data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".4">
                             You are welcomed to the website of the School of Postgraduate Studies, Fountain University,
                             Osogbo.
                             The postgraduate School was established in the year 2017 to advance the frontiers of
                             knowledge
                             beyond the basic provisions of the programmes at undergraduate level.</p>
-                        <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft" data-delay-in=".7">Apply now</a>
+                        <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutRight"
+                            data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft"
+                            data-delay-in=".7">Apply now</a>
                     </div>
                 </div>
             </div>
@@ -36,14 +40,18 @@ $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             <div class="hero-slider-item">
                 <div class="row">
                     <div class="col-md-8">
-                        <h1 class="text-white" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".1">Your bright future is our mission</h1>
-                        <p class="text-muted mb-4" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".4">
+                        <h1 class="text-white" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3"
+                            data-animation-in="fadeInDown" data-delay-in=".1">Your bright future is our mission</h1>
+                        <p class="text-muted mb-4" data-animation-out="fadeOutUp" data-delay-out="5"
+                            data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".4">
                             Our Mission is to provide Students with sound academic training using cutting-edge
                             technologies
                             ranging from physical to virtual (high-breed) handled by world-class Academics
                             with ICT as tools.
                         </p>
-                        <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutUp" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown" data-delay-in=".7">Apply now</a>
+                        <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutUp"
+                            data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown"
+                            data-delay-in=".7">Apply now</a>
                     </div>
                 </div>
             </div>
@@ -51,15 +59,18 @@ $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
             <div class="hero-slider-item">
                 <div class="row">
                     <div class="col-md-8">
-                        <h1 class="text-white" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1"> We Are Committed to Giving You the Best
+                        <h1 class="text-white" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3"
+                            data-animation-in="fadeInUp" data-delay-in=".1"> We Are Committed to Giving You the Best
                         </h1>
-                        <p class="text-muted mb-4" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".4">
+                        <p class="text-muted mb-4" data-animation-out="fadeOutDown" data-delay-out="5"
+                            data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".4">
                             You are encouraged to explore our website to obtain the necessary information about our
                             postgraduate programmes.
                             Taking any of our programmes will make you navigate the ocean of knowledge and become not
                             only employable but
                             also an employer of labour. </p>
-                        <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutDown" data-delay-out="5" data-duration-in=".3" data-animation-in="zoomIn" data-delay-in=".7">Apply
+                        <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutDown"
+                            data-delay-out="5" data-duration-in=".3" data-animation-in="zoomIn" data-delay-in=".7">Apply
                             now</a>
                     </div>
                 </div>
@@ -82,6 +93,7 @@ $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                         <i class="ti-book mb-xl-4 mb-lg-3 mb-4 feature-icon"></i>
                         <h3 class="mb-xl-4 mb-lg-3 mb-4">Masters Programme</h3>
                         <p>
+                            <?= $protocol . $_SERVER['HTTP_HOST'] . '/admission_portal' ?>
                             Generally, Masters programmes in Fountain University are of two forms: Academic and
                             Professional Masters; depending on the Department. Applicants are enjoined to confirm from
                             their respective Departments or directly from the Sevretaty of the SPGS about the forms of
