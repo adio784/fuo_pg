@@ -64,7 +64,8 @@
         // Admitting Student ---------------------------------------------------------------
         if ( isset($_GET['admit']) )
         {  
-        $appID = $_GET['admit'];
+            
+            $appID = $_GET['admit'];
         
             try {
             
@@ -135,7 +136,7 @@
                                                     <li>password: '. $surname .'</li>
                                                 </ul>
                                                 <h4>Fountain University, Osogbo.</h4>
-                                                <a href="' . $url . '/admission_portal/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to the student portal.</a>
+                                                <a href="' . $url . '/students/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to the student portal.</a>
                                                 <p> Login Details: </p>
                                                 
                                                 <p> <b> NB:</b> Do not reply to this email </p>
@@ -236,16 +237,11 @@
                                     <body>
                                         <h3> ADMISSION FUO | SCHOOL OF POST GRADUATE STUDIES.</h3>
                                         <h4>Hello, '.$fullName .'</h4>
-                                        <p> Here are your login Details:</p>
-                                        <ul>
-                                            <li>username: '. $appID.'</li>
-                                            <li>password: '. $surname .'</li>
-                                        </ul>
-                                        <h4>Fountain University, Osogbo.</h4>
-                                        <a href="'. $url . 'admission_portal/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to the student portal.</a>
-                                        <p> Login Details: </p>
-                                        
-                                        <p> <b> NB:</b> Do not reply to this email </p>
+                                        <p> We are sorry to let you know that you application does not meet up to our standard recommendation.</p>
+                                        <p> You can always checkout for other programmes on our website</p>
+                                        <p> Thank you for taking part in the application process </p>
+                                        <p> Hope to receive your application, some other times.</p>
+                                        <p> Best regards.</p>
                                         <img src="https://fuo.edu.ng/wp-content/uploads/2021/02/logo.jpg" alt="Fountain University, Osogbo">
                                     </body>
                                 </html>';
