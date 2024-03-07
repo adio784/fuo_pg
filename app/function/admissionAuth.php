@@ -13,9 +13,10 @@ require_once '../../common/Mailer.php';
 $database   = new Database();
 $Sanitizer  = new Sanitizer;
 
-$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-$url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
+$protocol       = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$url_protocol   = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$url            = $protocol . $_SERVER['HTTP_HOST'];
+    
 if (isset($_POST['login'])) {
 
     // getConnection
@@ -93,7 +94,7 @@ if (isset($_POST['register'])) {
                                 <li>username: ' . $applicationID . '</li>
                                 <li>password: ' . $lastname . '</li>
                             </ul>
-                             <a href="' . $url . 'admission_portal" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to continue application </a>
+                             <a href="' . $url . '/admission_portal" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to continue application </a>
                              <p> For further information, contact PG support. </p>
                              
                              <p> <b> NB:</b> Do not reply to this email </p>

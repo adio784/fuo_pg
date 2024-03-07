@@ -2,13 +2,14 @@
 
 session_start();
 
-$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-$url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$protocol       = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+$url_protocol   = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$url            = $protocol . $_SERVER['HTTP_HOST'];
 
 
 // Payment Initialization
 if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
-    header('Location: ' . $url . 'admission_portal/index');
+    header('Location: ' . $url . '/admission_portal/index');
 } else {
 
     require_once '../../core/autoload.php';
@@ -108,7 +109,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     } else {
                         // Handle the payment initiation error
                         $errorMessage = $paymentResult['data'];
-                        header('Location: ' . $url . 'admission_portal/payment?error="Payment%20Failed,%20Try%20Later!!!"');
+                        header('Location: ' . $url . '/admission_portal/payment?error="Payment%20Failed,%20Try%20Later!!!"');
                     }
                 } else {
                     $data = [
@@ -152,7 +153,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     } else {
                         // Handle the payment initiation error
                         $errorMessage = $paymentResult['data'];
-                        header('Location: ' . $url . 'admission_portal/payment?error=Unable to process payment');
+                        header('Location: ' . $url . '/admission_portal/payment?error=Unable to process payment');
                     }
                 }
             }
@@ -203,7 +204,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     } else {
                         // Handle the payment initiation error
                         $errorMessage = $paymentResult['data'];
-                        header('Location: ' . $url . 'admission_portal/payment?error="Payment%20Failed,%20Try%20Later!!!"');
+                        header('Location: ' . $url . '/admission_portal/payment?error="Payment%20Failed,%20Try%20Later!!!"');
                     }
                 } else {
                     $data = [
@@ -247,12 +248,12 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     } else {
                         // Handle the payment initiation error
                         $errorMessage = $paymentResult['data'];
-                        header('Location: ' . $url . 'admission_portal/payment?error=Unable to process payment');
+                        header('Location: ' . $url . '/admission_portal/payment?error=Unable to process payment');
                     }
                 }
             }
         } else {
-            header('Location: ' . $url . 'admission_portal/payment?error=Payment%20Already%20Exist%20!!!');
+            header('Location: ' . $url . '/admission_portal/payment?error=Payment%20Already%20Exist%20!!!');
         }
     }
 
@@ -280,10 +281,10 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
             $appData  = ["application_status" => "paid"];
             $createPayment  =  $Crud->update('application_payment', 'transactionId', $transferReff, $crData);
             $updateAppl     =  $Crud->update('application', 'application_id', $appID, $appData);
-            header('Location: ' . $url . 'admission_portal/payment?pay_success=Payment%20Successful!!!');
+            header('Location: ' . $url . '/admission_portal/payment?pay_success=Payment%20Successful!!!');
         } else {
 
-            header('Location: ' . $url . 'admission_portal/payment?error=Payment%20%20Could%20Not%20Be%20Verified,%20Try%20Requery%20!!!');
+            header('Location: ' . $url . '/admission_portal/payment?error=Payment%20%20Could%20Not%20Be%20Verified,%20Try%20Requery%20!!!');
         }
     }
 
@@ -307,10 +308,10 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
             $appData        = ["application_status" => "paid"];
             $createPayment  = $Crud->update('application_payment', 'transactionId', $transferReff, $crData);
             $updateAppl     = $Crud->update('application', 'application_id', $appID, $appData);
-            header('Location: ' . $url . 'admission_portal/payment?trx_id=' . $transferReff . '&&pay_success=Payment%20Successful!!!');
+            header('Location: ' . $url . '/admission_portal/payment?trx_id=' . $transferReff . '&&pay_success=Payment%20Successful!!!');
         } else {
 
-            header('Location: ' . $url . 'admission_portal/payment?error=Payment%20%20Could%20Not%20Be%20Verified,%20Try%20Requery%20!!!');
+            header('Location: ' . $url . '/admission_portal/payment?error=Payment%20%20Could%20Not%20Be%20Verified,%20Try%20Requery%20!!!');
         }
     }
 
@@ -643,7 +644,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     } else {
                         // Handle the payment initiation error
                         $errorMessage = $paymentResult['data'];
-                        header('Location: ' . $url . 'admission_portal/admission_home?error="Payment%20Failed,%20Try%20Later!!!"');
+                        header('Location: ' . $url . '/admission_portal/admission_home?error="Payment%20Failed,%20Try%20Later!!!"');
                     }
                 } else {
                     $data = [
@@ -686,7 +687,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     } else {
                         // Handle the payment initiation error
                         $errorMessage = $paymentResult['data'];
-                        header('Location: ' . $url . 'admission_portal/admission_home?error=Unable to process payment');
+                        header('Location: ' . $url . '/admission_portal/admission_home?error=Unable to process payment');
                     }
                 }
             }
@@ -702,7 +703,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     $data = [
                         'amount'            => $amount,
                         'email'             => $email,
-                        'callBackUrl'       => $uri . "/fuo_pg/app/function/acceptance_payment.php?xpacceptance_callback={$transferReff}",
+                        'callBackUrl'       => $uri . "/app/function/acceptance_payment.php?xpacceptance_callback={$transferReff}",
                         "currency"          => "NGN",
                         "transactionId"     => $transferReff,
                         "metadata"          => [
@@ -737,14 +738,14 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     } else {
                         // Handle the payment initiation error
                         $errorMessage = $paymentResult['data'];
-                        header('Location: ' . $url . 'admission_portal/admission_home?error="Payment%20Failed,%20Try%20Later!!!"');
+                        header('Location: ' . $url . '/admission_portal/admission_home?error="Payment%20Failed,%20Try%20Later!!!"');
                     }
                 } else {
 
                     $data = [
                         'amount'            => $amount * 100,
                         'email'             => $email,
-                        'callback_url'      => $uri . "/fuo_pg/app/function/acceptance_payment.php?trnId={$transferReff}",
+                        'callback_url'      => $uri . "/app/function/acceptance_payment.php?trnId={$transferReff}",
                         "currency"          => "NGN",
                         "transactionId"     => $transferReff,
                         "metadata"          => [
@@ -780,15 +781,15 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     } else {
                         // Handle the payment initiation error
                         $errorMessage = $paymentResult['data'];
-                        header('Location: ' . $url . 'admission_portal/admission_home?error=Unable to process payment');
+                        header('Location: ' . $url . '/admission_portal/admission_home?error=Unable to process payment');
                     }
                 }
             }
         } else if ($exPayment->payment_status == 'success') {
 
-            header('Location: ' . $url . 'admission_portal/admission_home?error=Payment%20Already%20Exist%20!!!');
+            header('Location: ' . $url . '/admission_portal/admission_home?error=Payment%20Already%20Exist%20!!!');
         } else {
-            header('Location: ' . $url . 'admission_portal/admission_home?error=Payment%20Already%20Exist%20!!!');
+            header('Location: ' . $url . '/admission_portal/admission_home?error=Payment%20Already%20Exist%20!!!');
         }
     }
 }

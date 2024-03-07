@@ -6,8 +6,8 @@ require_once 'includes/head.php';
 <?php
 // $uri = $_SERVER['REQUEST_URI'];
 $protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-$url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-
+$url_protocol = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$url = $protocol . $_SERVER['HTTP_HOST'];
 ?>
 
 
@@ -93,7 +93,7 @@ $url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
                         <i class="ti-book mb-xl-4 mb-lg-3 mb-4 feature-icon"></i>
                         <h3 class="mb-xl-4 mb-lg-3 mb-4">Masters Programme</h3>
                         <p>
-                            <?= $protocol . $_SERVER['HTTP_HOST'] . '/admission_portal' ?>
+
                             Generally, Masters programmes in Fountain University are of two forms: Academic and
                             Professional Masters; depending on the Department. Applicants are enjoined to confirm from
                             their respective Departments or directly from the Sevretaty of the SPGS about the forms of
