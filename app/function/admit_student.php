@@ -131,7 +131,7 @@
                                                     <li>password: '. $surname .'</li>
                                                 </ul>
                                                 <h4>Fountain University, Osogbo.</h4>
-                                                <a href="http://localhost/fuo_pg/admission_portal/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to the student portal.</a>
+                                                <a href="' . $url . 'admission_portal/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to the student portal.</a>
                                                 <p> Login Details: </p>
                                                 
                                                 <p> <b> NB:</b> Do not reply to this email </p>
