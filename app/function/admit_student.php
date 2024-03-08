@@ -127,7 +127,7 @@
                                             <body>
                                                 <h3> ADMISSION FUO | SCHOOL OF POST GRADUATE STUDIES.</h3>
                                                 <h4>Hello, '.$fullName .'</h4>
-                                                <p> Congratulations! You have been offered a provision admission at Fountain University, Osogbo.</p>
+                                                <p> Congratulations! You have been offered a provision admission into Fountain University, Osogbo.</p>
                                                 <p> Proceed to you application portal, to make payment for the acceptance fee.</p>
                                                 <p> You have been profiled on the student portal, which you are required to login and continue from as a student of our institution </p>
                                                 <p> Here are your login Details:</p>
