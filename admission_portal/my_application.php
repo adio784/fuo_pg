@@ -20,6 +20,12 @@ if( isset($_SESSION['user_id']) && isset($_SESSION['admStatus']) ){
     <!--Start topbar header-->
     <header class="topbar-nav">
         <nav class="navbar navbar-expand fixed-top bg-white">
+            <ul class="navbar-nav mr-auto align-items-center">
+
+                <li class="nav-item">
+                    &nbsp;
+                </li>
+            </ul>
 
             <ul class="navbar-nav align-items-center right-nav-link">
 
