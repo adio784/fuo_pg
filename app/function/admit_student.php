@@ -127,8 +127,8 @@
                                             <body>
                                                 <h3> ADMISSION FUO | SCHOOL OF POST GRADUATE STUDIES.</h3>
                                                 <h4>Hello, '.$fullName .'</h4>
-                                                <p> You have been offered a provision admission at Fountain University, Osogbo.</p>
-                                                <p> Proceed to you application port, to make payment for the acceptance fee.</p>
+                                                <p> Congratulations! You have been offered a provision admission at Fountain University, Osogbo.</p>
+                                                <p> Proceed to you application portal, to make payment for the acceptance fee.</p>
                                                 <p> You have been profiled on the student portal, which you are required to login and continue from as a student of our institution </p>
                                                 <p> Here are your login Details:</p>
                                                 <ul>
@@ -136,9 +136,7 @@
                                                     <li>password: '. $surname .'</li>
                                                 </ul>
                                                 <h4>Fountain University, Osogbo.</h4>
-                                                <a href="' . $url . '/students/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to the student portal.</a>
-                                                <p> Login Details: </p>
-                                                
+                                                <a href="' . $url . '/students/" style="width:100px;height:25px;background-color:green;color:#fff;text-decoration:none;padding: 4px;border-radius:10px">Click here to proceed to the student portal.</a>                                                
                                                 <p> <b> NB:</b> Do not reply to this email </p>
                                                 <img src="https://fuo.edu.ng/wp-content/uploads/2021/02/logo.jpg" alt="Fountain University, Osogbo">
                                             </body>
