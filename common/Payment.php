@@ -1,6 +1,7 @@
-<?php 
+<?php
 
-class PAYMENT {
+class PAYMENT
+{
 
     private $xapiKey;
     private $xbaseUrl;
@@ -10,21 +11,22 @@ class PAYMENT {
     private $pbaseUrl;
     private $pUrl;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->xapiKey  = "XPPUBK-19995e83ba654840be35242359b66f8c-X";
         $this->xbaseUrl =  'https://myxpresspay.com:6004'; //Test: https://pgsandbox.xpresspayments.com:8090
         $this->xUrl     = "/api/Payments/Initialize";
 
-        $this->papiKey  = "sk_live_5e6809968753a4265ef05aa694c0d3908d1bfe31";//"sk_test_52fdad00c5f938381b29d16a6e4c516bea328ff5";
+        $this->papiKey  = "sk_test_17cfff997f0293b3ae8c0e5164e32b06c03c1f75"; //sk_live_5e6809968753a4265ef05aa694c0d3908d1bfe31"sk_test_17cfff997f0293b3ae8c0e5164e32b06c03c1f75";
         $this->pbaseUrl =  'https://api.paystack.co';
         $this->pUrl     = "/transaction/initialize";
-
     }
 
     // Payment Initialization .......................................................
-    public function PayStack($data) {
+    public function PayStack($data)
+    {
 
-        $apiUrl = $this->pbaseUrl.$this->pUrl;
+        $apiUrl = $this->pbaseUrl . $this->pUrl;
 
         $headers = [
             'Content-Type: application/json',
@@ -51,12 +53,13 @@ class PAYMENT {
     }
 
 
-    public function Xpresspay($data) {
+    public function Xpresspay($data)
+    {
 
         // // $apiUrl = 'https://api.xpress-pay.com/payment/v1/payments';
         // https://myxpresspay.com:6004   - live
         // https://pgsandbox.xpresspayments.com:8090
-        $apiUrl = $this->xbaseUrl.$this->xUrl;
+        $apiUrl = $this->xbaseUrl . $this->xUrl;
 
         $headers = [
             'Content-Type: application/json',
@@ -80,13 +83,13 @@ class PAYMENT {
         }
 
         curl_close($ch);
-
     }
     // ...............................................................................
 
     // Payment verifications .........................................................
-    public function verifyPaystack($PaymentRef) {
-        
+    public function verifyPaystack($PaymentRef)
+    {
+
         $apiUrl = "https://api.paystack.co/transaction/verify/{$PaymentRef}";
 
         $headers = [
@@ -109,13 +112,13 @@ class PAYMENT {
         }
 
         curl_close($ch);
-       
     }
 
-    public function verifyXpresspay($data) {
-        
+    public function verifyXpresspay($data)
+    {
 
-        $apiUrl = $apiUrl = $this->xbaseUrl."/api/Payments/VerifyPayment"; //live: https://myxpresspay.com:6004/api/Payments/VerifyPayment
+
+        $apiUrl = $apiUrl = $this->xbaseUrl . "/api/Payments/VerifyPayment"; //live: https://myxpresspay.com:6004/api/Payments/VerifyPayment
 
         $headers = [
             'Content-Type: application/json',
@@ -139,9 +142,5 @@ class PAYMENT {
         }
 
         curl_close($ch);
-       
     }
-
 }
-
-?>
