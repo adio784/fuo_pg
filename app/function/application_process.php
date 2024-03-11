@@ -607,7 +607,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                 if ($activePayment->name == 'Xpress-pay') {
 
                     $data = [
-                        'amount'            => $amount,
+                        'amount'            => $amount + 600,
                         'email'             => $email,
                         'callBackUrl'       => $uri . "/app/function/acceptance_payment.php?xpacceptance_callback={$transferReff}",
                         "currency"          => "NGN",
@@ -648,7 +648,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                     }
                 } else {
                     $data = [
-                        'amount'            => $amount * 100,
+                        'amount'            => ($amount + 300) * 100,
                         'email'             => $email,
                         'callback_url'      => $uri . "/app/function/acceptance_payment.php?trnId={$transferReff}",
                         "currency"          => "NGN",
@@ -701,7 +701,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                 if ($activePayment->name == 'Xpress-pay') {
 
                     $data = [
-                        'amount'            => $amount,
+                        'amount'            => $amount + 600,
                         'email'             => $email,
                         'callBackUrl'       => $uri . "/app/function/acceptance_payment.php?xpacceptance_callback={$transferReff}",
                         "currency"          => "NGN",
@@ -743,7 +743,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                 } else {
 
                     $data = [
-                        'amount'            => $amount * 100,
+                        'amount'            => ($amount + 300) * 100,
                         'email'             => $email,
                         'callback_url'      => $uri . "/app/function/acceptance_payment.php?trnId={$transferReff}",
                         "currency"          => "NGN",

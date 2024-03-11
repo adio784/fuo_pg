@@ -12,10 +12,10 @@ class PAYMENT {
 
     public function __construct() {
         $this->xapiKey  = "XPPUBK-19995e83ba654840be35242359b66f8c-X";
-        $this->xbaseUrl =  'https://pgsandbox.xpresspayments.com:8090'; //live: https://myxpresspay.com:6004
+        $this->xbaseUrl =  'https://myxpresspay.com:6004'; //Test: https://pgsandbox.xpresspayments.com:8090
         $this->xUrl     = "/api/Payments/Initialize";
 
-        $this->papiKey  = "sk_test_52fdad00c5f938381b29d16a6e4c516bea328ff5";
+        $this->papiKey  = "sk_live_5e6809968753a4265ef05aa694c0d3908d1bfe31";//"sk_test_52fdad00c5f938381b29d16a6e4c516bea328ff5";
         $this->pbaseUrl =  'https://api.paystack.co';
         $this->pUrl     = "/transaction/initialize";
 
