@@ -30,9 +30,9 @@ $url = $protocol . $_SERVER['HTTP_HOST'];
                             The postgraduate School was established in the year 2017 to advance the frontiers of
                             knowledge
                             beyond the basic provisions of the programmes at undergraduate level.</p>
-                        <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutRight"
-                            data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInLeft"
-                            data-delay-in=".7">Apply now</a>
+                        <a href="admission_portal/registration" class="btn btn-primary"
+                            data-animation-out="fadeOutRight" data-delay-out="5" data-duration-in=".3"
+                            data-animation-in="fadeInLeft" data-delay-in=".7">Apply now</a>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@ $url = $protocol . $_SERVER['HTTP_HOST'];
                             ranging from physical to virtual (high-breed) handled by world-class Academics
                             with ICT as tools.
                         </p>
-                        <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutUp"
+                        <a href="admission_portal/registration" class="btn btn-primary" data-animation-out="fadeOutUp"
                             data-delay-out="5" data-duration-in=".3" data-animation-in="fadeInDown"
                             data-delay-in=".7">Apply now</a>
                     </div>
@@ -69,7 +69,7 @@ $url = $protocol . $_SERVER['HTTP_HOST'];
                             Taking any of our programmes will make you navigate the ocean of knowledge and become not
                             only employable but
                             also an employer of labour. </p>
-                        <a href="admissionportal/registration" class="btn btn-primary" data-animation-out="fadeOutDown"
+                        <a href="admission_portal/registration" class="btn btn-primary" data-animation-out="fadeOutDown"
                             data-delay-out="5" data-duration-in=".3" data-animation-in="zoomIn" data-delay-in=".7">Apply
                             now</a>
                     </div>
