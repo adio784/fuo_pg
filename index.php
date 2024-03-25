@@ -96,7 +96,7 @@ $url = $protocol . $_SERVER['HTTP_HOST'];
 
                             Generally, Masters programmes in Fountain University are of two forms: Academic and
                             Professional Masters; depending on the Department. Applicants are enjoined to confirm from
-                            their respective Departments or directly from the Sevretaty of the SPGS about the forms of
+                            their respective Departments or directly from the Secretary of the SPGS about the forms of
                             Masters available before completing their applications.
                         </p>
                     </div>
