@@ -64,6 +64,53 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
         if ($exPayment == "") {
             // AND payment_status=?
 
+            $metadata = [
+
+                "custom_fields" => [
+                    [
+                        "Name"      => "Application Number",
+                        "Value"     => $appID
+                    ],
+                    [
+                        "Name"      => "Fullname",
+                        "Value"     => $name
+                    ],
+                    [
+                        "Name"      => "Email",
+                        "Value"     => $email
+                    ],
+                    [
+                        "Name"      => "Amount paid",
+                        "Value"     => $amount
+                    ],
+                    [
+                        "Name"      => "Purpose",
+                        "Value"     => "Application Fee"
+                    ],
+                ]
+            ];
+            // $metadata = array(
+            //     array(
+            //         "Name"      => "Application Number",
+            //         "Value"     => $appID
+            //     ),
+            //     array(
+            //         "Name"      => "Fullname",
+            //         "Value"     => $name
+            //     ),
+            //     array(
+            //         "Name"      => "Email",
+            //         "Value"     => $email
+            //     ),
+            //     array(
+            //         "Name"      => "Amount Paid",
+            //         "Value"     => $amount
+            //     ),
+            //     array(
+            //         "Name"      => "Purpose",
+            //         "Value"     => "Application Fee"
+            //     )
+            // );
             $crData = [
                 "application_id"    => $appID,
                 "transactionId"     => $transferReff,
@@ -95,6 +142,14 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                                 "Value"     => $name
                             ],
                             [
+                                "Name"      => "Email",
+                                "Value"     => $email
+                            ],
+                            [
+                                "Name"      => "Amount paid",
+                                "Value"     => $amount
+                            ],
+                            [
                                 "Name"      => "Purpose",
                                 "Value"     => "Application Fee"
                             ],
@@ -118,29 +173,8 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                         'callback_url'      => $url . "/app/function/application_process.php",
                         "currency"          => "NGN",
                         "reference"         => $transferReff,
-                        'trxref'        =>  '',
-                        "metadata"          => [
-                            [
-                                "Name"      => "Application",
-                                "Value"     => $appID
-                            ],
-                            [
-                                "Name"      => "Fullname",
-                                "Value"     => $name
-                            ],
-                            [
-                                "Name"      => "Email",
-                                "Value"     => $email
-                            ],
-                            [
-                                "Name"      => "Amount paid",
-                                "Value"     => $amount
-                            ],
-                            [
-                                "Name"      => "Purpose",
-                                "Value"     => "Application Fee"
-                            ],
-                        ]
+                        'trxref'            =>  '',
+                        "metadata"          => $metadata
                     ];
 
                     $paymentResult = $xpressPay->PayStack($data);
@@ -190,6 +224,14 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                                 "Value"     => $name
                             ],
                             [
+                                "Name"      => "Email",
+                                "Value"     => $email
+                            ],
+                            [
+                                "Name"      => "Amount paid",
+                                "Value"     => $amount
+                            ],
+                            [
                                 "Name"      => "Purpose",
                                 "Value"     => "Application Fee"
                             ],
@@ -214,28 +256,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                         "currency"          => "NGN",
                         "reference"         => $transferReff,
                         'trxref'            =>  '',
-                        "metadata"          => [
-                            [
-                                "Name"      => "Application",
-                                "Value"     => $appID
-                            ],
-                            [
-                                "Name"      => "Fullname",
-                                "Value"     => $name
-                            ],
-                            [
-                                "Name"      => "Email",
-                                "Value"     => $email
-                            ],
-                            [
-                                "Name"      => "Amount paid",
-                                "Value"     => $amount
-                            ],
-                            [
-                                "Name"      => "Purpose",
-                                "Value"     => "Application Fee"
-                            ],
-                        ]
+                        "metadata"          => $metadata
                     ];
 
                     $paymentResult = $xpressPay->PayStack($data);
