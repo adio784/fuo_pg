@@ -65,27 +65,26 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
             // AND payment_status=?
 
             $metadata = [
-
                 "custom_fields" => [
                     [
-                        "Name"      => "Application Number",
-                        "Value"     => $appID
+                        "name"      => "Application Number",
+                        "value"     => $appID
                     ],
                     [
-                        "Name"      => "Fullname",
-                        "Value"     => $name
+                        "name"      => "Fullname",
+                        "value"     => $name
                     ],
                     [
-                        "Name"      => "Email",
+                        "name"      => "Email",
                         "Value"     => $email
                     ],
                     [
-                        "Name"      => "Amount paid",
+                        "name"      => "Amount paid",
                         "Value"     => $amount
                     ],
                     [
-                        "Name"      => "Purpose",
-                        "Value"     => "Application Fee"
+                        "name"      => "Purpose",
+                        "value"     => "Application Fee"
                     ],
                 ]
             ];
