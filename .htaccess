@@ -7,4 +7,4 @@ RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^([^/]+)/?$ $1.php [L]
 
 # Custom 404 Page
-ErrorDocument 404 /custom-404.php
+ErrorDocument 404 custom-404.php
