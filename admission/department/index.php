@@ -128,6 +128,7 @@
                 url: '../../app/function/Userauth.php', 
                 data: formData,
                 success: function (response) {
+                    console.log(response)
                     
                     if (response.status == 'success') {
                        
@@ -140,7 +141,7 @@
                            title: "Success !",
                            position: 'top right',
                            icon: 'glyphicon glyphicon-ok-sign',
-                           sound: 'sound2.mp3',
+                        //    sound: 'sound2.mp3',
                            delay: 15000,
                            theme: 'minimal',
                        });
@@ -158,7 +159,7 @@
 							class: 'lobibox-notify-error',
 							title: 'Error!',
 							icon: 'glyphicon glyphicon-remove-sign',
-        					sound: 'sound4.mp3',
+        					// sound: 'sound4.mp3',
                             position: 'top right',
 							theme: 'minimal'
                         });

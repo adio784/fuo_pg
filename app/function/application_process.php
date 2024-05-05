@@ -61,33 +61,42 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
         $exPayment = $chkPay->fetch(PDO::FETCH_OBJ);
         // ......................................................................................................
 
+        //Paystack Metadata .....................................................................................
+
+        $metadata = [
+            "custom_fields" => [
+                [
+                    "display_name"    => "Application Number",
+                    "variable_name"   => "stu_appID", 
+                    "value"           => $appID
+                ],
+                [
+                    "display_name"    => "Full Name",
+                    "variable_name"   => "stu_name", 
+                    "value"           => $name,
+                ],
+                [
+                    "display_name"    => "Email",
+                    "variable_name"   => "stu_email", 
+                    "value"           => $email,
+                ],
+                [
+                    "display_name"    => "Amount Paid",
+                    "variable_name"   => "stu_paid", 
+                    "value"           => $amount,
+                ],
+                [
+                    "display_name"    => "Purpose",
+                    "variable_name"   => "stu_purpose", 
+                    "value"           => "PG Application Fee",
+                ],
+            ]
+        ];
+        // ............................................................................................................
+
         if ($exPayment == "") {
             // AND payment_status=?
 
-            $metadata = [
-                "custom_fields" => [
-                    [
-                        "name"      => "Application Number",
-                        "value"     => $appID
-                    ],
-                    [
-                        "name"      => "Fullname",
-                        "value"     => $name
-                    ],
-                    [
-                        "name"      => "Email",
-                        "Value"     => $email
-                    ],
-                    [
-                        "name"      => "Amount paid",
-                        "Value"     => $amount
-                    ],
-                    [
-                        "name"      => "Purpose",
-                        "value"     => "Application Fee"
-                    ],
-                ]
-            ];
             // $metadata = array(
             //     array(
             //         "Name"      => "Application Number",
@@ -213,28 +222,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                         'callBackUrl'       => $url . "/app/function/application_process.php?xpayment_callback={$transferReff}",
                         "currency"          => "NGN",
                         "transactionId"     => $transferReff,
-                        "metadata"          => [
-                            [
-                                "Name"      => "Application",
-                                "Value"     => $appID
-                            ],
-                            [
-                                "Name"      => "Fullname",
-                                "Value"     => $name
-                            ],
-                            [
-                                "Name"      => "Email",
-                                "Value"     => $email
-                            ],
-                            [
-                                "Name"      => "Amount paid",
-                                "Value"     => $amount
-                            ],
-                            [
-                                "Name"      => "Purpose",
-                                "Value"     => "Application Fee"
-                            ],
-                        ]
+                        "metadata"          => $metadata
                     ];
 
                     $paymentResult = $xpressPay->Xpresspay($data);
@@ -598,17 +586,50 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
         $email          =   trim($_POST['email_address']);
         $desc           =   trim($_POST['purpose']);
 
-        // Check for active payment .........................................................................
+        // Check for active payment .......................................................................................................................
         $stmt = $database->getConnection()->prepare('SELECT id, name FROM `payment_method` WHERE status=? ');
         $stmt->execute([1]);
         $activePayment = $stmt->fetch(PDO::FETCH_OBJ);
-        // .....................................................................................................
+        // .................................................................................................................................................
 
-        // Check if user hasn't make same payment before .......................................................
+        // Check if user hasn't make same payment before ...................................................................................................
         $chkPay = $database->getConnection()->prepare('SELECT id, application_id FROM `application_payment` WHERE application_id=? AND description=? ');
         $chkPay->execute([$appID, $desc]);
         $exPayment = $chkPay->fetch(PDO::FETCH_OBJ);
-        // ......................................................................................................
+        // ..................................................................................................................................................
+
+        // Declaring metadata ...............................................................................................................................
+        $metadata = [
+            "custom_fields" => [
+                [
+                    "display_name"    => "Application Number",
+                    "variable_name"   => "stu_appID", 
+                    "value"           => $appID
+                ],
+                [
+                    "display_name"    => "Full Name",
+                    "variable_name"   => "stu_name", 
+                    "value"           => $name,
+                ],
+                [
+                    "display_name"    => "Email",
+                    "variable_name"   => "stu_email", 
+                    "value"           => $email,
+                ],
+                [
+                    "display_name"    => "Amount Paid",
+                    "variable_name"   => "stu_paid", 
+                    "value"           => $amount,
+                ],
+                [
+                    "display_name"    => "Purpose",
+                    "variable_name"   => "stu_purpose", 
+                    "value"           => "PG Acceptance Fee",
+                ],
+            ]
+        ];
+        // END METADATA HERE ................................................................................................................................
+
 
         if ($exPayment == "") {
             // AND payment_status=?
@@ -726,28 +747,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                         'callBackUrl'       => $uri . "/app/function/acceptance_payment.php?xpacceptance_callback={$transferReff}",
                         "currency"          => "NGN",
                         "transactionId"     => $transferReff,
-                        "metadata"          => [
-                            [
-                                "Name"      => "Application Id",
-                                "Value"     => $appID
-                            ],
-                            [
-                                "Name"      => "Fullname",
-                                "Value"     => $name
-                            ],
-                            [
-                                "Name"      => "Email",
-                                "Value"     => $email
-                            ],
-                            [
-                                "Name"      => "Amount paid",
-                                "Value"     => $amount
-                            ],
-                            [
-                                "Name"      => "Purpose",
-                                "Value"     => "Application Fee"
-                            ],
-                        ]
+                        "metadata"          => $metadata
                     ];
 
                     $paymentResult = $xpressPay->Xpresspay($data);
@@ -768,28 +768,7 @@ if (!isset($_SESSION['user_id']) && !isset($_SESSION['admStatus'])) {
                         'callback_url'      => $uri . "/app/function/acceptance_payment.php?trnId={$transferReff}",
                         "currency"          => "NGN",
                         "transactionId"     => $transferReff,
-                        "metadata"          => [
-                            [
-                                "Name"      => "Application Id",
-                                "Value"     => $appID
-                            ],
-                            [
-                                "Name"      => "Fullname",
-                                "Value"     => $name
-                            ],
-                            [
-                                "Name"      => "Email",
-                                "Value"     => $email
-                            ],
-                            [
-                                "Name"      => "Amount paid",
-                                "Value"     => $amount
-                            ],
-                            [
-                                "Name"      => "Purpose",
-                                "Value"     => "Application Fee"
-                            ],
-                        ]
+                        "metadata"          => $metadata
                     ];
 
                     $paymentResult = $xpressPay->PayStack($data);

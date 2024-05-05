@@ -357,11 +357,11 @@ if (isset($_GET['view_student'])) {
 
           <div class="col-lg-6 col-md-6 col-sm-12 mt-4">
             <label for="">Passport</label>
-            <p id="prr"> </p>
+            <p id="appPass"> </p>
           </div>
 
           <div class="col-lg-6 col-md-6 col-sm-12 mt-4 msCert2">
-            <label for="">Master Certificate</label>
+            <label for="" id="mastLabel">Master Certificate</label>
             <p id="msCert"> </p>
           </div>
 
@@ -558,13 +558,20 @@ if (isset($_GET['view_student'])) {
             $('#cd').val(dt.class_degree);
             $('#ia').val(dt.institute_attended);
             $('#cs').val(dt.course_name);
+            $('#appPass').html("<img alt='' class='card-img w-100' src='../../admission_portal/admissionUploads/" + dt.passport + "'>");
             $('#ol').html("<img alt='' class='card-img w-100' src='../../admission_portal/admissionUploads/" + dt.o_level + "'>");
             $('#up').html("<img alt='' class='card-img w-100' src='../../admission_portal/admissionUploads/" + dt.undergraduate + "'>");
-            $('#prr').html("<img alt='' class='card-img w-100' src='../../admission_portal/admissionUploads/" + dt.passport + "'>");
+
+
             if (dt.program == "836293") {
+
               $('#msCert').html("<img alt='' class='card-img w-100' src='../../admission_portal/admissionUploads/" + dt.masters + "'>");
+
             } else {
-              $("#msCert2").hide();
+
+              $("#msCert2").html("");
+              $("#mastLabel").html("");
+
             }
 
 
