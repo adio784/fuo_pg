@@ -17,7 +17,7 @@ class PAYMENT
         $this->xbaseUrl =  'https://myxpresspay.com:6004'; //Test: https://pgsandbox.xpresspayments.com:8090
         $this->xUrl     = "/api/Payments/Initialize";
 
-        $this->papiKey  = "sk_test_17cfff997f0293b3ae8c0e5164e32b06c03c1f75"; //"sk_live_5e6809968753a4265ef05aa694c0d3908d1bfe31";
+        $this->papiKey  = "sk_test_17cfff997f0293b3ae8c0e5164e32b06c03c1f75";
         $this->pbaseUrl =  'https://api.paystack.co';
         $this->pUrl     = "/transaction/initialize";
     }
