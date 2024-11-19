@@ -32,13 +32,13 @@ if (isset($_POST['login'])) {
             if ( $user->role == "student" ) {
                 $user_login = "student_home";
             } elseif ( $user->role == "lecturer" ) {
-                $user_login = "lecturer_home";
+                $user_login = "lecturer";
             } elseif ( $user->role == "admission" ) {
                 $user_login = "admission_home";
             } elseif ( $user->role == "admission_dept" ) {
                 $user_login = "admission_home";
-            } elseif ( $user->role == "access_control" ) {
-                $user_login = "admin_home";
+            } elseif ( $user->role == "super_admin" ) {
+                $user_login = "super_admin";
             } elseif ( $user->role == "not_student" ) {
                 $user_login = "not_student";
             } else {
@@ -56,7 +56,8 @@ if (isset($_POST['login'])) {
             // Roles ++++++++++++++
             // + student          +
             // + lecturer         +
-            // + access_control   +
+            // + super_admin      +
+            // + admin            +
             // + admission        +
             // ++++++++++++++++++++
 

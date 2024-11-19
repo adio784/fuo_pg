@@ -4,9 +4,6 @@ session_start();
 
 if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
 
-    $protocol       = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
-    $url_protocol   = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-    $url            = $protocol . $_SERVER['HTTP_HOST'];
 
 
     require_once '../../core/autoload.php';
@@ -23,16 +20,17 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
     $PaymentM   = new PAYMENT();
     $uid        = $_SESSION['user_id'];
     $Users      = $Crud->readAll('students', 'application_no', $uid);
-    $db         = $database->getConnection();
 
 
     foreach ($Users as $User) {
         $name       = $User->last_name . ' ' . $User->first_name . ' ' . $User->middle_name;
         $email      = $User->email;
         $matric     = $User->application_id;
+        $level      = $User->application_id;
         $phone      = $User->mobile_no;
-        $stdProgram = $course;
-        // $uri        = $_SERVER['HTTP_HOST'];
+        $stdProgram = $program;
+        $db         = $database->getConnection();
+        $uri        = $_SERVER['HTTP_HOST'];
     }
 
 
@@ -92,51 +90,54 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
 
     }
 
-   
+    echo "Yes";
     // Procees student payment ........................................................
     if (isset($_POST['payment_process'])) {
 
-        
-        $amountToPay        = $Sanitizer->sanitizeInput($_POST['amount_topay']);
-        $purpose            = $Sanitizer->sanitizeInput($_POST['payment_id']);
+        // echo "Yes, payment processed";
+        $amountToPay        = $_POST['amount_topay'];
+        $payment_purposes   = $_POST['payment_purpose'];
         $transferReff       = "trn" . date('Y') . rand(9, 999999);
-        $payment_session    = $Sanitizer->sanitizeInput($_POST['payment_session']);
-        echo "Yes, payment processed" . $purpose;        
+        $payment_session    = $_POST['payment_session'];
+        $payments_array     = explode(",", $payment_purposes);
 
-        // Check if payment already exist ..................................
-        $checkPayment      = $db->prepare("SELECT * FROM payments_history WHERE matric_no = ? AND payment_session = ? AND payment_id = ? ");
-        $checkPayment->execute([$uid, $payment_session, $purpose]);
-               
-        
-        if ($checkPayment->rowCount() > 0) {
+        foreach ($payments_array as $purpose => $amount) {
+            list($paymentType, $amountPaid) = explode('=', $purpose);
+            echo "<br>" . $paymentType . " " . $amountPaid . " " . $uid . "<br> <br> <br>";
 
-            $getCheckExistPayment = $checkPayment->fetchObject();
-            if ($getCheckExistPayment->payment_status == 1) {
+            // Check if payment already exist ..................................
+            $checkExistPayment      = $db->prepare("SELECT * FROM payments_history WHERE matric_no = ? AND payment_session=? AND payment_desc=? ");
+            $checkExistPayment->execute([$uid, $payment_session, $purpose]);
 
-                $msg = 'Payment Already Exist !!!';
-                header("Location: payments?payment_error={$msg}");
+            if ($checkExistPayment->rowCount() > 0) {
 
+                $getCheckExistPayment = $checkExistPayment->fetchObject();
+                if ($getCheckExistPayment->payment_status == 1) {
+
+                    $msg = 'Payment Already Exist !!!';
+                    header("Location: payments?payment_error={$msg}");
+                } else {
+
+                    $upData         = [
+                        "transaction_id"    => $transferReff,
+                        "amount_paid"       => $amountPaid,
+                    ];
+                    $createPayment  =  $Crud->update('payments_history', 'matric_no', $uid, $upData);
+                    echo "Success update";
+                }
             } else {
 
-                $upData         = [
+                $crData         = [
+                    "matric_no"         => $uid,
+                    "payment_desc"      => $purpose,
                     "transaction_id"    => $transferReff,
-                    "amount_paid"       => $amountToPay,
+                    "amount_paid"       => $amountPaid,
+                    "payment_session"   => $payment_session
                 ];
-                $createPayment  =  $Crud->update('payments_history', 'matric_no', $uid, $upData);
-                // echo "Success update";
+
+                $createPayment  =  $Crud->create('payments_history', $crData);
+                echo "Success Create";
             }
-        } else {
-
-            $crData         = [
-                "matric_no"         => $uid,
-                "payment_id"        => $purpose,
-                "transaction_id"    => $transferReff,
-                "amount_paid"       => $amountToPay,
-                "payment_session"   => $payment_session
-            ];
-
-            $createPayment  =  $Crud->create('payments_history', $crData);
-            // echo "Success Create";
         }
 
         //Paystack Metadata .....................................................................................
@@ -152,6 +153,11 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
                     "display_name"    => "Full Name",
                     "variable_name"   => "stu_name",
                     "value"           => $name,
+                ],
+                [
+                    "display_name"    => "Level",
+                    "variable_name"   => "stu_level",
+                    "value"           => $level,
                 ],
                 [
                     "display_name"    => "Phone",
@@ -173,76 +179,88 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
         // ............................................................................................................
 
         if ($createPayment) {
-            // callBackUrl
+
             $data = [
-                'amount'            => ($amountToPay+ 300) * 100,
+                'amount'            => $amountToPay,
                 'email'             => $email,
-                'callback_url'      => $url_protocol,// . "/app/function/student_actions.php",
+                'callBackUrl'       => "http://" . $uri . "    /app/function/student_actions.php?xpayment_callback={$transferReff}",
                 "currency"          => "NGN",
-                "reference"         => $transferReff,
-                'trxref'            =>  '',
+                "transactionId"     => $transferReff,
                 "metadata"          => $metadata
             ];
 
-            $paymentResult  = $PaymentM->PayStack($data);
-            $paymentStatus  = $paymentResult['status'];
-            $paymentData    = $paymentResult['data'];
-            $paymentURL     = $paymentData['authorization_url'];
-            var_export($paymentResult) . "<br>";
-            echo $url_protocol;
+            $paymentResult = $PaymentM->PayStack($data);
+            $paymentStatus = $paymentResult['status'];
+            var_export($paymentResult);
 
             if ($paymentStatus == true) {
-                
                 // Handle the successful payment initiation
-                
-                echo "Passed" . $paymentURL;
-                header('location: ' . $paymentURL);
+                $paymentData = $paymentResult['data'];
+                header('Location: ' . $paymentData['paymentUrl']);
             } else {
-                echo "Not passed";
                 // Handle the payment initiation error
                 $errorMessage = $paymentResult['data'];
                 $msg = "Payment Failed, Try Later!!!";
-                header("location: ../../students/payments?error={$msg}");
+                header("Location: ../../students/payments?error={$msg}");
             }
         } else {
             // echo "Unable to proceed";
-            var_export($paymentResult);
             $msg = 'Unable to update payment record, due to system error !!!';
-            // header("location: ../../students/payments?error={$msg}");
+            // header("Location: ../../students/payments?error={$msg}");
+
         }
 
-        // echo "<br/>" . $msg;
+        echo "<br/>" . $msg;
     }
 
-    // http://localhost/fuo_pg/app/function/student_actions.php?reference=3bkwwad1yi
-    // Api response to update application payment (Paystack)
-    if (isset($_GET['reference'])) {
-        $transferReff = $_GET['reference'];
-        echo "Verification...";
 
-        $paymentVResult = $PaymentM->verifyPaystack($transferReff);
-        // var_export($paymentVResult);
-        if ($paymentVResult['status'] == true) {
+    // Call back function for Xpress-payments
+    if (isset($_GET['xpayment_callback'])) {
+        $transferReff = $_GET['xpayment_callback'];
 
-            $paymentData = $paymentVResult['data'];
-            // var_export($paymentData);
+        $data = [
+            "transactionId"     => $transferReff,
+        ];
+        $paymentVResult = $PaymentM->verifyXpresspay($data);
+        print_r($paymentVResult->data->responseMessage);
+        if ($paymentVResult->responseCode == "00") {
+
+            $paymentData    = $paymentVResult->data;
+            $paymentRef     = $paymentData->paymentReference;
+            $paymentMsg     = $paymentVResult->responseMessage;
+            $paymentSts     = 1;
+
             $crData = [
-                "reference"       => $paymentData['id'],
-                "message"           => $paymentVResult['message'],
-                "payment_status"    => 1,
+                "reference"         => $paymentRef,
+                "message"           => $paymentMsg,
+                "payment_status"    => $paymentSts
             ];
-            $appData        = ["payment_status" => 1];
-            $createPayment  = $Crud->update('payments_history', 'transaction_id', $transferReff, $crData);
-            $msg            = "Payment Successful, Click Payment History, To Print Receipt";
-            header("Location: ../../students/payments?pay_success={$msg}");
 
+            $updatePaymentRecord  =  $Crud->update('payments_history', 'transaction_id', $transferReff, $crData);
+            $msg                  = "Payment Successful, Click Payment History, To Print Receipt";
+            header("Location: http://{$uri}/fuo_pg/students/payments?pay_success={$msg}");
+        } elseif ($paymentVResult->responseCode == "02") {
+
+            $paymentData    = $paymentVResult->data;
+            $paymentRef     = $paymentData->paymentReference;
+            $paymentMsg     = $paymentVResult->responseMessage;
+            $paymentSts     = 1;
+
+            $crData = [
+                "reference"       => $paymentRef,
+                "message"           => $paymentMsg,
+                "payment_status"    => $paymentSts
+            ];
+
+            $updatePaymentRecord  =  $Crud->update('payments_history', 'transaction_id', $transferReff, $crData);
+            $msg                  = "Payment Successful, Click Payment History, To Print Receipt";
+            header("Location: http://{$uri}/fuo_pg/students/payments?pay_success={$msg}");
         } else {
-
-            header('Location: ../../students/payments?error=Payment%20%20Could%20Not%20Be%20Verified,%20Try%20Requery%20!!!');
+            // 09063210146
+            $msg = "Sorry! Payment Could Not Be Verified !!!";
+            header("Location: http://{$uri}/fuo_pg/students/payments?pay_success={$msg}");
         }
     }
-
-
 } else {
     header("Location: /index");
 }

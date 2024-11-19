@@ -26,40 +26,7 @@
      </div>
 
      <div class="card mt-3 shadow-none border border-light">
-	    <div class="card-content">
-        <div class="row row-group m-0">
-          <div class="col-12 col-lg-5 col-xl-3 border-light">
-              <div class="card-body">
-                <div class="media">
-                  <div class="media-body text-left">
-                    <h4 class="text-info" id="fees_count">0</h4>
-                    <span>Total Selection</span>
-                  </div>
-                  <div class="align-self-center w-circle-icon rounded bg-info shadow-info">
-                    <i class="icon-basket-loaded text-white"></i>
-                  </div>
-                </div>
-              </div>
-          </div>
-          <div class="col-12 col-lg-7 col-xl-7 border-light">
-            <div class="card-body">
-                <div class="media">
-                  <div class="media-body text-left">
-                    <form method="POST" action="../app/function/student_actions.php" id="paymentForm">
-                        <h4 class="text-danger"><input type="text" name="amount_topay" id="school_fee" class="form-control" placeholder="total amount left" readonly></h4>
-                        <input type="hidden" name="payment_purpose" id="payment_purpose">
-                        <input type="hidden" name="payment_session" value="<?= $payment_session ?>">
-                        <input type="hidden" name="payment_process" value="<?= uniqid() ?>">
-                        <strong>Amount to pay</strong>
-                        
-                    </div>
-                        <button type="submit" id="proceedBtn" class="btn btn-info shadow-info waves-effect waves-light ml-1"> Proceed </button>
-                    
-                </div>
-            </div>
-          </div>
-        
-        </div>
+	    
     </div>
 </div>
 
@@ -81,12 +48,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                        <tr>
-                            <td> <input type="checkbox" class="fee_check form-control" disabled> </td>
-                            <th> <strong> Administrative Fee</strong></th>
-                            <th> <span class="badge bg-secondary text-white p-2">All Semester</span></th>
-                            <th> <?= $adminFee ?> </th>
-                        </tr>
 
                     <?php $count = 1; ?>
 
@@ -99,10 +60,8 @@
 
                                 } else {
                                     foreach( $getPayments as $record ){
-
-                                        if ($record->payment_type == 'Administrative fee') {
-                                            continue;
-                                        }
+                                        
+                                        $paymentID      =   $record->id;
                                         $paymentType    =   $record->payment_type;
                                         $paymentSemester=   $record->payment_semester;
                                         $amountPaid     =   $record->amount_paid;
@@ -114,6 +73,18 @@
                             <td> <?= $paymentType ?> </td>
                             <td> <span class="badge bg-secondary text-white p-2"> <?= ucfirst($paymentSemester) . ' Semester' ?> </span></td>
                             <td> <?= number_format($amountPaid) ?> </td>
+                            <td>
+                                <form action="../app/function/student_actions.php" method="POST" id="paymentForm">
+                                    <input type="hidden" name="amount" value="<?= $amountPaid ?>">
+                                    <input type="hidden" name="email_address" value="<?= $User->email; ?>">
+                                    <input type="hidden" name="session" value="<?= $_POST['payment_session']; ?>">
+                                    <input type="hidden" name="purpose" value="<?=$paymentType?>">
+                                    <input type="hidden" name="payment_process12" value="<?=uniqid()?>">
+                                    <input type="hidden" name="paymentID" value="<?=$paymentID?>">
+                                    
+                                    <button type="submit" id="paymentBtn" class="btn btn-primary"> Make payment</button>
+                                </form>
+                            </td>
                         </tr>
 
                         </form> 

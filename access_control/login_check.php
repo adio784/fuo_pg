@@ -16,13 +16,13 @@ if ( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ) {
     $uri        = $_SESSION['HTTP_HOST'];
     // echo $sts;
    
-    if( $sts =='not_student' ) {
+    if( $sts =='not_lecturer' ) {
 
-        header("Location: not_student");
+        header("Location: not_lecturer");
 
     } else if ($sts =='student') {
 
-        header("Location: student_home");
+        header("Location: home");
 
     } else if ($sts =='banned') {
 

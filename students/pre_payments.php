@@ -28,14 +28,9 @@
                         
                                 <select name="payment_session" id="" class="form-control">
                                     <option value="" selected>-- Select a session -- </option>
-                                    <?php 
-                                        for ($payYr = 2024; $payYr <= date('Y'); $payYr++){ 
-                                            $paySession = $payYr-1 . '/'. $payYr;
-                                        ?>
-                                            <option value="<?= $paySession ?>"> <?= $paySession ?></option>
-
-                                    <?php  } 
-                                    ?>
+                                    <?php foreach($Levels as $Level){ ?>
+                                        <option value="<?= $Level->name ?>"> <?= $Level->name ?></option>
+                                    <?php  } ?>
                                 </select>
                             
                             </div>

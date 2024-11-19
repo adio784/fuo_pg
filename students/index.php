@@ -76,8 +76,8 @@
 			  </div>
 			 </div>
 			</div>
-            <input type="hidden" name="login" value="<?= uniqid(); ?>">
-			 <button type="submit" id="loginBtn" class="btn btn-primary shadow-primary btn-round btn-block waves-effect waves-light">Sign In</button>
+        <input type="hidden" name="login" value="<?= uniqid(); ?>">
+			  <button type="submit" id="loginBtn" class="btn btn-primary shadow-primary btn-round btn-block waves-effect waves-light">Sign In</button>
 			  <div class="text-center pt-3">
 				
 				<hr>
