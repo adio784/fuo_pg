@@ -1,5 +1,4 @@
 <?php
-
 ob_start();
 session_start();
 
@@ -9,38 +8,32 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
   require_once '../core/autoload.php';
   require_once '../core/Database.php';
   require_once '../common/CRUD.php';
-  include 'includes/students_data.php';
+  include 'includes/lecturer_data.php';
 
-  // ........ PAYMENT SESSION .............................................................................
-  $payment_session    = isset($_POST['pay_session']) ? $_POST['pay_session'] : $current_session;
+  // ........ PAGE PART .............................................................................
   $segments  = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
   $page_path = $segments[count($segments) - 1]; // $page_path = end($segments);
 
 
   function formatDate($dt)
   {
-    $timestamp = strtotime($dt);
-    if ($timestamp === false) {
-      return "--";
-    }
-    return date('D-M d, Y', $timestamp);
+    return date('D-M d, Y', strtotime($dt));
   }
 
+  function encodeId($id)
+  {
+    return base64_encode($id);
+  }
 
-  // Get all available payments
-  if (isset($_POST['payment_session'])) {
-    $payment_session        = $_POST['payment_session'];
-    $getPayments            = $Crud->readAllByThree("student_fees", "status", 1, "AND", "program_id", $programId, 'AND', 'payment_session', $payment_session);
-
-    // Get Administrative fee
-    $getAdminFee           = $Crud->readAllByThree("student_fees", "status", 1, "AND", "payment_type", 'Administrative fee', 'AND', 'payment_session', $payment_session);
-    foreach ($getAdminFee as $adminFees)
-      $adminFee = number_format($adminFees->amount_paid);
+  function decodeId($id)
+  {
+    return base64_decode($id);
   }
 } else {
 
-  echo "<script>window.location = 'index';</script>";
+  header("Location: index");
 }
+
 
 ?>
 
@@ -152,37 +145,63 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
         <br>
         <li class="sidebar-header">MAIN NAVIGATION</li>
         <li>
-          <a href="student_home" class="waves-effect">
+          <a href="lecturer_home" class="waves-effect">
             <i class="icon-home"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
           </a>
         </li>
+
         <li>
+          <a href="students_menu" class="waves-effect">
+            <i class="icon-grid"></i>
+            <span>Student</span>
+            <small class="badge float-right badge-danger"><?php ?></small>
+          </a>
+        </li>
+
+        <li>
+          <a href="lecturers" class="waves-effect">
+            <i class="icon-people"></i>
+            <span>Lecturer</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+        </li>
+        <!-- <li>
           <a href="pre_payments" class="waves-effect">
             <i class="icon-wallet"></i>
             <span>Payments</span>
             <small class="badge float-right badge-danger"><?php  //' New' : '' 
                                                           ?></small>
           </a>
-        </li>
+        </li> -->
 
-        <li>
+        <!-- <li>
           <a href="payment_history" class="waves-effect">
             <i class="icon-list"></i>
             <span>Payments History</span>
             <i class="fa fa-angle-left pull-right"></i>
           </a>
-        </li>
+        </li> -->
 
 
         <li>
           <a href="#" class="waves-effect">
-            <i class="icon-calendar"></i> <span>Courses</span>
+            <i class="icon-layers"></i> <span>Curriculum</span>
             <i class="fa fa-angle-left pull-right"></i>
           </a>
           <ul class="sidebar-submenu">
-            <li><a href="course_registration"><i class="fa fa-circle-o"></i> New Registration</a></li>
-            <li><a href="registered_courses"><i class="fa fa-circle-o"></i> Registered</a></li>
-            <li><a href="previous_course_registration"><i class="fa fa-circle-o"></i> Past Registration</a></li>
+            <li><a href="all_courses"><i class="fa fa-circle-o"></i> All courses</a></li>
+            <li><a href="add_course"><i class="fa fa-circle-o"></i> Add Course</a></li>
+            <!-- <li><a href="previous_course_registration"><i class="fa fa-circle-o"></i></a></li> -->
+          </ul>
+        </li>
+
+        <li>
+          <a href="#" class="waves-effect">
+            <i class="icon-event"></i> <span>Registration</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="sidebar-submenu">
+            <li><a href="course_reg_approval"><i class="fa fa-circle-o"></i> Courses </a></li>
           </ul>
         </li>
 
@@ -197,8 +216,22 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
         </li>
 
         <li>
+          <a href="#" class="waves-effect">
+            <i class="icon-book-open"></i>
+            <span>Admission</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="sidebar-submenu">
+            <li><a href="all_applicant"><i class="fa fa-circle-o"></i> All Applicants </a></li>
+            <li><a href="new_applicant"><i class="fa fa-circle-o"></i> New Applicants </a></li>
+            <li><a href="admitted_applicant"><i class="fa fa-circle-o"></i> Admitted </a></li>
+            <li><a href="recommended_applicant"><i class="fa fa-circle-o"></i> Recommended </a></li>
+          </ul>
+        </li>
+
+        <li>
           <a href="student_transcript" class="waves-effect">
-            <i class="icon-menu"></i>
+            <i class="icon-note"></i>
             <span>Transcript</span>
             <i class="fa fa-angle-left pull-right"></i>
           </a>
@@ -206,8 +239,14 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
 
 
         <li class="sidebar-header">OTHER link</li>
-        <li><a href="pgforms" class="waves-effect"><i class="fa fa-circle-o text-yellow"></i> <span>Forms</span></a></li>
-        <li><a href="logout" class="waves-effect"><i class="fa fa-login text-danger"></i> <span>Logout</span></a></li>
+        <li>
+          <a href="profile_menu" class="waves-effect">
+            <i class="icon-user"></i>
+            <span>Profile</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+        </li>
+        <li><a href="logout" class="waves-effect"><i class="fa fa-sign-out text-yellow"></i> <span>Logout</span></a></li>
       </ul>
 
     </div>
@@ -283,7 +322,7 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
               </li>
               <li class="dropdown-divider"></li>
               <li class="dropdown-divider"></li>
-              <li class="dropdown-item"><i class="icon-wallet mr-2"></i> Account</li>
+              <li class="dropdown-item"><a href="profile_menu"><i class="icon-wallet mr-2"></i> Account</a></li>
               <li class="dropdown-divider"></li>
               <li class="dropdown-item"><a href="logout"><i class="icon-power mr-2"></i> Logout </a></li>
             </ul>

@@ -33,6 +33,26 @@ if (isset($_POST['deleteCourse'])) {
 $getRegisteredCourseTotal   = $Crud->readAll("course_registration", "student_id", $uid);
 // ...................................................................................................................................
 
+// Get all registered courses for the currect session .............................................................................
+$getRegisteredQuery   = $db->prepare("
+                        SELECT
+                        course_registration.*,
+                        departmental_courses.course_code,
+                        departmental_courses.course_title,
+                        departmental_courses.course_unit,
+                        departmental_courses.course_status,
+                        departmental_courses.semester
+                        FROM course_registration
+                        INNER JOIN departmental_courses ON course_registration.course_id = departmental_courses.id
+                        WHERE course_registration.student_id = ? AND course_registration.course_session = ?");
+$getRegisteredQuery->execute([$uid, $current_session]);
+$getRegisteredCourses  = $getRegisteredQuery->fetchAll(PDO::FETCH_OBJ);
+// ..................................................................................................................................
+
+
+$getCourseApproval = $Crud->readByTwo("course_registration_approval", "student_id", "$uid", "AND", "course_session", "$current_session");
+
+
 ?>
 
 
@@ -87,13 +107,13 @@ $getRegisteredCourseTotal   = $Crud->readAll("course_registration", "student_id"
 
                                         foreach ($getRegisteredCourses as $recent) {
                                             $count++;
-                                            $courseid = $recent->id;
-                                            $courseCode = $recent->course_code;
-                                            $courseTitle = $recent->course_title;
-                                            $courseUnit = $recent->course_unit;
-                                            $status = $recent->course_status;
-                                            $sem = $recent->semester;
-                                            $date   =   $recent->created_at;
+                                            $courseid       = $recent->id;
+                                            $courseCode     = $recent->course_code;
+                                            $courseTitle    = $recent->course_title;
+                                            $courseUnit     = $recent->course_unit;
+                                            $status         = $recent->course_status;
+                                            $sem            = $recent->semester;
+                                            $date           = $recent->created_at;
                                     ?>
 
                                             <tr>
@@ -105,7 +125,9 @@ $getRegisteredCourseTotal   = $Crud->readAll("course_registration", "student_id"
                                                 <td> <?= $sem ?> </td>
                                                 <td> <?= formatDate($date) ?> </td>
                                                 <td>
-                                                    <button type="button" id="<?= $courseid ?>" class="removeCourseBtn btn btn-warning shadow-warning waves-effect waves-light m-1"><i class="fa fa-trash font-lg"></i> Remove</a>
+                                                    <button type="button" id="<?= $courseid ?>" data-id="<?= $courseid ?>" class="removeCourseBtn btn btn-warning shadow-warning waves-effect waves-light m-1">
+                                                        <i class="fa fa-trash font-lg"></i> Remove
+                                                        </a>
                                                 </td>
 
 
@@ -133,6 +155,63 @@ $getRegisteredCourseTotal   = $Crud->readAll("course_registration", "student_id"
                         </div>
                     </div>
                 </div>
+
+                <?php
+                if ($getCourseApproval && $getRegisteredCourses) {
+                    if ($getCourseApproval->course_approval === 'pending') { ?>
+
+                        <div class="card mt-3 shadow-none border border-light">
+                            <div class="card-content">
+                                <div class="row row-group m-0">
+                                    <div class="col-12 col-lg-2 col-xl-2 border-light">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="align-self-center w-circle-icon rounded bg-danger shadow-danger text-white">
+                                                    <span class="badge"><i class="fa fa-exclamation-triangle text-white"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-10 col-xl-10 border-light">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body">
+                                                    <a class="btn btn-danger shadow-danger waves-effect waves-light ml-1 p-3 text-white">AWAITING COURSE APPROVAL</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    <?php } else { ?>
+                        <div class="card mt-3 shadow-none border border-light">
+                            <div class="card-content">
+                                <div class="row row-group m-0">
+                                    <div class="col-12 col-lg-2 col-xl-2 border-light">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="align-self-center w-circle-icon rounded bg-success shadow-success text-white">
+                                                    <span class="badge"><i class="fa fa-info text-white"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-lg-10 col-xl-10 border-light">
+                                        <div class="card-body">
+                                            <div class="media">
+                                                <div class="media-body text-center">
+                                                    <a href="pre_payments" class="btn btn-success shadow-success waves-effect waves-light ml-1 p-3"><i class="fa fa-print text-white"></i> Click here to print course form </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                <?php } ?>
             </div>
         </div><!-- End Row-->
 
@@ -171,95 +250,94 @@ $getRegisteredCourseTotal   = $Crud->readAll("course_registration", "student_id"
             e.preventDefault();
 
             // Get form data
-            var dataId = $(this).attr('id');
+            var dataId = $(this).attr('data-id');
             // alert(dataId);
             $login_btn = $('#' + dataId);
             $login_btn.addClass('disabled');
 
             swal({
-                title: 'Do you want Continue ?',
-                text: "You are sure to delete this course",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#C64EB2',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes',
-                buttons: {
-                    cancel: true,
-                    confirm: true,
-                },
-            }).then((result) => {
-                // if (result.true) {
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this course!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
 
-                $('#overlay').show();
-                $('#preloader').show();
-                $login_btn.html('<div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>');
+                        $('#overlay').show();
+                        $('#preloader').show();
+                        $login_btn.addClass('disabled');
+                        $login_btn.html('<div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>');
+                        // swal("Poof! Your imaginary file has been deleted!", {
+                        //     icon: "success",
+                        // });
 
-                // Perform AJAX validation
-                $.ajax({
-                    type: 'POST',
-                    url: 'registered_courses.php',
-                    dataType: 'json',
-                    data: {
-                        deleteCourse: dataId
-                    },
-                    success: function(response) {
-                        console.log(response);
-                        if (response.status == 'success') {
+                        // Perform AJAX validation
+                        $.ajax({
+                            type: 'POST',
+                            url: 'registered_courses.php',
+                            dataType: 'json',
+                            data: {
+                                deleteCourse: dataId
+                            },
+                            success: function(response) {
+                                console.log(response);
+                                if (response.status == 'success') {
 
-                            $login_btn.html('Remove');
-                            $login_btn.removeClass('disabled');
-                            $('#overlay').hide();
-                            $('#preloader').hide();
+                                    $login_btn.html('Remove');
+                                    $login_btn.removeClass('disabled');
+                                    $('#overlay').hide();
+                                    $('#preloader').hide();
 
-                            Lobibox.notify('success', {
-                                msg: response.message,
-                                class: 'lobibox-notify-success',
-                                title: "Success !",
-                                position: 'top right',
-                                icon: true,
-                                icon: 'glyphicon glyphicon-ok-sign',
-                                delay: 1500,
-                                theme: 'minimal',
-                            });
-                            setInterval(() => {
-                                window.location.reload();
-                            }, 1500);
+                                    Lobibox.notify('success', {
+                                        msg: response.message,
+                                        class: 'lobibox-notify-success',
+                                        title: "Success !",
+                                        position: 'top right',
+                                        icon: true,
+                                        icon: 'glyphicon glyphicon-ok-sign',
+                                        delay: 1500,
+                                        theme: 'minimal',
+                                    });
+                                    setInterval(() => {
+                                        window.location.reload();
+                                    }, 1500);
 
-                        } else {
+                                } else {
 
-                            $login_btn.html('Remove');
-                            $login_btn.removeClass('disabled');
-                            $('#overlay').hide();
-                            $('#preloader').hide();
+                                    $login_btn.html('Remove');
+                                    $login_btn.removeClass('disabled');
+                                    $('#overlay').hide();
+                                    $('#preloader').hide();
 
-                            Lobibox.notify('error', {
-                                msg: response.message,
-                                class: 'lobibox-notify-error',
-                                title: 'Error!',
-                                showClass: 'fadeInDown',
-                                hideClass: 'fadeUpDown',
-                                icon: true,
-                                icon: 'glyphicon glyphicon-remove-sign',
-                                position: 'top right',
-                                theme: 'minimal',
-                            });
+                                    Lobibox.notify('error', {
+                                        msg: response.message,
+                                        class: 'lobibox-notify-error',
+                                        title: 'Error!',
+                                        showClass: 'fadeInDown',
+                                        hideClass: 'fadeUpDown',
+                                        icon: true,
+                                        icon: 'glyphicon glyphicon-remove-sign',
+                                        position: 'top right',
+                                        theme: 'minimal',
+                                    });
 
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
+                                }
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                            }
+                        });
+                    } else {
+
+                        $('#overlay').hide();
+                        $('#preloader').hide();
+                        $login_btn.html('<i class="fa fa-trash font-lg"></i> Remove');
+                        $login_btn.removeClass('disabled');
+                        swal("You cancel deleting!");
                     }
                 });
-
-                // } else {
-                //   console.log("You clicked cancel")
-                // }
-
-            });
-
-
-
 
         });
     });

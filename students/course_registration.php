@@ -1,15 +1,20 @@
 <?php include 'includes/header.php'; ?>
 <?php
 //  Get list of courses for this student in this program .................................
-// $getAdminFee           = $Crud->readAllByThree("departmental_courses", "is_active", 1, "AND", "department", $departmentId, 'AND', 'pg_course', $courseId);
+$getAdminFee           = $Crud->readAllByThree("departmental_courses", "is_active", 1, "AND", "department", $departmentId, 'AND', 'pg_course', $courseId);
 
 // Get list of school fee and administartive fee for this student in this program .................................
-$getSchoolFees          = $Crud->readAllByThree("payments_history", "payment_status", 1, "AND", "payment_desc", 'School fee', 'AND', 'payment_session', $current_session);
-$getAdminFees           = $Crud->readAllByThree("payments_history", "payment_status", 1, "AND", "payment_desc", 'Administrative fee', 'AND', 'payment_session', $current_session);
+$getSchoolFeesQ         = $db->prepare("SELECT * FROM `payments_history` WHERE applicationId=? AND payment_status=? AND payment_desc=? AND payment_session=?");$getSchoolFeesQ->execute([$uid, 1, 'School fee', $current_session]);
+$getSchoolFees          = $getSchoolFeesQ->fetchAll(PDO::FETCH_OBJ);//$Crud->readAllByFour("payments_history", "applicationId", "$uid", "AND", "payment_status", 1, "AND", "payment_desc", 'School fee', 'AND', 'payment_session', $current_session);
+
+$getAdminFeesQ         = $db->prepare("SELECT * FROM `payments_history` WHERE applicationId=? AND payment_status=? AND payment_desc=? AND payment_session=?");$getSchoolFeesQ->execute([$uid, 1, 'Administrative fee', $current_session]);
+$getAdminFees          = $getSchoolFeesQ->fetchAll(PDO::FETCH_OBJ);
 $getProgramFees         = $Crud->readByTwo("programme", "is_active", 1, "AND", "program_id", "$programId");
 
 $sumSchoolFee = 0;
 $sumAdminFee = 0;
+
+
 
 foreach ($getSchoolFees as $schoolFee) {
   $sumSchoolFee += $schoolFee->amount_paid;
@@ -18,19 +23,17 @@ foreach ($getSchoolFees as $schoolFee) {
 foreach ($getAdminFees as $adminFee) {
   $sumAdminFee += $adminFee->amount_paid;
 }
-var_export($totalFeesToPay);
-// $totalFeesToPay  = $getProgramFees->school_fee;
-// $percentagePaid = ($totalFeesPaid / $totalExpectedFees) * 100;
+
+$totalSchoolFeesToPay  = $getProgramFees->school_fee;
+$percentagePaid = ($sumSchoolFee / $totalSchoolFeesToPay) * 100;
 
 // Get all registered courses for the currect session .............................................................................
-$getRegisteredQuery   = $db->prepare("
-                        SELECT *
-                        FROM course_registration
-                        INNER JOIN departmental_courses ON course_registration.course_id = departmental_courses.id
-                        WHERE course_registration.student_id = ? AND course_registration.course_session = ?");
-                        $getRegisteredQuery->execute([$uid, $current_session]);
-                        $getRegisteredCourses  = $getRegisteredQuery->fetchAll(PDO::FETCH_OBJ);
+$getCourse   = $db->prepare("SELECT * FROM departmental_courses WHERE department_id = ? AND program_id = ? AND pg_course = ?");
+$getCourse->execute([$departmentId, $programId, $courseId]);
+$getCourses  = $getCourse->fetchAll(PDO::FETCH_OBJ);
 // ..................................................................................................................................
+
+
 
 ?>
 
@@ -44,7 +47,7 @@ $getRegisteredQuery   = $db->prepare("
     <!-- Breadcrumb-->
     <div class="row pt-2 pb-2">
       <div class="col-sm-9">
-        <h4 class="page-title">Course Registration > > > <?= $course ?></h4>
+        <h4 class="page-title">Course Registration > > > </h4>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="student_home">Home</a></li>
           <li class="breadcrumb-item"><a href="javaScript:void();">Students</a></li>
@@ -55,7 +58,7 @@ $getRegisteredQuery   = $db->prepare("
 
     <!-- Processing Course Registration from here ................................................................................................................................... -->
     <?php
-    // echo $uid;
+ 
     if (isset($_POST['courseForm'])) {
       ob_end_clean();
       $courseID = implode(',', ($_POST['courseId']));
@@ -66,7 +69,7 @@ $getRegisteredQuery   = $db->prepare("
         if (count($checkCourseExist) > 0) {
 
           $response['status']   = 'error';
-          $response['message']  = "Some course(s) already registered for this session";
+          $response['message']  = "Some of the selected course(s) already registered for this session";
         } else {
 
           $Data         = [
@@ -75,23 +78,31 @@ $getRegisteredQuery   = $db->prepare("
             "course_session"  => $current_session
           ];
 
-          $createPayment      =  $Crud->create('course_registration', $Data);
+          $createCourse      =  $Crud->create('course_registration', $Data);
+
           $response['status'] = 'success';
           $response['message'] = 'Course successfully registered';
         }
       }
 
-      // Returning JavaScript Object Notation As Response ...............
+      $checkCApproalExist = $Crud->readAllByTwo("course_registration_approval", "student_id", $uid, 'AND', 'course_session', $current_session);
+      if (count($checkCApproalExist) < 1) {
+        $AData              = ["student_id"      => $uid, "course_session"  => $current_session];
+        $createApprovalC    =  $Crud->create('course_registration_approval', $AData);
+      }
+
+
+      // Returning JavaScript Object Notation As Response ......................................................
       header('Content-Type: application/json');
       echo json_encode($response);
       exit();
-      // ................................................................
+      // ......................................................................................................
 
     }
     ?>
     <!-- Course registration processing ends here ....................................................................................................................................... -->
-    
-    <?php if (isset($_GET['error'])) { ?>
+
+    <?php if ($percentagePaid < 25 && $sumAdminFee >= 10000) { ?>
 
       <!-- Error course begins from here ------------------------------------------------------------------------ -->
       <div class="card mt-3 shadow-none border border-light">
@@ -101,7 +112,7 @@ $getRegisteredQuery   = $db->prepare("
               <div class="card-body">
                 <div class="media">
                   <div class="align-self-center w-circle-icon rounded bg-danger shadow-danger">
-                    <i class="icon-caution text-white"></i>
+                  <span class="badge"><i class="fa fa-info text-white"></i></span>
                   </div>
                 </div>
               </div>
@@ -110,7 +121,7 @@ $getRegisteredQuery   = $db->prepare("
               <div class="card-body">
                 <div class="media">
                   <div class="media-body text-center">
-                    <p>You need to make at least 25% of your school fee and administrative fee of N25,000 only to enable you access the course registration</p>
+                    <p>You need to make at least 25% of your school fee and administrative fee of N10,000 only to enable you access the course registration</p>
                     <a href="pre_payments" class="btn btn-info shadow-info waves-effect waves-light ml-1 p-3"><i class="fa fa-plus text-white"></i> Click here to make payment </a>
                   </div>
                 </div>
@@ -121,119 +132,118 @@ $getRegisteredQuery   = $db->prepare("
       </div>
       <!-- Error course ends here ................................................................................. -->
 
-      <?php }else{ var_export($sumSchoolFee)?>
+    <?php } else { ?>
 
 
       <!-- Course registration begins from here ------------------------------------------------------------------------ -->
-    <form method="post" action="" id="courseForm">
-      <input type="hidden" name="courseForm" value="<?= uniqid() ?>">
-      <div class="card mt-3 shadow-none border border-light">
-        <div class="card-content">
-          <div class="row row-group m-0">
-            <div class="col-12 col-lg-5 col-xl-3 border-light">
-              <div class="card-body">
-                <div class="media">
-                  <div class="media-body text-left">
-                    <h4 class="text-info" id="totalCourse">0</h4>
-                    <span>Total Selection</span>
-                  </div>
-                  <div class="align-self-center w-circle-icon rounded bg-info shadow-info">
-                    <i class="icon-basket-loaded text-white"></i>
+      <form method="post" action="" id="courseForm">
+        <input type="hidden" name="courseForm" value="<?= uniqid() ?>">
+        <div class="card mt-3 shadow-none border border-light">
+          <div class="card-content">
+            <div class="row row-group m-0">
+              <div class="col-12 col-lg-5 col-xl-3 border-light">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-body text-left">
+                      <h4 class="text-info" id="totalCourse">0</h4>
+                      <span>Total Selection</span>
+                    </div>
+                    <div class="align-self-center w-circle-icon rounded bg-info shadow-info">
+                      <i class="icon-basket-loaded text-white"></i>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="col-12 col-lg-7 col-xl-7 border-light">
-              <div class="card-body">
-                <div class="media">
-                  <div class="media-body text-left">
-                    <button type="submit" id="addCourseBtn" class="btn btn-info shadow-info waves-effect waves-light ml-1 p-3"><i class="fa fa-plus text-white"></i> Add Courses </button>
+              <div class="col-12 col-lg-7 col-xl-7 border-light">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-body text-left">
+                      <button type="submit" id="addCourseBtn" class="btn btn-info shadow-info waves-effect waves-light ml-1 p-3"><i class="fa fa-plus text-white"></i> Add Courses </button>
+                    </div>
+
+
                   </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- End Breadcrumb-->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <div class="card-header"><i class="fa fa-table"></i> Course Registration</div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th width="70px"><input type="checkbox" id="checkAll" class="form-control"> </th>
+                        <th>Code</th>
+                        <th>Title </th>
+                        <th>Unit</th>
+                        <th>Status</th>
+                        <th>Semester</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- Iterate thru the existing data -->
+                      <?php
+
+                      if ($getCourses < 1) {
+
+                        echo "<tr> <td align='center' colspan=6> <strong> No record found !!! </strong> </td> </tr>";
+                      } else {
+                        foreach ($getCourses as $recent) {
+                          $courseId     =   $recent->id;
+                          $courseCode   =   $recent->course_code;
+                          $courseTitle  =   $recent->course_title;
+                          $status       =   $recent->course_status;
+                          $courseUnit   =   $recent->course_unit;
+                          $semester     =   $recent->semester;
+                          $date         =   $recent->created_at;
+                      ?>
+
+                          <tr>
+                            <td> <input type="checkbox" class="courseId form-control" name="courseId[]" data-id="<?= 'course' . $courseId ?>" value="<?= $courseId ?>"> </td>
+                            <td> <?= $courseCode ?> </td>
+                            <td> <?= $courseTitle ?> </td>
+                            <td> <?= $courseUnit ?></td>
+                            <td> <?= $status ?></td>
+                            <td> <?= $semester ?> </td>
 
 
+                          </tr>
+
+                      <?php }
+                      } ?>
+
+                      <!-- iteration ends here -->
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th>*</th>
+                        <th>Code</th>
+                        <th>Title </th>
+                        <th>Unit</th>
+                        <th>Status</th>
+                        <th>Semester</th>
+                      </tr>
+                    </tfoot>
+                  </table>
                 </div>
               </div>
             </div>
-
           </div>
-        </div>
+        </div><!-- End Row-->
 
-      </div>
-    
-      <!-- End Breadcrumb-->
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="card">
-            <div class="card-header"><i class="fa fa-table"></i> Course Registration</div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th width="70px"><input type="checkbox" id="checkAll" class="form-control"> </th>
-                      <th>Code</th>
-                      <th>Title </th>
-                      <th>Unit</th>
-                      <th>Status</th>
-                      <th>Semester</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-
-                    <!-- Iterate thru the existing data -->
-                    <?php
-
-                    if ($getCourse < 1) {
-
-                      echo "<tr> <td align='center' colspan=6> <strong> No record found !!! </strong> </td> </tr>";
-                   
-                    } else {
-                      foreach ($getCourse as $recent) {
-                        $courseId     =   $recent->id;
-                        $courseCode   =   $recent->course_code;
-                        $courseTitle  =   $recent->course_title;
-                        $status       =   $recent->course_status;
-                        $courseUnit   =   $recent->course_unit;
-                        $semester     =   $recent->semester;
-                        $date         =   $recent->created_at;
-                    ?>
-
-                        <tr>
-                          <td> <input type="checkbox" class="courseId form-control" name="courseId[]" data-id="<?= 'course' . $courseId ?>" value="<?= $courseId ?>"> </td>
-                          <td> <?= $courseCode ?> </td>
-                          <td> <?= $courseTitle ?> </td>
-                          <td> <?= $courseUnit ?></td>
-                          <td> <?= $status ?></td>
-                          <td> <?= $semester ?> </td>
-
-
-                        </tr>
-
-                    <?php }
-                    } ?>
-
-                    <!-- iteration ends here -->
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <th>*</th>
-                      <th>Code</th>
-                      <th>Title </th>
-                      <th>Unit</th>
-                      <th>Status</th>
-                      <th>Semester</th>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div><!-- End Row-->
-
-    </form>
-    <!-- Course registration ends here -->
-     <?php } ?>
+      </form>
+      <!-- Course registration ends here -->
+    <?php } ?>
 
   </div>
   <!-- End container-fluid-->
@@ -404,7 +414,7 @@ $getRegisteredQuery   = $db->prepare("
         url: 'course_registration.php',
         data: formData,
         success: function(response) {
-        // console.log(response);
+          // console.log(response);
           if (response.status == 'success') {
 
             document.getElementById("courseForm").reset();

@@ -7,11 +7,11 @@
       <!-- Breadcrumb-->
      <div class="row pt-2 pb-2">
         <div class="col-sm-9">
-		    <h4 class="page-title">Results > > ></h4>
+		    <h4 class="page-title">Transcript > > ></h4>
 		    <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="student_home">Home</a></li>
             <li class="breadcrumb-item"><a href="javaScript:void();">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Result</li>
+            <li class="breadcrumb-item active" aria-current="page">Transcript</li>
          </ol>
 	   </div>
      </div>
@@ -22,7 +22,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="card">
-            <div class="card-header"><i class="fa fa-table"></i> Result for the current session  ... </div>
+            <div class="card-header"><i class="fa fa-table"></i> Transcript for the all session  ... </div>
             <div class="card-body">
               <div class="table-responsive">
               <table id="default-datatable" class="table table-bordered">
@@ -39,46 +39,6 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                        <!-- Iterate thru the existing data -->
-                        <?php 
-                                $count = 0;
-
-                                if ($rcount < 1) {
-
-                                    echo "<tr> <td align='center'> <strong> No record found !!! </strong> </td> </tr>";
-
-                                } else {
-                                    while($recent = $rquery->fetch(PDO::FETCH_OBJ)){
-                                        $count ++;
-                                        $name   =   strtoupper($recent->last_name) . ' ' . $recent->first_name . ' ' . $recent->middle_name;
-                                        $appID  =   $recent->application_id;
-                                        $email  =   $recent->email;
-                                        $prog   =   $recent->programme_title;
-                                        $cours  =   $recent->course_name;
-                                        $date   =   $recent->created_at;
-                                        $img    =   $recent->passport;
-                        ?>
-
-                        <tr>
-                            <td> <?= $count ?> </td>
-                            <td> COM 101 </td>
-                            <td> <?= $appID ?> </td>
-                            <td> <?= '3' ?> </td>
-                            <td> <span class="badge gradient-quepal text-white shadow p-2"><?= '34' ?></span></td>
-                            <td> <?= '45' ?> </td>
-                            <td> <?= '78' ?> </td>
-                            <td> 
-                                  <button type="submit" class="btn btn-info shadow-info waves-effect waves-light m-1"> R</button>
-                            </td>
-                            
-
-
-                        </tr>
-
-                        <?php } } ?>
-
-                    <!-- iteration ends here -->
                 </tbody>
                 <tfoot>
                     <tr>

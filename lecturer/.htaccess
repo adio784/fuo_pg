@@ -1,10 +1,10 @@
 # Enable Rewrite Engine
 RewriteEngine On
 
-# Remove .php extension
+# Ensure URL Rewriting Works for PHP files without extension
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^([^/]+)/?$ $1.php [L]
 
-# Custom 404 Page
+# Custom 404 Error Page
 ErrorDocument 404 /custom-404.php

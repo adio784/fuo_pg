@@ -1,46 +1,30 @@
 <?php
 
-ob_start();
 session_start();
-
+ob_start();
 
 if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
   // user_role
   require_once '../core/autoload.php';
   require_once '../core/Database.php';
   require_once '../common/CRUD.php';
-  include 'includes/students_data.php';
+  include 'includes/lecturer_data.php';
 
-  // ........ PAYMENT SESSION .............................................................................
-  $payment_session    = isset($_POST['pay_session']) ? $_POST['pay_session'] : $current_session;
+  // ........ PAGE PART .............................................................................
   $segments  = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
-  $page_path = $segments[count($segments) - 1]; // $page_path = end($segments);
+  $page_path = $segments[count($segments) - 1];// $page_path = end($segments);
 
-
+  
   function formatDate($dt)
   {
-    $timestamp = strtotime($dt);
-    if ($timestamp === false) {
-      return "--";
-    }
-    return date('D-M d, Y', $timestamp);
+    return date('D-M g, Y', strtotime($dt));
   }
 
-
-  // Get all available payments
-  if (isset($_POST['payment_session'])) {
-    $payment_session        = $_POST['payment_session'];
-    $getPayments            = $Crud->readAllByThree("student_fees", "status", 1, "AND", "program_id", $programId, 'AND', 'payment_session', $payment_session);
-
-    // Get Administrative fee
-    $getAdminFee           = $Crud->readAllByThree("student_fees", "status", 1, "AND", "payment_type", 'Administrative fee', 'AND', 'payment_session', $payment_session);
-    foreach ($getAdminFee as $adminFees)
-      $adminFee = number_format($adminFees->amount_paid);
-  }
 } else {
 
-  echo "<script>window.location = 'index';</script>";
+  header("Location: index");
 }
+
 
 ?>
 
@@ -152,23 +136,23 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
         <br>
         <li class="sidebar-header">MAIN NAVIGATION</li>
         <li>
-          <a href="student_home" class="waves-effect">
+          <a href="lecturer_home" class="waves-effect">
             <i class="icon-home"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
           </a>
         </li>
         <li>
-          <a href="pre_payments" class="waves-effect">
+          <a href="students_menu" class="waves-effect">
             <i class="icon-wallet"></i>
-            <span>Payments</span>
+            <span>Student</span>
             <small class="badge float-right badge-danger"><?php  //' New' : '' 
                                                           ?></small>
           </a>
         </li>
 
         <li>
-          <a href="payment_history" class="waves-effect">
+          <a href="lecturer" class="waves-effect">
             <i class="icon-list"></i>
-            <span>Payments History</span>
+            <span>Lecturer</span>
             <i class="fa fa-angle-left pull-right"></i>
           </a>
         </li>
@@ -197,17 +181,22 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
         </li>
 
         <li>
-          <a href="student_transcript" class="waves-effect">
+          <a href="admission_home" class="waves-effect">
             <i class="icon-menu"></i>
-            <span>Transcript</span>
+            <span>Admission</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+        </li>
+        <li>
+          <a href="profile_menu" class="waves-effect">
+            <i class="icon-menu"></i>
+            <span>Profile</span>
             <i class="fa fa-angle-left pull-right"></i>
           </a>
         </li>
 
-
         <li class="sidebar-header">OTHER link</li>
-        <li><a href="pgforms" class="waves-effect"><i class="fa fa-circle-o text-yellow"></i> <span>Forms</span></a></li>
-        <li><a href="logout" class="waves-effect"><i class="fa fa-login text-danger"></i> <span>Logout</span></a></li>
+        <li><a href="logout" class="waves-effect"><i class="fa fa-circle-o text-yellow"></i> <span>Logout</span></a></li>
       </ul>
 
     </div>

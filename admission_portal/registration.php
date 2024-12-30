@@ -28,7 +28,7 @@
 						  </div>
 						  <div class="form-group">
 							<div class="position-relative has-icon-left">
-								<label for="exampleInputLastName" class="sr-only">Last Name</label>
+								<label for="exampleInputLastName" class="sr-only">Surname</label>
 								<input type="text" id="exampleInputName" class="form-control" placeholder="Last Name" name="lastname" required>
 								<div class="form-control-position">
 									<i class="icon-user"></i>

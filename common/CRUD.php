@@ -43,7 +43,7 @@ class CRUD {
     public function read($table, $field, $id) {
         $stmt = $this->db->prepare("SELECT * FROM $table WHERE $field = ?");
         $stmt->execute([$id]);
-        return $stmt->fetch(PDO::FETCH_OBJ); // Return data as an associative array
+        return $stmt->fetch(PDO::FETCH_OBJ);
     }
 
     public function readByTwo($table, $field, $id, $cond, $field2,  $id2) {
@@ -67,7 +67,7 @@ class CRUD {
     public function countByTwo($table, $field, $id, $field2, $val) {
         $stmt = $this->db->prepare("SELECT COUNT(id) AS num FROM $table WHERE $field = ? AND $field2 = ?");
         $stmt->execute([$id, $val]);
-        return $stmt->fetch(PDO::FETCH_OBJ); // Return data as an associative array
+        return $stmt->fetch(PDO::FETCH_OBJ)->num;
     }
 
     public function countByThree($table, $field, $id, $field2, $val, $field3, $va3) {
@@ -187,8 +187,8 @@ class CRUD {
 
     public function delete($table, $id) {
         $stmt = $this->db->prepare("DELETE FROM $table WHERE id = ?");
-        $stmt->execute([$id]);
-        return $stmt->rowCount() > 0; // Return true if a row was deleted
+        return $stmt->execute([$id]);
+        // return $stmt->rowCount() > 0;
     }
 }
 

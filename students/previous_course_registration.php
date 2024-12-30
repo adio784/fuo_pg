@@ -1,6 +1,7 @@
 <?php
 include 'includes/header.php';
 
+// Search Course processing begins here .......................................................................................................................................
 if (isset($_POST['searchCourse'])) {
     ob_end_clean();
     $searchSession = $_POST['searchSession'];
@@ -24,6 +25,11 @@ if (isset($_POST['searchCourse'])) {
     echo json_encode($response);
     exit();
 }
+// Search Course processing ends here .......................................................................................................................................
+
+// Count registered courses starts here .......................................................................................................................................
+$getRegisteredCourseTotal = $Crud->countByTwo("course_registration", "student_id", $uid, "course_session", $currentSession);
+// Count registered courses ends here .......................................................................................................................................
 ?>
 
 <div class="clearfix"></div>
@@ -52,7 +58,8 @@ if (isset($_POST['searchCourse'])) {
                                     <span>Total <br>Registered</span>
                                 </div>
                                 <div class="align-self-center w-circle-icon rounded bg-info shadow-info">
-                                    <i class="text-white"><?= count($getRegisteredCourseTotal) ?></i>
+                                    
+                                    <i class="text-white"><?= number_format($getRegisteredCourseTotal) ?? 0 ?></i>
                                 </div>
                             </div>
                         </div>
@@ -110,32 +117,6 @@ if (isset($_POST['searchCourse'])) {
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                    <!-- Iterate thru the existing data -->
-                                    <?php
-                                    $count = 0;
-
-                                    // if ($rcount < 1) {
-
-                                    //     echo "<tr> <td align='center'> <strong> No record found !!! </strong> </td> </tr>";
-                                    // } else {
-                                    //     while ($recent = $rquery->fetch(PDO::FETCH_OBJ)) {
-                                    //         $count++;
-                                    //         $name   =   strtoupper($recent->last_name) . ' ' . $recent->first_name . ' ' . $recent->middle_name;
-                                    //         $appID  =   $recent->application_id;
-                                    //         $email  =   $recent->email;
-                                    //         $prog   =   $recent->programme_title;
-                                    //         $cours  =   $recent->course_name;
-                                    //         $date   =   $recent->created_at;
-                                    //         $img    =   $recent->passport;
-                                    ?>
-
-                                    <?php
-                                    //     }
-                                    //} 
-                                    ?>
-
-                                    <!-- iteration ends here -->
                                 </tbody>
                                 <tfoot>
                                     <tr>

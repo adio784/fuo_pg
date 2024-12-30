@@ -60,6 +60,86 @@
         }
         // .................................................................................
 
+        //  Rejecting Registration from here ................................................................................................................................... -->
+        if (isset($_POST['rejectApproval'])) {
+
+            ob_end_clean();
+            $studentID = $_POST['rejectApproval'];
+            $note = $_POST['editNote'];
+
+            try {
+
+                $std       = $db->prepare("SELECT * FROM `application` WHERE application_id=?");
+                $std->execute([$studentID]);
+
+                if ( $std->rowCount() > 0 ) {
+                    
+                    while ($row = $std->fetchObject() )
+                    {
+                        $firstName  = $row->first_name;
+                        $lastName   = $row->last_name;
+                        $middleName = $row->middle_name;
+                        $fullName   = strtoupper($lastName) . ' '. $firstName .' '. $middleName;
+                        $email      = $row->email;
+                    }
+
+                    // ++++++++++++++++++++ SEND MAIL TO ADMITTED USERS ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                    $subject    = 'FUO PG Admission';
+                    $body       = '<html>
+                                    <head>
+                                        <title>PG - Admission</title>
+                                    </head>
+                                    <body>
+                                        <h3> ADMISSION FUO | SCHOOL OF POST GRADUATE STUDIES.</h3>
+                                        <h4>Hello, '.$fullName .'</h4>
+                                        <p> Sorry! Your application was rejected, see reason below:</p>
+                                        <p><i>' . $note .'</i></p>
+                                        <p> Kindly do the needful, so as to enable us recommend your application.</p>
+                                        <p> Thank you. </p>
+                                        <h4>Fountain University, Osogbo.</h4>
+                                        <p> <b> NB:</b> Do not reply to this email </p>
+                                        <img src="https://fuo.edu.ng/wp-content/uploads/2021/02/logo.jpg" alt="Fountain University, Osogbo">
+                                    </body>
+                                </html>';
+                    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+                    $Data = ["application_status" => "not_recommend", "updated_at" => date('Y-m-d H:i:s')];
+                    $checkCourseExist  = $Crud->update("application", "application_id", $studentID, $Data);
+
+                    if ($checkCourseExist) {
+
+                        $Mailer->sendMail($email, $subject, $body, $fullName);
+                        $response['status']   = 'success';
+                        $response['message']  = "Application Rejected !!!";
+
+                    } else {
+
+                        $response['status'] = 'error';
+                        $response['message'] = 'Error rejecting application !!!';
+                    }
+                } else {
+
+                    $response['status']         = 'fail';
+                    $response['statusCode']      = 400;
+                    $response['message']        = 'Error Getting Applicant Data, Try Later !!!';
+
+                }
+            } catch (\Throwable $th) {
+                
+                $response['status']         = 'fail';
+                $response['statusCode']     = 500;
+                $response['message']        = explode(',', $th);
+
+            }
+            // Returning JavaScript Object Notation As Response ...............
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit();
+            // ................................................................
+
+        }
+        // Rejecting registration processing ends here ....................................................................................................................................... -->
+
 
         // Admitting Student ---------------------------------------------------------------
         if ( isset($_GET['admit']) )
@@ -235,7 +315,7 @@
                                     <body>
                                         <h3> ADMISSION FUO | SCHOOL OF POST GRADUATE STUDIES.</h3>
                                         <h4>Hello, '.$fullName .'</h4>
-                                        <p> We are sorry to let you know that you application does not meet up to our standard recommendation.</p>
+                                        <p> We are sorry to let you know that your application does not meet up to our standard recommendation.</p>
                                         <p> You can always checkout for other programmes on our website</p>
                                         <p> Thank you for taking part in the application process </p>
                                         <p> Hope to receive your application, some other times.</p>

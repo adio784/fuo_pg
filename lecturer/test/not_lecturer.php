@@ -1,12 +1,9 @@
 <?php
-    
-    session_start();
-   
-    if( isset($_SESSION['user_id']) && isset($_SESSION['user_status']) ){
-      $uri        = $_SERVER['HTTP_HOST'];
-      header("Location: login_check/");
-    }
+session_start();
 
+if (!isset($_SESSION['user_id']) && !isset($_SESSION['user_status'])) {
+    header('Location: /fuo_pg/lecturer/');
+}
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +12,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content="FUO Post Graduate"/>
+    <meta name="description" content="FUO Lecturer Portal"/>
     <meta name="author" content="Abdulhammed Ridwan Adio"/>
 
     <title>Welcome: Fountain University, Osogbo</title>
@@ -42,51 +39,56 @@
 <body>
 
 <div id="wrapper">
-	<div class="card border-primary border-top-sm border-bottom-sm card-authentication1 mx-auto my-5 animated bounceInDown">
-		<div class="card-body">
-		 <div class="card-content p-2">
-		 	<div class="text-center">
-		 		<img src="../assets/images/logo/logo.jpg" style="height: 100px;">
-		 	</div>
-		  <div class="card-title text-uppercase text-center py-3">Sign In</div>
-		    <form method="POST" action="../app/function/Userauth.php" id="admissionLogin">
-			  <div class="form-group">
-			   <div class="position-relative has-icon-right">
-				  <label for="exampleInputUsername" class="sr-only">Username</label>
-				  <input type="text" name="username" id="exampleInputUsername" class="form-control form-control-rounded" placeholder="Username">
-				  <div class="form-control-position">
-					  <i class="icon-user"></i>
-				  </div>
-			   </div>
-			  </div>
-			  <div class="form-group">
-			   <div class="position-relative has-icon-right">
-				  <label for="exampleInputPassword" class="sr-only">Password</label>
-				  <input type="password" name="password" id="exampleInputPassword" class="form-control form-control-rounded" placeholder="Password">
-				  <div class="form-control-position">
-					  <i class="icon-lock"></i>
-				  </div>
-			   </div>
-			  </div>
-			<div class="form-row mr-0 ml-0">
-			 <div class="form-group col-6">
-			   <div class="demo-checkbox">
+    <div class="card border-primary border-top-sm border-bottom-sm card-authentication1 mx-auto my-5 animated bounceInDown">
+        <div class="card-body">
+         <div class="card-content p-2">
+            <div class="text-center">
+                <img src="../assets/images/logo/logo.jpg" style="height: 100px;">
+            </div>
+          <div class="card-title text-uppercase text-center py-3">Change Default Password</div>
+            <form method="POST" action="../app/function/lecturer_actions.php" id="lecturerLogin">
+              <div class="form-group">
+               <div class="position-relative has-icon-right">
+                  <label for="oldPassword" class="sr-only">Old Password</label>
+                  <input type="text" name="oldPassword" id="oldPassword" class="form-control form-control-rounded" placeholder="Old Password" required>
+                  <div class="form-control-position">
+                      <i class="icon-user"></i>
+                  </div>
+               </div>
+              </div>
+            <div class="form-group">
+                <div class="position-relative has-icon-right">
+                    <label for="newPassword" class="sr-only">New Password</label>
+                    <input type="password" name="newPassword" id="newPassword" class="form-control form-control-rounded" placeholder="New Password" required>
+                    <div class="form-control-position">
+                        <i class="icon-lock"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="position-relative has-icon-right">
+                    <label for="confirmPassword" class="sr-only">Confirm Password</label>
+                    <input type="password" name="confirmPassword" id="confirmPassword" class="form-control form-control-rounded" placeholder="Confirm Password" required>
+                    <div class="form-control-position">
+                        <i class="icon-lock"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row mr-0 ml-0">
+             <div class="form-group col-6">
+               <div class="demo-checkbox">
                 <input type="checkbox" id="showPassword" class="filled-in chk-col-primary"/>
-                <label for="user-checkbox">Show password</label>
-			  </div>
-			 </div>
-			</div>
-        <input type="hidden" name="login" value="<?= uniqid(); ?>">
-			  <button type="submit" id="loginBtn" class="btn btn-primary shadow-primary btn-round btn-block waves-effect waves-light">Sign In</button>
-			  <div class="text-center pt-3">
-				
-				<hr>
-				<p class="text-muted">Do not have an account? <a href="#"> Contact ICT</a></p>
-			  </div>
-			 </form>
-		   </div>
-		  </div>
-	     </div>
+                <label for="showPassword">Show password</label>
+              </div>
+             </div>
+            </div>
+            <input type="hidden" name="passwordChange" value="<?= uniqid(); ?>">
+             <button type="submit" id="loginBtn" class="btn btn-primary shadow-primary btn-round btn-block waves-effect waves-light">Submit</button>
+              
+             </form>
+           </div>
+          </div>
+         </div>
 
 
          <button id="noticeModal" class="btn btn-primary m-1 d-none" data-toggle="modal" data-target="#fullprimarymodal">Primary</button>
@@ -101,8 +103,8 @@
                       </div>
                       <div class="modal-body">
                         <h4>Fountain University, Osogbo</h4>
-                        <p>Welcome to Fountain University - Post Graduate School </p>
-                        <p>Login to the student portal with your application number and matric number.</p>
+                        <p>Welcome to Fountain University - Lecturer Portal </p>
+                        <p>Login to the lecturer portal with your credentials.</p>
 
                       </div>
                       <div class="modal-footer">
@@ -115,8 +117,8 @@
      <!--Start Back To Top Button-->
     <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
     <!--End Back To Top Button-->
-	</div><!--wrapper-->
-	
+    </div><!--wrapper-->
+    
   <!-- Bootstrap core JavaScript-->
   <script src="../assets/js/jquery.min.js"></script>
   <script src="../assets/js/popper.min.js"></script>
@@ -134,27 +136,26 @@
   <script>
     $(document).ready(function () {
 
-        $("#noticeModal").click();
-        $('#admissionLogin').submit(function (e) {
+        $('#lecturerLogin').submit(function (e) {
             e.preventDefault();
 
             // Get form data
-            var formData = $(this).serialize();
-            $login_btn = $('#loginBtn');
+            var formData    = $(this).serialize();
+            $login_btn      = $('#loginBtn');
             $login_btn.addClass('disabled');
             $login_btn.html('<div class="spinner-border spinner-border-sm text-secondary" role="status"><span class="visually-hidden">Loading...</span></div>');
 
             // Perform AJAX validation
             $.ajax({
                 type: 'POST',
-                url: '../app/function/Userauth.php', 
+                url: '../app/function/lecturer_actions.php', 
                 data: formData,
                 success: function (response) {
-                    
+                    console.log(response);
                     if (response.status == 'success') {
                        
-                       document.getElementById("admissionLogin").reset();
-                       $login_btn.html('SIGN IN');
+                       document.getElementById("lecturerLogin").reset();
+                       $login_btn.html('Submit');
                        
                        Lobibox.notify('success', {
                            msg: response.message,
@@ -162,30 +163,27 @@
                            title: "Success !",
                            position: 'top right',
                            icon: false,
-                           icon: 'glyphicon glyphicon-ok-sign',
-                           sound: 'sound2.mp3',
                            delay: 15000,
                            theme: 'minimal',
                        });
 
-                       var nextLogin = response.user_role;
-                       window.location=nextLogin;
+                       var nextLogin = "index";
+                       window.location = nextLogin;
                       
                    } else {
-						
-                        $login_btn.html('SIGN IN');
+                        
+                        $login_btn.html('Submit');
                         $login_btn.removeClass('disabled');
 
                         Lobibox.notify('error', {
                             msg: response.message,
-							class: 'lobibox-notify-error',
-							title: 'Error!',
-							icon: 'glyphicon glyphicon-remove-sign',
-        					sound: 'sound4.mp3',
+                            class: 'lobibox-notify-error',
+                            title: 'Error!',
+                            icon: false,
                             position: 'top right',
-							theme: 'minimal'
+                            theme: 'minimal'
                         });
-						
+                        
                     }
                 }
             });
@@ -193,14 +191,17 @@
 
         $('#showPassword').on('click', function() {
         
-            var x = document.getElementById("exampleInputPassword");
-            if (x.type === "password") {
-            x.type = "text";
+            var x = document.getElementById("newPassword");
+            var y = document.getElementById("confirmPassword");
+            if (x.type === "password" && y.type === "password") {
+                x.type = "text";
+                y.type = "text";
             } else {
-            x.type = "password";
+                x.type = "password";
+                y.type = "password";
             }
         });
     });
-  </script>
+</script>
 </body>
 </html>

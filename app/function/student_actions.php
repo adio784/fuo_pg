@@ -92,22 +92,22 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
 
     }
 
-   
+
     // Procees student payment ........................................................
     if (isset($_POST['payment_process'])) {
 
-        
+
         $amountToPay        = $Sanitizer->sanitizeInput($_POST['amount_topay']);
         $purpose            = $Sanitizer->sanitizeInput($_POST['payment_id']);
         $transferReff       = "trn" . date('Y') . rand(9, 999999);
         $payment_session    = $Sanitizer->sanitizeInput($_POST['payment_session']);
-        echo "Yes, payment processed" . $purpose;        
+        echo "Yes, payment processed" . $purpose;
 
         // Check if payment already exist ..................................
         $checkPayment      = $db->prepare("SELECT * FROM payments_history WHERE matric_no = ? AND payment_session = ? AND payment_id = ? ");
         $checkPayment->execute([$uid, $payment_session, $purpose]);
-               
-        
+
+
         if ($checkPayment->rowCount() > 0) {
 
             $getCheckExistPayment = $checkPayment->fetchObject();
@@ -115,7 +115,6 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
 
                 $msg = 'Payment Already Exist !!!';
                 header("Location: payments?payment_error={$msg}");
-
             } else {
 
                 $upData         = [
@@ -175,9 +174,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
         if ($createPayment) {
             // callBackUrl
             $data = [
-                'amount'            => ($amountToPay+ 300) * 100,
+                'amount'            => ($amountToPay + 300) * 100,
                 'email'             => $email,
-                'callback_url'      => $url_protocol,// . "/app/function/student_actions.php",
+                'callback_url'      => $url_protocol, // . "/app/function/student_actions.php",
                 "currency"          => "NGN",
                 "reference"         => $transferReff,
                 'trxref'            =>  '',
@@ -192,9 +191,9 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
             echo $url_protocol;
 
             if ($paymentStatus == true) {
-                
+
                 // Handle the successful payment initiation
-                
+
                 echo "Passed" . $paymentURL;
                 header('location: ' . $paymentURL);
             } else {
@@ -235,14 +234,11 @@ if (isset($_SESSION['user_id']) && isset($_SESSION['user_status'])) {
             $createPayment  = $Crud->update('payments_history', 'transaction_id', $transferReff, $crData);
             $msg            = "Payment Successful, Click Payment History, To Print Receipt";
             header("Location: ../../students/payments?pay_success={$msg}");
-
         } else {
 
             header('Location: ../../students/payments?error=Payment%20%20Could%20Not%20Be%20Verified,%20Try%20Requery%20!!!');
         }
     }
-
-
 } else {
-    header("Location: /index");
+    header("Location: /");
 }
